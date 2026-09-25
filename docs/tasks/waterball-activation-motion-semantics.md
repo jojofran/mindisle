@@ -46,7 +46,7 @@ ProductState 继续只有：
 - `transitioning`：从正式 still-pose 连续增强到 moving；transitioning 的视觉语义由 ProductState 负责；
 - `moving`：专注运动持续进行。
 
-`clear-still` 是 `InteractionVisualState=clear` 的视觉名称；`press` 和 `activated` 是 `ProductState=still` 下的交互视觉子态；`still-pose crossing` 属于 `ProductState=moving`，不是 InteractionVisualState。
+`clear-still` 是 `InteractionVisualState=clear` 的视觉名称；`press` 和 `activated` 是 `ProductState=still` 下的交互视觉子态；`moving-low`、`moving-rise`、`moving-peak`、`moving-ease` 是 `ProductState=moving` 内的视觉强弱阶段，不是额外的 ProductState 或 InteractionVisualState。
 
 ### 3.2 InteractionVisualState
 
@@ -54,7 +54,7 @@ ProductState 继续只有：
 - `press`：`ProductState=still` 下 pointer 按下且手势尚未提交或取消；表达手指正在按住这一团水。
 - `activated`：`ProductState=still` 下由 pointerUp inside 原子提交产生的瞬时子态；视觉立即采用正式 still-pose，随后在同一提交的确定性连续中进入 transitioning，不产生第二个可重复触发事件。
 
-transitioning、moving 和 still-pose crossing 只由 ProductState 表达，不作为 InteractionVisualState 值。
+transitioning 与 moving 只由 ProductState 表达；moving 内的 low / rise / peak / ease 只描述连续视觉阶段，不作为 InteractionVisualState 值。
 
 ## 4. clear-still 语义
 
@@ -114,7 +114,16 @@ transitioning 表示同一团水从 still-pose 连续增强到 moving。增强�
 - still / clear-still 中，冷点 canonical position 是左上，暖点 canonical position 是右下；
 - transitioning / moving 中，两个 core 本体允许参与同一逆时针连续运动；halo、refraction response 和轻量水膜 / 水墨拖尾从属于各自 core，并随 core 连续变化；
 - 冷暖 identity 始终不交换，轨迹不 teleport；两个 core 可以暂时位于主体 silhouette 外并沿球外轨迹环绕，但不得成为独立装饰物；主体 silhouette 与 hitRadius 不因球外 orbit elements 扩大；
-- canonical position 表示每圈 STILL-POSE CROSSING 时重新接近的位置，不表示 moving 中始终固定；moving 不要求全程保持严格左上 / 右下对角位置。
+- moving 同时包含持续的角向运动和径向距离变化：角向 phase 始终逆时针向前；moving-ease 时两个 core 随连续轨迹缓慢靠近主体，进入下一段 moving-rise 时再缓慢远离，形成非同步整体缩放式的呼吸感；径向变化不得造成反向、teleport、phase reset 或 ProductState 改变；
+- canonical position 只表示 still / clear-still / press / still-pose 中的静止归位位置，以及未来明确 moving → still 停止流程的归位目标；moving 周期不要求、也不得周期性回到这些位置。
+
+moving 的强弱阶段统一称为：
+
+```text
+moving-low → moving-rise → moving-peak → moving-ease → moving-rise → ...
+```
+
+这些阶段全部属于 ProductState=`moving`。`moving-ease` 的“靠近主体”不是 still-pose，也不是停止；下一段 `moving-rise` 会在 phase 继续前进的同时再次逐渐远离主体。
 
 ### 7.1 reduced-motion
 
@@ -126,25 +135,24 @@ reduced-motion 是产品级语义降级，不改变状态机：
 - reset / suspend / resume 语义保持一致；
 - 本 brief 不冻结具体 shader、duration、easing 或视觉参数。
 
-## 8. STILL-POSE CROSSING
+## 8. moving 周期与未来 stop-return
 
-moving 每完成一圈时，冷暖点继续沿同一逆时针方向从球外环绕逐渐重新接近主体，穿回水球并重新接近各自 still canonical position；内部水体密度重新接近 still 分布，膜面与折射关系重新接近 still-pose，附着的水膜 / 水墨拖尾自然收回并融合。该构型命名为 **STILL-POSE CROSSING**。
-
-crossing 期间及之后：
-
-- ProductState 仍为 `moving`；
-- moving phase 继续前进；
-- 水体仍在运动，不反转、不 reset、不重新切动画；
-- 回归是同一逆时针运动的向前延续，不是 reverse、rewind 或 renderer reset；
-- crossing 之后直接进入下一轮 moving rise。
-
-因此视觉关系是：
+moving 每完成一圈只表示 orbit phase 继续向前进入下一圈。冷暖点不会因为完成一圈而回到 still canonical positions，也不会重新成为 still 构型；它们保持同一逆时针方向继续前进。moving 的连续视觉关系是：
 
 ```text
-clear-still → press → still-pose → transitioning → 光点离开主体 → moving 外围逆时针环绕 → moving return 重新进入主体 → still-pose crossing → moving rise → ...
+clear-still → press → still-pose → transitioning → 光点离开主体 → moving
+moving-low → moving-rise → moving-peak → moving-ease → moving-rise → ...
 ```
 
-第一次 `still-pose` 属于 ProductState=`still`；之后每圈的 `still-pose crossing` 只属于 ProductState=`moving` 内的周期构型。
+只有未来产品明确发生停止时，才允许进入归位流程：
+
+```text
+moving → stop / return transition（仅为未来流程占位，不是 ProductState）→ 逆时针运动持续减弱
+       → orbit 半径逐渐收敛 → 两点重新进入水球
+       → 回到各自 canonical positions → still
+```
+
+归位必须是连续减弱和连续收敛，不得倒放 moving、reverse、rewind、phase reset、renderer reset 或 teleport。`stop / return transition` 不是第四个 ProductState；停止触发条件及其未来状态映射本轮保持 `DEFERRED`，不新增停止手势或状态迁移。
 
 ## 9. 三类稳定权威
 
@@ -164,7 +172,7 @@ clear-still → press → still-pose → transitioning → 光点离开主体 �
 - 其他 ProductState 继续遵循正常 suspend / resume 冻结语义，resume 从冻结位置继续一次，不跳跃、不重复累计。
 - reset 无论当前处于哪个 ProductState，都回到 `ProductState=still + InteractionVisualState=clear`，有效视觉时间归零并建立新的 clear-still t0；transitionProgress 与 movingPhase 同时回到确定性初始值。
 - 旧 still-only slice 中 `reset → still t0` 的事实仍然有效；本流程只在更高一层交互语义中增加 clear 子态，不回写或重新定义 frozen still。
-- STILL-POSE CROSSING 不触发 reset，不改变 ProductState，不清除 moving phase。
+- moving 周期边界不触发 reset，不改变 ProductState，不清除 moving phase；只有未来明确的 stop-return 流程才允许 moving → still。
 
 ## 11. 结构化状态 / 输入表
 
@@ -183,8 +191,8 @@ clear-still → press → still-pose → transitioning → 光点离开主体 �
 | 任意 | 当前 still 子态或 — | `suspend` | 不变 | 不变；press 时按 pointerCancel 回到 `clear` | 当前画面、progress、phase 和生命周期时间冻结 | 后台时间不补偿 |
 | 任意 | 当前 still 子态或 — | `resume` | 不变 | 不变；取消的 press 不恢复 | 从冻结位置继续一次 | 不跳跃、不重复 |
 | 任意 | 当前 still 子态或 — | `reset` | `still` | `clear` | 有效视觉时间归零，建立新的 clear-still t0 | transitionProgress / movingPhase 回到确定性初始值 |
-| `moving` | — | 一圈完成，接近 canonical positions | `moving` | — | 画面自然再次接近 still-pose | 不 reset、不反转 |
-| `moving` | — | crossing 后继续推进 | `moving` | — | 直接进入下一轮 moving rise | phase 单调前进 |
+| `moving` | — | orbit phase 完成一圈并进入下一圈 | `moving` | — | moving-low / moving-rise 等强弱阶段继续；光点不回到 canonical positions | phase 单调前进，不 reset、不反转 |
+| `moving` | — | moving-ease → 下一段 moving-rise | `moving` | — | 光点先缓慢靠近主体，再缓慢远离；角向运动持续逆时针 | 径向变化不改变 ProductState，不 reset phase |
 | `moving` | — | 任意完整 pointer gesture（down/up/cancel/drag） | `moving` | — | no state effect | 不进入 press，不改变状态，不暂停，不回 still，不反转，不 reset phase；未来 toggle 行为 DEFERRED |
 
 ## 12. AUTHORITY DELTA
@@ -193,7 +201,7 @@ clear-still → press → still-pose → transitioning → 光点离开主体 �
 
 1. **clear-still 与 frozen still 的视觉差异**：clear-still 正式允许比 frozen still / still-pose 更清透、更平静、更弱激活；frozen still 仍只作为 activated still-pose 的既有视觉基准，不能被 clear-still 回写或重新定义。
 2. 当前 Web renderer 的合成径向 mask、动态层变换和 WebGL pass 尚未证明等同于正式 still atlas 的 outer-shell alpha 裁切；若实现继续使用它们，必须先解决正式 silhouette authority delta。
-3. Unity 原型中的外部 ribbons、独立点位轨迹与本 brief 的“球外元素必须从属于冷暖 core、连续附着并自然回归”要求存在潜在冲突；Unity 结果只能作为实现事实，不能作为产品语义覆盖。
+3. Unity 原型中的外部 ribbons、独立点位轨迹与本 brief 的“球外元素必须从属于冷暖 core、连续附着并随 moving 轨迹自然变化”要求存在潜在冲突；Unity 结果只能作为实现事实，不能作为产品语义覆盖。
 4. moving 参考图中的独立水带、固定环带、Logo 化弧线或与光点无关的外部结构仍不是产品权威；只有由冷暖 core 脱离、环绕和回归自然产生的受控流体尾迹可以被继承。
 5. 正式 manifest 当前仍写有 `moving_status: not implemented` 与 `visual_acceptance: pending_user_confirmation`；这说明资产状态和本语义 brief 的锁定状态不能互相替代。
 
@@ -202,6 +210,7 @@ clear-still → press → still-pose → transitioning → 光点离开主体 �
 当前无剩余、会阻塞本轮语义冻结的 PRODUCT DECISION REQUIRED。
 
 - moving 中再次点击在当前切片已裁决为 `moving → moving` 且 no state effect；未来 toggle 行为保持 DEFERRED，作为后续产品扩展，不阻塞本 brief。
+- moving → still 的停止触发条件保持 DEFERRED；本 brief 只锁定未来一旦停止，归位必须沿原逆时针运动连续减弱并收敛，不新增停止手势或状态迁移。
 - reduced-motion 的产品级状态语义已锁定；具体 shader、duration、easing、幅度和参数仍属于实现选择，不在本 brief 中冻结。
 
 ## 14. 与 frozen still / architecture baseline 的一致性
@@ -215,7 +224,7 @@ clear-still → press → still-pose → transitioning → 光点离开主体 �
 
 ### 尚未一致但属于实现前阻塞事实
 
-- 当前 Web runtime 尚未实现 pointer gesture、activation commit、transitioning、moving 或 moving crossing；
+- 当前 Web runtime 尚未实现 pointer gesture、activation commit、transitioning、moving 或 moving 的 orbit / radial cycle；
 - 当前 Web runtime 的动态裁切实现尚未证明服从正式 atlas silhouette authority；
 - 当前主流程的 `MindIsleSession` 定义未在仓库中找到；
 - 正式 manifest 的 moving 与 visual acceptance 仍未完成产品确认。
@@ -229,11 +238,11 @@ clear-still → press → still-pose → transitioning → 光点离开主体 �
 1. 任何输入都能映射到表中的真实状态转移，且外部误触、取消、越界释放不会误激活；
 2. `clear-still`、`press`、`activated`、`transitioning`、`moving` 之间没有视觉跳变或第二颗球语义；
 3. moving phase 单调前进，peak 后的回落不被读成反向运动；
-4. 每圈的 STILL-POSE CROSSING 不会 reset、倒放或切换回 still；
-5. 冷暖点 identity、逆时针轨迹连续性、主体 silhouette 稳定性、球外 orbit elements 的附着关系和 hitRadius 职责保持稳定；
+4. moving 每圈只推进 orbit phase，不回到 canonical positions，不产生 still 构型；moving-low / moving-rise / moving-peak / moving-ease 均保持 ProductState=`moving`；
+5. 冷暖点 identity、逆时针轨迹连续性、径向远近变化、主体 silhouette 稳定性、球外 orbit elements 的附着关系和 hitRadius 职责保持稳定；
 6. suspend / resume / reset 对当前视觉、有效视觉时间、progress、phase 的结果可观察且可重复；
 7. moving 再触摸保持 moving 且 no state effect；reduced-motion 保持状态迁移但降低或取消持续运动；拖出后重入释放不能复活原 gesture；
-8. 所有术语统一使用 `still-pose` 与 `still-pose crossing`，InteractionVisualState 只使用 `clear`、`press`、`activated`。
+8. moving 周期统一使用 `moving-low`、`moving-rise`、`moving-peak`、`moving-ease`；`still-pose` 只用于 still 下的静止构型和未来 stop-return 的目标构型；InteractionVisualState 只使用 `clear`、`press`、`activated`。
 
 ## 16. consistency-only review
 
@@ -242,7 +251,7 @@ clear-still → press → still-pose → transitioning → 光点离开主体 �
 - **取消与拖出**：PASS。pointerCancel、pointerUp outside、曾离开 hitRadius 的 gesture 都回到 clear；重新进入后必须重新 pointerDown inside。
 - **transitioning / moving 输入**：PASS。transitioning 与 moving 中完整 pointer gesture 均为 no-op，不进入 press、不产生 activation、不重启 transition、不改变 moving phase。
 - **生命周期**：PASS。press+suspend 立即按 pointerCancel 处理；reset 明确产生新的 clear-still t0，并归零有效视觉时间、transitionProgress、movingPhase。
-- **运动连续性与点位 authority**：PASS。moving phase 单调前进，still-pose crossing 不 reset、不反向；产品视觉规格已吸收冷暖 core 的同一逆时针连续轨迹、主体 silhouette 稳定、core 与受控尾迹可暂时球外、identity 不交换和 canonical position 回归语义。
+- **运动连续性与点位 authority**：PASS。moving phase 单调前进，moving-ease 到下一段 moving-rise 时径向距离连续变化但不反向、不 reset；产品视觉规格已吸收冷暖 core 的同一逆时针连续轨迹、主体 silhouette 稳定、core 与受控尾迹可暂时球外、identity 不交换和 canonical position 仅作为静止/停止归位目标的语义。
 - **reduced-motion**：PASS。状态迁移不变，视觉运动降低或取消，reset / suspend / resume 不变。
 - **阻塞检查**：无 BLOCKER；无 MAJOR 内部语义冲突。剩余 authority delta 和 runtime 未实现项属于后续实现 / visual spec gate，不改变本 brief 的语义结论。
 

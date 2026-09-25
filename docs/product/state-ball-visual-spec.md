@@ -45,7 +45,8 @@
 - 运动应连续、缓慢、可感知但不打扰专注；
 - 不得通过突然跳位、闪烁、外部装饰或强烈色彩变化表达运动；
 - 运动参考图中若出现与产品语义冲突的外部装饰，应记录为参考差异，不直接复制。
-- transitioning / moving 中，冷色点与暖色点仍分别保持身份；两个 core 可以随同一团水沿同一逆时针方向连续离开各自 canonical position，暂时越过主体 silhouette 并在球外环绕，但不得瞬移、交换或变成独立 UI 灯珠；halo、折射响应和受控水膜 / 流体拖尾必须从属于各自 core，随运动连续产生并在回归主体时自然融合；每个周期会重新接近各自 canonical position，接近该构型不代表回到静止状态。
+- transitioning / moving 中，冷色点与暖色点仍分别保持身份；两个 core 可以随同一团水沿同一逆时针方向连续离开各自 canonical position，暂时越过主体 silhouette 并在球外环绕，但不得瞬移、交换或变成独立 UI 灯珠；halo、折射响应和受控水膜 / 流体拖尾必须从属于各自 core，随运动连续产生并在运动中自然变化。moving 的呼吸感来自角向持续前进与径向距离变化的叠加：moving-ease 时光点缓慢靠近主体，进入下一段 moving-rise 时再缓慢远离；径向变化不得让角向运动反向、重置 phase 或回到 still。
+- canonical positions 只表示 still / clear-still / press / still-pose 中的静止归位位置，以及未来明确停止并回到 still 时的归位目标；它们不是 moving 每圈的必经点。
 
 ## 状态切换
 
@@ -83,7 +84,7 @@
 
 运动状态必须在静止验收通过后再判断，并额外满足：
 
-1. 主体水体运动主要发生在球体内部；moving 中的球外 orbit elements 只能作为冷暖 core 及其直接关联的轻量、连续响应暂时出现；
+1. 主体水体运动主要发生在球体内部；moving 中的球外 orbit elements 只能作为冷暖 core 及其直接关联的轻量、连续响应暂时出现，并随 moving-ease / moving-rise 的远近变化自然呼吸；
 2. 主体中心、轮廓和触摸范围稳定；
 3. 运动连续、缓慢、可重复；
 4. 静止和运动能够被清楚区分，但不会像两个不同产品；
