@@ -61,6 +61,7 @@ transitioning、moving 和 still-pose crossing 只由 ProductState 表达，不�
 clear-still 正式允许不同于 frozen still，但必须仍然读成同一颗水球的安静起始态：
 
 - 保持同一 silhouette identity、中心、半径、hitRadius、银白透明膜面语言、冷暖点 identity 与整体水球语言；
+- 冷点仍嵌在左上 canonical position 附近，暖点仍嵌在右下 canonical position 附近；两者属于水球视觉系统，不表现为独立 UI 灯珠；
 - 减弱中央青绿色密度、内部水体存在感、密度边界、折射起伏和微动态显著度；
 - 弱化明显中心凹陷，但不引入另一套轮廓或另一颗球；
 - 目标感受是“水还在，只是更安静、更清透、更少被激活”；
@@ -73,6 +74,7 @@ clear-still 不通过整体缩放、整体漂移、点位移出或新外部装�
 ### 5.1 press
 
 `pointerDown` 在 hitRadius 内时进入 press，ProductState 仍为 `still`。press 可以有轻微局部膜面、水体和折射响应，但必须保持 silhouette、中心、半径和 hitRadius 不变。
+press 期间两个点仍嵌在水球内部并保持各自 canonical identity；允许附近水体对 halo、折射边缘和局部亮度产生轻微影响，但不得开始球外轨迹。
 
 ### 5.2 有效点击
 
@@ -87,7 +89,7 @@ pointerDown inside
 → moving
 ```
 
-`pointerUp inside` 与 activation commit 是同一次原子状态提交，提交只发生一次；不得把它们拆成两个可重复触发的产品事件。`activated` 只表达这一原子提交的瞬时 still 子态，正式视觉直接继承 frozen still 的 still-pose、微动态语言、silhouette、center、radius、hitRadius 和冷暖点 identity。
+`pointerUp inside` 与 activation commit 是同一次原子状态提交，提交只发生一次；不得把它们拆成两个可重复触发的产品事件。`activated` 只表达这一原子提交的瞬时 still 子态，正式视觉直接继承 frozen still 的 still-pose、微动态语言、silhouette、center、radius、hitRadius 和冷暖点 identity；在进入 transitioning 前，冷点仍位于左上 canonical position 附近，暖点仍位于右下 canonical position 附近并嵌在主体水体内。
 
 ### 5.3 取消与越界
 
@@ -98,7 +100,7 @@ pointerDown inside
 
 ## 6. transitioning 语义
 
-transitioning 表示同一团水从 still-pose 连续增强到 moving。增强对象是内部质量迁移、密度边界变化、局部压缩 / 拉伸、折射与光学响应以及 moving 所需的点位运动。不能切换为另一套动画、另一颗球、外部水带或独立环带。
+transitioning 表示同一团水从 still-pose 连续增强到 moving。增强对象是内部质量迁移、密度边界变化、局部压缩 / 拉伸、折射与光学响应以及 moving 所需的点位运动。随着 transitioning 推进，冷暖点逐渐离开各自 canonical position，向主体边界运动，可以连续穿过主体 silhouette 并进入球体外围轨迹；这一过程不得 teleport，也不得突然切换为另一套动画、另一颗球、外部水带或独立环带。主体 silhouette、center、radius 和 hitRadius 始终稳定，只有两个 core 及其直接关联的受控流体响应可以越过主体 silhouette。
 
 本 brief 不冻结 duration、easing、具体算法、采样频率或字段组织；这些选择不能改变连续性、权威边界和验收结果。
 
@@ -108,10 +110,10 @@ transitioning 表示同一团水从 still-pose 连续增强到 moving。增强�
 
 - 持续、单向、逆时针、周期性向前推进；phase 只能按 `0 → 2π → 4π → 6π ...` 前进；
 - 一个周期自然经历低幅 → 增强 → peak → 回落 → 再增强；回落是同一逆时针运动的幅度变化，不是反向或呼吸式倒放；
-- 主体中心、主要 silhouette、尺寸和 hitRadius 保持稳定；主要变化发生在球体内部；
+- 主体中心、主要 silhouette、尺寸和 hitRadius 保持稳定；主体水体的主要变化发生在球体内部，球外变化仅限于 core 及其直接关联的受控流体响应；
 - still / clear-still 中，冷点 canonical position 是左上，暖点 canonical position 是右下；
-- transitioning / moving 中，两个 core 本体允许参与同一逆时针连续运动；halo 与 refraction response 从属于各自 core，并随 core 连续变化；
-- 冷暖 identity 始终不交换，轨迹不 teleport，点位始终保持在正式 silhouette 内；
+- transitioning / moving 中，两个 core 本体允许参与同一逆时针连续运动；halo、refraction response 和轻量水膜 / 水墨拖尾从属于各自 core，并随 core 连续变化；
+- 冷暖 identity 始终不交换，轨迹不 teleport；两个 core 可以暂时位于主体 silhouette 外并沿球外轨迹环绕，但不得成为独立装饰物；主体 silhouette 与 hitRadius 不因球外 orbit elements 扩大；
 - canonical position 表示每圈 STILL-POSE CROSSING 时重新接近的位置，不表示 moving 中始终固定；moving 不要求全程保持严格左上 / 右下对角位置。
 
 ### 7.1 reduced-motion
@@ -126,19 +128,20 @@ reduced-motion 是产品级语义降级，不改变状态机：
 
 ## 8. STILL-POSE CROSSING
 
-moving 每完成一圈时，冷暖点重新接近各自 still canonical position，内部水体密度重新接近 still 分布，膜面与折射关系重新接近 still-pose。该构型命名为 **STILL-POSE CROSSING**。
+moving 每完成一圈时，冷暖点继续沿同一逆时针方向从球外环绕逐渐重新接近主体，穿回水球并重新接近各自 still canonical position；内部水体密度重新接近 still 分布，膜面与折射关系重新接近 still-pose，附着的水膜 / 水墨拖尾自然收回并融合。该构型命名为 **STILL-POSE CROSSING**。
 
 crossing 期间及之后：
 
 - ProductState 仍为 `moving`；
 - moving phase 继续前进；
 - 水体仍在运动，不反转、不 reset、不重新切动画；
+- 回归是同一逆时针运动的向前延续，不是 reverse、rewind 或 renderer reset；
 - crossing 之后直接进入下一轮 moving rise。
 
 因此视觉关系是：
 
 ```text
-clear-still → press → still-pose → transitioning → moving rise → moving peak → moving return → still-pose crossing → moving rise → ...
+clear-still → press → still-pose → transitioning → 光点离开主体 → moving 外围逆时针环绕 → moving return 重新进入主体 → still-pose crossing → moving rise → ...
 ```
 
 第一次 `still-pose` 属于 ProductState=`still`；之后每圈的 `still-pose crossing` 只属于 ProductState=`moving` 内的周期构型。
@@ -151,7 +154,7 @@ clear-still → press → still-pose → transitioning → moving rise → movin
 2. `profile.center` / `profile.radius`：负责内部运动坐标与尺度；
 3. `profile.hitRadius`：负责交互命中。
 
-状态变化不得改变三者；命中区不能推导视觉裁切，运动坐标不能改写轮廓，视觉轮廓不能反过来改变命中区。
+状态变化不得改变三者；命中区不能推导视觉裁切，运动坐标不能改写主体轮廓，视觉轮廓不能反过来改变命中区。正式 still silhouette / outer-shell alpha 是主体水球的视觉边界，不等同于 moving orbit elements 的像素范围；moving 中的 cold/warm core 及其直接关联的受控流体尾迹可以暂时位于主体 silhouette 外，但不扩大 hitRadius，也不改变主体 silhouette 的稳定性。
 
 ## 10. 时间与生命周期语义
 
@@ -190,8 +193,8 @@ clear-still → press → still-pose → transitioning → moving rise → movin
 
 1. **clear-still 与 frozen still 的视觉差异**：clear-still 正式允许比 frozen still / still-pose 更清透、更平静、更弱激活；frozen still 仍只作为 activated still-pose 的既有视觉基准，不能被 clear-still 回写或重新定义。
 2. 当前 Web renderer 的合成径向 mask、动态层变换和 WebGL pass 尚未证明等同于正式 still atlas 的 outer-shell alpha 裁切；若实现继续使用它们，必须先解决正式 silhouette authority delta。
-3. Unity 原型中的外部 ribbons、独立点位轨迹与本 brief 的“点位嵌入同一水体、始终保持 silhouette 内”要求存在潜在冲突；Unity 结果只能作为实现事实，不能作为产品语义覆盖。
-4. 若任何 moving 参考图要求水带、点位或高光越过正式 silhouette，必须以本 brief 与产品 visual spec 的 silhouette 约束为准并记录差异。
+3. Unity 原型中的外部 ribbons、独立点位轨迹与本 brief 的“球外元素必须从属于冷暖 core、连续附着并自然回归”要求存在潜在冲突；Unity 结果只能作为实现事实，不能作为产品语义覆盖。
+4. moving 参考图中的独立水带、固定环带、Logo 化弧线或与光点无关的外部结构仍不是产品权威；只有由冷暖 core 脱离、环绕和回归自然产生的受控流体尾迹可以被继承。
 5. 正式 manifest 当前仍写有 `moving_status: not implemented` 与 `visual_acceptance: pending_user_confirmation`；这说明资产状态和本语义 brief 的锁定状态不能互相替代。
 
 ## 13. PRODUCT DECISION REQUIRED
@@ -207,7 +210,7 @@ clear-still → press → still-pose → transitioning → moving rise → movin
 
 - 保留三态 ProductState、状态为唯一事实来源、动画为状态投影；旧 still-only slice 的 reset → still 事实与本流程的 reset → still + clear 分层关系已明确；
 - 继承 frozen still / still-pose 的 silhouette、center、radius、hitRadius、点位 identity、裁切 authority 与 suspend / resume 原则；clear-still 的视觉差异已单独记录为 authority delta；
-- moving 主要发生在球内，连续、缓慢、可重复，且不能通过外部装饰或整体缩放表达；
+- 主体水体运动主要发生在球内，连续、缓慢、可重复；冷暖 core 及其直接关联的受控流体响应可以暂时位于球外，但不能演变为独立外部装饰或整体缩放；
 - 不改变正式 still brief，不把 Unity 或历史 moving 结果当作新的产品权威。
 
 ### 尚未一致但属于实现前阻塞事实
@@ -227,7 +230,7 @@ clear-still → press → still-pose → transitioning → moving rise → movin
 2. `clear-still`、`press`、`activated`、`transitioning`、`moving` 之间没有视觉跳变或第二颗球语义；
 3. moving phase 单调前进，peak 后的回落不被读成反向运动；
 4. 每圈的 STILL-POSE CROSSING 不会 reset、倒放或切换回 still；
-5. 冷暖点 identity、轨迹连续性、正式 silhouette 裁切和 hitRadius 职责保持稳定；
+5. 冷暖点 identity、逆时针轨迹连续性、主体 silhouette 稳定性、球外 orbit elements 的附着关系和 hitRadius 职责保持稳定；
 6. suspend / resume / reset 对当前视觉、有效视觉时间、progress、phase 的结果可观察且可重复；
 7. moving 再触摸保持 moving 且 no state effect；reduced-motion 保持状态迁移但降低或取消持续运动；拖出后重入释放不能复活原 gesture；
 8. 所有术语统一使用 `still-pose` 与 `still-pose crossing`，InteractionVisualState 只使用 `clear`、`press`、`activated`。
@@ -239,7 +242,7 @@ clear-still → press → still-pose → transitioning → moving rise → movin
 - **取消与拖出**：PASS。pointerCancel、pointerUp outside、曾离开 hitRadius 的 gesture 都回到 clear；重新进入后必须重新 pointerDown inside。
 - **transitioning / moving 输入**：PASS。transitioning 与 moving 中完整 pointer gesture 均为 no-op，不进入 press、不产生 activation、不重启 transition、不改变 moving phase。
 - **生命周期**：PASS。press+suspend 立即按 pointerCancel 处理；reset 明确产生新的 clear-still t0，并归零有效视觉时间、transitionProgress、movingPhase。
-- **运动连续性与点位 authority**：PASS。moving phase 单调前进，still-pose crossing 不 reset、不反向；产品视觉规格已吸收冷暖 core 的同一逆时针连续轨迹、silhouette 内裁切、identity 不交换和 canonical position 回归语义。
+- **运动连续性与点位 authority**：PASS。moving phase 单调前进，still-pose crossing 不 reset、不反向；产品视觉规格已吸收冷暖 core 的同一逆时针连续轨迹、主体 silhouette 稳定、core 与受控尾迹可暂时球外、identity 不交换和 canonical position 回归语义。
 - **reduced-motion**：PASS。状态迁移不变，视觉运动降低或取消，reset / suspend / resume 不变。
 - **阻塞检查**：无 BLOCKER；无 MAJOR 内部语义冲突。剩余 authority delta 和 runtime 未实现项属于后续实现 / visual spec gate，不改变本 brief 的语义结论。
 
