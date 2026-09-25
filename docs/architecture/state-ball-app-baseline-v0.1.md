@@ -57,7 +57,7 @@ dispose()
 - 让视觉中心、轮廓和触摸命中区域保持一致；
 - 在 `still` 下冻结主要流动和形变；
 - 在 `transitioning` 下只改变已约定的视觉参数；
-- 在 `moving` 下保持主体中心、主要轮廓和命中区域稳定；
+- 在 `moving` 下保持主体 waterball silhouette、center、radius 和 `hitRadius` 稳定；这不禁止产品 visual spec 已授权的 cold/warm core 及其 attached trail 暂时越过主体 silhouette；
 - 能够返回当前状态、视觉就绪、命中区域和渲染诊断信息。
 
 Three.js、原生 Canvas、跨平台 Canvas 或其他技术都可以实现这个适配器。当前任何一种适配器都只是实现，不是产品权威；更换适配器不得改变 manifest、状态契约或验收标准。
@@ -76,11 +76,11 @@ Three.js、原生 Canvas、跨平台 Canvas 或其他技术都可以实现这个
 
 ### Slice C：过渡
 
-由 `transitionProgress` 驱动内部明暗边界和允许的流层参数，从 `still` 连续进入 `moving`。不加入新的外部装饰。
+由 `transitionProgress` 驱动内部明暗边界和允许的流层参数，从 `still` 连续进入 `moving`。不加入与产品语义无关的独立外部装饰；transitioning 中由 cold/warm core 直接产生、并由产品 visual spec 授权的 orbit / attached trail 不属于“独立外部装饰”。
 
 ### Slice D：运动
 
-由 `flowTime` 驱动内部流层和局部高光。运动必须缓慢、连续、可重复，并与静止状态保持同一主体边界。
+由 `flowTime` 驱动内部流层和局部高光。运动必须缓慢、连续、可重复，并保持主体 waterball silhouette、center、radius 和 `hitRadius` 稳定；这不禁止产品语义已授权的 cold/warm core 及其 attached trail 暂时越过主体 silhouette。
 
 ### Slice E：生命周期
 
