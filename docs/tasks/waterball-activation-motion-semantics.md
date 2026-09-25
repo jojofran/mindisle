@@ -175,24 +175,24 @@ clear-still → press → still-pose → transitioning → moving rise → movin
 | `still` | `press` | `pointerCancel` | `still` | `clear` | 平滑取消 press | 不触发 transitioning |
 | `still` | `press` | `pointerMove outside` | `still` | `clear` | 本次 gesture 失效并回到 clear | 之后重新进入不能复活本次 press，必须重新 pointerDown inside |
 | `still` | `clear` | 曾离开 hitRadius 后 `pointerUp inside` | `still` | `clear` | 不提交 activation | 需要新的 pointerDown inside |
+| `transitioning` | — | 任意完整 pointer gesture（down/up/cancel/drag） | `transitioning` | — | no state effect | 不进入 press，不产生 activation，不重启 transition |
 | `transitioning` | — | transition complete | `moving` | — | 连续进入持续运动 | 不冻结 duration / easing |
 | 任意 | 当前 still 子态或 — | `suspend` | 不变 | 不变；press 时按 pointerCancel 回到 `clear` | 当前画面、progress、phase 和生命周期时间冻结 | 后台时间不补偿 |
 | 任意 | 当前 still 子态或 — | `resume` | 不变 | 不变；取消的 press 不恢复 | 从冻结位置继续一次 | 不跳跃、不重复 |
 | 任意 | 当前 still 子态或 — | `reset` | `still` | `clear` | 有效视觉时间归零，建立新的 clear-still t0 | transitionProgress / movingPhase 回到确定性初始值 |
 | `moving` | — | 一圈完成，接近 canonical positions | `moving` | — | 画面自然再次接近 still-pose | 不 reset、不反转 |
 | `moving` | — | crossing 后继续推进 | `moving` | — | 直接进入下一轮 moving rise | phase 单调前进 |
-| `moving` | — | tap / pointerDown | `moving` | — | no state effect | 当前切片不触发 still / transitioning；未来 toggle 行为 DEFERRED |
+| `moving` | — | 任意完整 pointer gesture（down/up/cancel/drag） | `moving` | — | no state effect | 不进入 press，不改变状态，不暂停，不回 still，不反转，不 reset phase；未来 toggle 行为 DEFERRED |
 
 ## 12. AUTHORITY DELTA
 
 以下事项不能由本 brief 静默覆盖，必须在实现或 review 前显式处理：
 
 1. **clear-still 与 frozen still 的视觉差异**：clear-still 正式允许比 frozen still / still-pose 更清透、更平静、更弱激活；frozen still 仍只作为 activated still-pose 的既有视觉基准，不能被 clear-still 回写或重新定义。
-2. **visual spec 的 moving 点位边界**：左上冷 / 右下暖继续是 still 与 clear-still 的 canonical relation；transitioning / moving 允许两个 core 沿同一逆时针连续运动并离开 canonical position，halo / refraction response 从属于 core；identity 不交换、点位不 teleport、始终保持在正式 silhouette 内，并在每圈 still-pose crossing 重新接近 canonical position。该 delta 需要在未来 visual spec consistency review 中显式吸收。
-3. 当前 Web renderer 的合成径向 mask、动态层变换和 WebGL pass 尚未证明等同于正式 still atlas 的 outer-shell alpha 裁切；若实现继续使用它们，必须先解决正式 silhouette authority delta。
-4. Unity 原型中的外部 ribbons、独立点位轨迹与本 brief 的“点位嵌入同一水体、始终保持 silhouette 内”要求存在潜在冲突；Unity 结果只能作为实现事实，不能作为产品语义覆盖。
-5. 若任何 moving 参考图要求水带、点位或高光越过正式 silhouette，必须以本 brief 与产品 visual spec 的 silhouette 约束为准并记录差异。
-6. 正式 manifest 当前仍写有 `moving_status: not implemented` 与 `visual_acceptance: pending_user_confirmation`；这说明资产状态和本语义 brief 的锁定状态不能互相替代。
+2. 当前 Web renderer 的合成径向 mask、动态层变换和 WebGL pass 尚未证明等同于正式 still atlas 的 outer-shell alpha 裁切；若实现继续使用它们，必须先解决正式 silhouette authority delta。
+3. Unity 原型中的外部 ribbons、独立点位轨迹与本 brief 的“点位嵌入同一水体、始终保持 silhouette 内”要求存在潜在冲突；Unity 结果只能作为实现事实，不能作为产品语义覆盖。
+4. 若任何 moving 参考图要求水带、点位或高光越过正式 silhouette，必须以本 brief 与产品 visual spec 的 silhouette 约束为准并记录差异。
+5. 正式 manifest 当前仍写有 `moving_status: not implemented` 与 `visual_acceptance: pending_user_confirmation`；这说明资产状态和本语义 brief 的锁定状态不能互相替代。
 
 ## 13. PRODUCT DECISION REQUIRED
 
@@ -237,8 +237,9 @@ clear-still → press → still-pose → transitioning → moving rise → movin
 - **状态分层**：PASS。ProductState 只包含 `still`、`transitioning`、`moving`；InteractionVisualState 只表达 `still` 下的 `clear`、`press`、`activated`。
 - **原子激活**：PASS。`pointerUp inside + activation commit` 是一次原子提交，`activated` 只是该提交的瞬时 still 子态，不存在第二个可重复产品事件。
 - **取消与拖出**：PASS。pointerCancel、pointerUp outside、曾离开 hitRadius 的 gesture 都回到 clear；重新进入后必须重新 pointerDown inside。
+- **transitioning / moving 输入**：PASS。transitioning 与 moving 中完整 pointer gesture 均为 no-op，不进入 press、不产生 activation、不重启 transition、不改变 moving phase。
 - **生命周期**：PASS。press+suspend 立即按 pointerCancel 处理；reset 明确产生新的 clear-still t0，并归零有效视觉时间、transitionProgress、movingPhase。
-- **运动连续性**：PASS。moving phase 单调前进，still-pose crossing 不 reset、不反向；冷暖 core 可沿同一逆时针轨迹连续运动并保持 silhouette 内。
+- **运动连续性与点位 authority**：PASS。moving phase 单调前进，still-pose crossing 不 reset、不反向；产品视觉规格已吸收冷暖 core 的同一逆时针连续轨迹、silhouette 内裁切、identity 不交换和 canonical position 回归语义。
 - **reduced-motion**：PASS。状态迁移不变，视觉运动降低或取消，reset / suspend / resume 不变。
 - **阻塞检查**：无 BLOCKER；无 MAJOR 内部语义冲突。剩余 authority delta 和 runtime 未实现项属于后续实现 / visual spec gate，不改变本 brief 的语义结论。
 
