@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "name": "water_orb",
+    "referenceImage": "/Users/fran/.codex/generated_images/01a0c089-6cc2-7903-aafd-90aecc05c5d3/exec-6fe1fb9b-f87e-441e-a864-8eb02d726d73.png",
+    "referenceImages": [
+      {"role": "still", "path": "/Users/fran/.codex/generated_images/01a0c089-6cc2-7903-aafd-90aecc05c5d3/exec-6fe1fb9b-f87e-441e-a864-8eb02d726d73.png"},
+      {"role": "moving", "path": "/Users/fran/.codex/generated_images/01a0c089-6cc2-7903-aafd-90aecc05c5d3/exec-015a93b2-69c1-416b-9a3b-7e3446976de3.png"}
+    ],
+    "class": "object",
+    "complexity": "complex",
+    "stylization": "faithful",
+    "units": "meters",
+    "approxSize": [0.22, 0.08, 0.22],
+    "implementationBoundary": "fixed-front 2.5D; no free rotation; no external motion ribbons"
+  },
+  "detailInventory": [
+    {"id":"soft_outer_silhouette","gridCell":"R2C2","description":"near circular, slightly organic transparent outer contour","mapsTo":"component:orb_shell"},
+    {"id":"transparent_shell_depth","gridCell":"R2C2","description":"thin clear aqua volume with visible depth","mapsTo":"material:orb_glass"},
+    {"id":"cool_teal_inner_mass","gridCell":"R2C2","description":"muted teal volume concentrated inside the shell","mapsTo":"component:inner_core"},
+    {"id":"upper_cyan_flow","gridCell":"R2C1","description":"soft cool flow sweeping upper-left toward lower-right inside the sphere","mapsTo":"component:flow_band_cyan"},
+    {"id":"lower_warm_flow","gridCell":"R2C3","description":"pale warm counter-flow inside the sphere","mapsTo":"component:flow_band_warm"},
+    {"id":"moving_inner_flow","gridCell":"R2C2","description":"additional translucent internal layer used only by moving state","mapsTo":"component:flow_band_moving"},
+    {"id":"cool_inner_point","gridCell":"R2C1","description":"small cool luminous point in upper-left interior","mapsTo":"component:point_cool"},
+    {"id":"warm_inner_point","gridCell":"R2C3","description":"small warm luminous point in lower-right interior","mapsTo":"component:point_warm"},
+    {"id":"upper_right_rim","gridCell":"R2C3","description":"restrained white-peach edge reflection on upper-right","mapsTo":"material:orb_glass"},
+    {"id":"lower_left_rim","gridCell":"R3C1","description":"restrained cool edge reflection on lower-left","mapsTo":"material:orb_glass"},
+    {"id":"mist_background","gridCell":"R1C1","description":"pale blue-white soft background with quiet variation","mapsTo":"component:background_plane"},
+    {"id":"quiet_negative_space","gridCell":"R1C2","description":"generous uncluttered space around the centered orb","mapsTo":"component:review_camera"},
+    {"id":"moving_shared_boundary","gridCell":"R2C2","description":"moving state keeps same center, outline and touch boundary","mapsTo":"component:orb_shell"},
+    {"id":"moving_breathing_shift","gridCell":"R2C2","description":"moving state uses restrained internal phase shift instead of external geometry","mapsTo":"component:flow_band_moving"}
+  ],
+  "components": [
+    {"id":"orb_shell","role":"primary","parent":null,"strategy":"primitive","buildNotes":"high-resolution UV sphere, slightly nonuniform scale, smooth shading, fresnel-driven clear aqua shell","material":"orb_glass","criticalFeatures":["soft near-spherical silhouette","transparent volume","restrained edge reflection"],"pivotNote":"origin at orb center"},
+    {"id":"inner_core","role":"primary","parent":"orb_shell","strategy":"primitive","buildNotes":"nested ellipsoid with procedural teal variation and partial transmission","material":"core_teal","criticalFeatures":["centered teal mass","soft depth gradient","visible through shell"],"pivotNote":"origin at orb center"},
+    {"id":"flow_band_cyan","role":"primary","parent":"inner_core","strategy":"curve","buildNotes":"flat tapered ribbon mesh following a smooth internal diagonal sweep","material":"flow_cyan","criticalFeatures":["cool internal flow","soft broad surface","no external tubing"],"pivotNote":"centered on orb"},
+    {"id":"flow_band_warm","role":"primary","parent":"inner_core","strategy":"curve","buildNotes":"flat tapered warm counter-flow ribbon nested behind shell","material":"flow_warm","criticalFeatures":["warm counter-flow","partial transparency","quiet S-curve"],"pivotNote":"centered on orb"},
+    {"id":"flow_band_moving","role":"primary","parent":"inner_core","strategy":"curve","buildNotes":"optional third internal flow ribbon enabled only in moving state and phase-shifted","material":"flow_cyan","criticalFeatures":["moving-only internal change","shared silhouette","restrained phase motion"],"pivotNote":"centered on orb"},
+    {"id":"point_cool","role":"detail","parent":"inner_core","strategy":"primitive","buildNotes":"small emissive UV sphere upper-left","material":"point_cool","pivotNote":"local to inner core"},
+    {"id":"point_warm","role":"detail","parent":"inner_core","strategy":"primitive","buildNotes":"small emissive UV sphere lower-right","material":"point_warm","pivotNote":"local to inner core"},
+    {"id":"inner_highlight","role":"secondary","parent":"inner_core","strategy":"primitive","buildNotes":"soft flattened translucent highlight ellipsoid behind the flow layers","material":"inner_highlight","criticalFeatures":["soft volume highlight","no hard ring"],"pivotNote":"slightly forward of core center"},
+    {"id":"background_plane","role":"secondary","parent":null,"strategy":"primitive","buildNotes":"large emission plane with pale blue-white noise mist","material":"background_mist","pivotNote":"behind orb"},
+    {"id":"review_camera","role":"secondary","parent":null,"strategy":"primitive","buildNotes":"fixed front orthographic portrait camera","pivotNote":"camera center on orb"},
+    {"id":"key_light","role":"secondary","parent":null,"strategy":"primitive","buildNotes":"large soft upper-right area light","pivotNote":"light origin"},
+    {"id":"fill_light","role":"secondary","parent":null,"strategy":"primitive","buildNotes":"low-energy cool lower-left area light","pivotNote":"light origin"},
+    {"id":"rim_light","role":"secondary","parent":null,"strategy":"primitive","buildNotes":"soft rear edge light","pivotNote":"light origin"}
+  ],
+  "materials": [
+    {"id":"orb_glass","bsdf":{"baseColor":[0.57,0.86,0.88],"metallic":0.0,"roughness":0.08,"ior":1.33,"transmission":0.24},"textureStrategy":"procedural","notes":"fresnel-mixed aqua and white-peach edge color, restrained alpha"},
+    {"id":"core_teal","bsdf":{"baseColor":[0.12,0.42,0.45],"metallic":0.0,"roughness":0.3,"ior":1.33,"transmission":0.18},"textureStrategy":"procedural","notes":"muted teal noise volume"},
+    {"id":"flow_cyan","bsdf":{"baseColor":[0.43,0.84,0.86],"metallic":0.0,"roughness":0.18},"textureStrategy":"procedural","notes":"flat translucent cyan internal ribbon"},
+    {"id":"flow_warm","bsdf":{"baseColor":[0.96,0.88,0.78],"metallic":0.0,"roughness":0.18},"textureStrategy":"procedural","notes":"flat translucent warm-white internal ribbon"},
+    {"id":"inner_highlight","bsdf":{"baseColor":[0.72,0.94,0.94],"metallic":0.0,"roughness":0.18},"textureStrategy":"flat","notes":"soft low-alpha inner highlight"},
+    {"id":"point_cool","bsdf":{"baseColor":[0.52,0.9,0.98],"metallic":0.0,"roughness":0.12,"emission":[0.52,0.9,0.98],"emissionStrength":3.2},"textureStrategy":"flat","notes":"small cool bead"},
+    {"id":"point_warm","bsdf":{"baseColor":[1.0,0.56,0.27],"metallic":0.0,"roughness":0.12,"emission":[1.0,0.56,0.27],"emissionStrength":3.2},"textureStrategy":"flat","notes":"small warm bead"},
+    {"id":"background_mist","bsdf":{"baseColor":[0.86,0.94,0.965],"metallic":0.0,"roughness":0.75},"textureStrategy":"procedural","notes":"pale blue-white quiet background"}
+  ],
+  "passes": [
+    {"id":"blockout","criteria":["orb is centered in a portrait frame","orb occupies roughly 70%–75% of frame width","still and moving use one fixed front camera"]},
+    {"id":"structure","criteria":["run scene contains a named object for every component","internal flow bands are separate flat surfaces","no external ribbon or ring object exists"]},
+    {"id":"form","criteria":["outer contour is smooth and softly organic","inner teal mass has visible depth","flow surfaces remain inside the shell boundary"]},
+    {"id":"materials","criteria":["shell reads as transparent aqua volume","teal core and pale flows remain distinct","cool and warm points are visible without a strong halo"]},
+    {"id":"detail","criteria":["still has two interior points and layered flow","moving adds only internal flow variation","background stays pale and quiet"]},
+    {"id":"lighting","criteria":["edge light is strongest upper-right and lower-left without clipping","still and moving share center, outline and body scale","no gray disk, grid, hard plastic rim or complex background is visible"]}
+  ],
+  "reviewHistory": []
+}

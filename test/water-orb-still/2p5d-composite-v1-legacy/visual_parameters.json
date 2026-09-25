@@ -1,0 +1,25 @@
+{
+  "reference_size": [
+    853,
+    1844
+  ],
+  "sphere_center_px": [
+    426.5,
+    925.0
+  ],
+  "sphere_radius_px": [
+    316.0,
+    316.0
+  ],
+  "point_positions_px": {
+    "cool": [
+      299,
+      782
+    ],
+    "warm": [
+      583,
+      1067
+    ]
+  },
+  "note": "静止视觉以参考图为 foundation；透明层用于后续独立动画控制。"
+}

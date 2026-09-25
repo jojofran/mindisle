@@ -1,0 +1,185 @@
+{
+  "asset_id": "mindisle-water-orb-still-2p5d-v1",
+  "version": "v1",
+  "checked_at": "2026-09-25",
+  "result": "PASS",
+  "checks": {
+    "all_formal_layers_exist": true,
+    "all_formal_layers_853x1844_rgba": true,
+    "all_formal_layers_have_alpha_content": true,
+    "static_composite_853x1844_rgba": true,
+    "static_composite_matches_current_v6": true,
+    "duplicate_legacy_layers_excluded_from_manifest": true
+  },
+  "layer_info": {
+    "00_background_plate.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        0,
+        0,
+        853,
+        1844
+      ],
+      "sha256": "38f398cf824cf04fa32e7ceefd1339195c8e13ecfdb0bf9fe60bf2d6a0414f76"
+    },
+    "01_outer_film.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        88,
+        587,
+        766,
+        1264
+      ],
+      "sha256": "6d7a4df838479ec9e19bec1bc3537b540cc4e59ad6b97643fd256d35ed062a60"
+    },
+    "02_internal_cyan_volume.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        149,
+        648,
+        704,
+        1203
+      ],
+      "sha256": "13c969a09c973588cf941de5ded148df0d7d2581c21fac1152bd3b3e2e74e62a"
+    },
+    "03_boundary_mask.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        154,
+        812,
+        701,
+        1031
+      ],
+      "sha256": "c3ffce896ff6e739f3a835d1d8e10e85d67d5d041c73d89c15672af19a849d1a"
+    },
+    "04_flow_layer.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        169,
+        727,
+        677,
+        997
+      ],
+      "sha256": "94dc420739861f1ccb252ceb22d9a92326f4b0fec02ba2a152432578b2802172"
+    },
+    "05_flow_layer.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        169,
+        889,
+        683,
+        1107
+      ],
+      "sha256": "96567e29051611d0160e8563dc0c658aa54381ca91e9245cc642b1d884c3ba5a"
+    },
+    "06_fine_ink_wash.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        152,
+        651,
+        702,
+        1200
+      ],
+      "sha256": "34087c66d5c18216e5758a0e895a0e01443f93dce24b3708d63ac9e028574e3e"
+    },
+    "07_cool_point_core.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        287,
+        769,
+        312,
+        796
+      ],
+      "sha256": "765429f973a1d61348d65532f9252cfe3b15624d8989f44072807870f7d44f6f"
+    },
+    "08_cool_point_glow.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        262,
+        744,
+        337,
+        821
+      ],
+      "sha256": "31ad10dfd1efe380ba2fc3863ddd8d898b5447e88d043c2e2f755b41d883a9b3"
+    },
+    "09_warm_point_core.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        570,
+        1055,
+        597,
+        1080
+      ],
+      "sha256": "8ea7863bca91595c12319ae0a5d4b490f244c68a91e39502836002523153c1fc"
+    },
+    "10_warm_point_glow.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        544,
+        1029,
+        623,
+        1106
+      ],
+      "sha256": "5f43ef49e3d9354cfc110fff04b2cb31298aec9bd23985265aa6d18139d234e1"
+    },
+    "11_curvature_highlights.png": {
+      "size": [
+        853,
+        1844
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        88,
+        586,
+        766,
+        1265
+      ],
+      "sha256": "608d8dc4b9ced89d0ab4f5469c80b31982ec748616db46746bd41b36da82cac6"
+    }
+  },
+  "visual_acceptance": "pending_user_confirmation"
+}

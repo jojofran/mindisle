@@ -1,0 +1,16 @@
+{
+  "stage": "static_pair_only",
+  "seed": 2718,
+  "units": "R = 1 Blender unit; colors below are scene-linear RGB",
+  "camera": {"resolution": [852,1846], "diameter_fraction": 0.62, "center_from_top": 0.53, "ortho_scale": 6.989550204452521, "position": [0,0,8]},
+  "render": {"engine": "CYCLES", "device": "CPU", "samples": 128, "preview_samples": 32, "denoise": true, "view_transform": "AgX", "look": "AgX - Medium High Contrast", "exposure": 0, "transparent_max_bounces": 24, "transmission_bounces": 12},
+  "body": {"radius": 1, "subdivisions": 6, "ior": 1.333, "roughness": 0.045, "glass_mix": 0.38, "absorption_color": [0.055,0.30,0.34], "core_density": {"still": 2.6, "moving": 3.2}, "core_sigma": {"still": [0.56,0.74,0.70], "moving": [0.50,0.66,0.70]}, "deform": {"xxy": 0.055, "xy": 0.064, "xz": 0.014}},
+  "film": {"ior": 1.12, "roughness": 0.045, "opacity": 0.60},
+  "nodes": {"radius": 0.025, "still": [[-0.34,0.48,0.52],[0.46,-0.47,0.45]], "cool": [0.33,0.66,0.65], "warm": [0.84,0.62,0.44]},
+  "flows": {"upper": [[0.14,1.22,0.02],[-0.48,1.25,0.0],[-1.15,0.78,0.05],[-1.19,0.13,0.02]], "lower": [[0.18,-1.22,0.04],[0.78,-0.99,0.05],[1.35,-0.71,0.06],[1.27,-0.08,0.02]], "half_width": [0,0.075,0.060,0], "opacity": 0.48},
+  "lights": [
+    {"name":"Cool long softbox", "location":[-3,3.5,3.0], "target":[0,0,0], "energy":240, "size":[3.8,0.65], "color":[0.84,0.96,1]},
+    {"name":"Warm long softbox", "location":[3,2.2,1.0], "target":[0,0,0], "energy":150, "size":[3.2,0.45], "color":[1,0.81,0.65]},
+    {"name":"Bottom cool softbox", "location":[-1.5,-3.0,1.5], "target":[0,0,0], "energy":150, "size":[3.4,0.55], "color":[0.84,1,0.98]}
+  ]
+}

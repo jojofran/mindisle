@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_Name: Main Camera
+  m_IsActive: 1
+  m_Component:
+  - component: {fileID: 100003}
+  - component: {fileID: 100001}
+  - component: {fileID: 100002}
+--- !u!4 &100003
+Transform:
+  m_ObjectHideFlags: 0
+  m_GameObject: {fileID: 100000}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+--- !u!20 &100001
+Camera:
+  m_ObjectHideFlags: 0
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.94, g: 0.95, b: 0.94, a: 1}
+  m_Orthographic: 1
+  m_OrthographicSize: 5.5
+  m_Depth: -1
+--- !u!114 &100002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_Script: {fileID: 11500000, guid: 1b0e4de347f340b6a8d7d6dc5d9e1e11, type: 3}

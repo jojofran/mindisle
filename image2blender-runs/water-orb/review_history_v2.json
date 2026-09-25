@@ -1,0 +1,43 @@
+{
+  "run": "water_orb_v2_2p5d",
+  "state_scope": "still_only",
+  "engine": "BLENDER_EEVEE",
+  "attemptBudget": 3,
+  "entries": [
+    {
+      "stage": "stage0",
+      "attempt": 1,
+      "verdict": "continue",
+      "notes": "两张当前参考图可读取；第一张判定为静止，第二张判定为运动；错误清单已记录。"
+    },
+    {
+      "stage": "stage1_materials",
+      "attempt": 1,
+      "verdict": "refine-code",
+      "notes": "米白玻璃感和透明球体锯齿明显；改为固定正面 2.5D 分层材质。"
+    },
+    {
+      "stage": "stage1_materials",
+      "attempt": 2,
+      "verdict": "refine-code",
+      "notes": "同心亮环和过强高光仍存在；降低边缘亮度，统一点位大小与亮度。"
+    },
+    {
+      "stage": "stage1_materials",
+      "attempt": 3,
+      "verdict": "request-input",
+      "notes": "当前静止帧已完成青绿色水体、内层深浅流动、去同心白环、大面积硬高光压低、两个点位统一；但与参考图相比仍是受控近似，透明体积和细密水纹未达到通过门槛。按用户要求停在阶段1，未生成运动帧。",
+      "criteriaMet": [
+        "青绿色主体",
+        "背景层次安静",
+        "两个点位大小和亮度一致",
+        "没有灰色调试圆盘、外露管线或独立外部环带"
+      ],
+      "criteriaFailed": [
+        "参考图级别的透明体积细节",
+        "内部流动的自然渐变与局部折射"
+      ]
+    }
+  ],
+  "currentVerdict": "stage1_partial_stop_before_moving"
+}

@@ -1,0 +1,25 @@
+{
+  "version": "v1",
+  "role": "high_fidelity_visual_target_and_first_app_asset",
+  "source_references": [
+    "demo-reference/still-state.png",
+    "demo-reference/motion-state.png"
+  ],
+  "assets": {
+    "still": "blender/visual-targets/still-target-v1.png",
+    "moving": "blender/visual-targets/moving-target-v1.png",
+    "app_still": "assets/waterball-still-v1.png",
+    "app_moving": "assets/waterball-moving-v1.png"
+  },
+  "state_mapping": {
+    "focus_started_or_resumed": "moving",
+    "focus_paused": "still",
+    "focus_finished": "product-flow-finish"
+  },
+  "why_this_is_not_a_dead_end": [
+    "The assets are already used by the real focus flow through components/waterball and are swapped by the same session state.",
+    "The same two images are the comparison target for the next Blender parameter iteration.",
+    "The scene, parameters and procedural candidate remain in blender/ for later runtime reconstruction."
+  ],
+  "next_step": "Rebuild one visible discrepancy at a time: outer rim and shell depth, internal folded membranes, then moving flow ribbons and node endpoints."
+}

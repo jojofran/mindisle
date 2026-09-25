@@ -1,0 +1,111 @@
+{
+  "renderer": "Unity 6000.6.2f1 / URP / Apple M4 Metal",
+  "shader_compile": "PASS",
+  "mesh_import": "PASS",
+  "captures_nonblank": "PASS",
+  "capture_count": 9,
+  "capture_stats": [
+    {
+      "file": "background_changed.png",
+      "width": 512,
+      "height": 512,
+      "min": 46,
+      "max": 164,
+      "std": 24.063,
+      "sha256": "3095acf90676eeeb50d2638fd0309c0635485a5756b9cae1415fe6e7ede4d646"
+    },
+    {
+      "file": "front.png",
+      "width": 512,
+      "height": 512,
+      "min": 113,
+      "max": 227,
+      "std": 21.319,
+      "sha256": "3541895ffb46c91fdb083b27756243f8a4fc9175af546ec8a1092836dff92728"
+    },
+    {
+      "file": "lighting_changed.png",
+      "width": 512,
+      "height": 512,
+      "min": 113,
+      "max": 227,
+      "std": 21.319,
+      "sha256": "3541895ffb46c91fdb083b27756243f8a4fc9175af546ec8a1092836dff92728"
+    },
+    {
+      "file": "moved.png",
+      "width": 512,
+      "height": 512,
+      "min": 107,
+      "max": 227,
+      "std": 21.318,
+      "sha256": "040c702c24cd2a025fdcaffa4b9d6b83daf3f4e39558b9a54ba482d8f6f082ac"
+    },
+    {
+      "file": "pitch_minus10.png",
+      "width": 512,
+      "height": 512,
+      "min": 84,
+      "max": 227,
+      "std": 21.265,
+      "sha256": "ef5c0b0005d8e917afe06fd4c07e44c3867862479d63fa5221d5f97bda7dae71"
+    },
+    {
+      "file": "pitch_plus10.png",
+      "width": 512,
+      "height": 512,
+      "min": 106,
+      "max": 227,
+      "std": 21.311,
+      "sha256": "2ab7dbd3586605f1017793334591d271d2add52686be9d6046743b039a8a7530"
+    },
+    {
+      "file": "scaled.png",
+      "width": 512,
+      "height": 512,
+      "min": 78,
+      "max": 227,
+      "std": 21.423,
+      "sha256": "1204395c9760bb60dfa2a16c23b5e0b859c1600a0758059ed718ab45c10c787f"
+    },
+    {
+      "file": "yaw_minus10.png",
+      "width": 512,
+      "height": 512,
+      "min": 117,
+      "max": 227,
+      "std": 21.483,
+      "sha256": "92cdbe5a3d107b152c81d3495fe85edcae540ad9d8e5b64316211dfaef2a8cca"
+    },
+    {
+      "file": "yaw_plus10.png",
+      "width": 512,
+      "height": 512,
+      "min": 118,
+      "max": 227,
+      "std": 21.149,
+      "sha256": "3d433ab897e235c5d0a97b3e44967922c20b7c37e7a8ffdd95ec1831d967cc64"
+    }
+  ],
+  "runtime_gate": {
+    "front_view": "PASS: real sphere silhouette and non-empty render",
+    "yaw_plus_minus_10": "PASS: real sphere remains coherent; slight edge/UV shading change visible",
+    "pitch_plus_minus_10": "PASS: real sphere remains coherent",
+    "moved": "PASS: object moves without screen-space lock",
+    "scaled": "PASS: uniform scale changes silhouette coherently",
+    "background_changed": "PASS: material remains visible on dark neutral background",
+    "lighting_changed": "PARTIAL: render remains coherent, but the unlit runtime shader ignores scene light; front and lighting_changed are pixel-identical"
+  },
+  "visual_gate": {
+    "silhouette": "PASS",
+    "transparency": "PARTIAL",
+    "cyan_core": "PARTIAL",
+    "internal_flow": "FAIL in Unity front capture: flow is too weak to read",
+    "caustics": "FAIL in Unity front capture: no clear broad caustic bands",
+    "rim": "PARTIAL",
+    "highlight_points": "FAIL in Unity front capture: points are not visibly resolved",
+    "overall_liquid_read": "PARTIAL: translucent cyan sphere, currently too flat/cloudy for reference match"
+  },
+  "single_failing_subsystem": "runtime shader visual contribution / UV-to-material response, not mesh import or compilation",
+  "next_visual_change": "Increase runtime flow-mask/caustic contrast and make localized emission points readable, one subsystem at a time."
+}

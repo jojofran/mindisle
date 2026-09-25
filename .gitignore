@@ -1,0 +1,54 @@
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+
+# Unity-generated project state and build output
+**/Library/
+**/Logs/
+**/Temp/
+**/Obj/
+**/Build/
+**/Builds/
+**/UserSettings/
+**/MemoryCaptures/
+**/Recordings/
+**/PackageManagerSettings/
+**/ServerData/
+**/Generated/
+**/Artifacts/
+**/BurstCache/
+**/Bee/
+**/DataStore/
+**/Search/
+**/SourceAssetDB/
+**/ShaderCache/
+**/GI/
+**/GI*/
+*.csproj
+*.sln
+*.user
+*.suo
+*.swp
+.vscode/
+.idea/
+
+# Python environments, caches, and package/build output
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+**/build/
+**/dist/
+*.mcpb
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore

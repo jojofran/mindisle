@@ -1,0 +1,110 @@
+{
+  "blender": "5.2.2 LTS",
+  "pass": "C",
+  "preview": true,
+  "parameters": {
+    "architecture": "fixed_camera_live_procedural_optics",
+    "units": "R=1; colors scene-linear RGB; front camera +Z, up +Y",
+    "camera": {
+      "center_from_top": 0.53,
+      "diameter_fraction": 0.62,
+      "ortho_scale": 6.989550204452521
+    },
+    "optics": {
+      "core_density": {
+        "still": 0.88,
+        "moving": 1.02
+      },
+      "core_dark": [
+        0.06,
+        0.25,
+        0.29
+      ],
+      "core_light": [
+        0.18,
+        0.52,
+        0.55
+      ],
+      "ior": 1.333,
+      "refraction_mix": 0.018
+    },
+    "flows": {
+      "upper": [
+        [
+          0.14,
+          1.22,
+          0.02
+        ],
+        [
+          -0.48,
+          1.25,
+          0.0
+        ],
+        [
+          -1.15,
+          0.78,
+          0.05
+        ],
+        [
+          -1.19,
+          0.13,
+          0.02
+        ]
+      ],
+      "lower": [
+        [
+          0.18,
+          -1.22,
+          0.04
+        ],
+        [
+          0.78,
+          -0.99,
+          0.05
+        ],
+        [
+          1.35,
+          -0.71,
+          0.06
+        ],
+        [
+          1.27,
+          -0.08,
+          0.02
+        ]
+      ]
+    }
+  },
+  "states": {
+    "still": {
+      "engine_actual": "CYCLES",
+      "device": "CPU",
+      "samples": 24,
+      "denoise": true,
+      "view_transform": "Standard",
+      "exposure": 0,
+      "body_vertices": 10242,
+      "body_faces": 20480,
+      "topology_sha256": "f2d1b4f32029beca678d5a0018ace213e8004c0d364ff7cb3f771c9921caef33",
+      "animation_data_count": 0,
+      "object_count": 5,
+      "image_textures": 0,
+      "seconds": 1.9953820705413818
+    },
+    "moving": {
+      "engine_actual": "CYCLES",
+      "device": "CPU",
+      "samples": 24,
+      "denoise": true,
+      "view_transform": "Standard",
+      "exposure": 0,
+      "body_vertices": 10242,
+      "body_faces": 20480,
+      "topology_sha256": "f2d1b4f32029beca678d5a0018ace213e8004c0d364ff7cb3f771c9921caef33",
+      "animation_data_count": 0,
+      "object_count": 7,
+      "image_textures": 0,
+      "seconds": 2.067365884780884
+    }
+  }
+}

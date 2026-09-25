@@ -1,0 +1,27 @@
+{
+    "project": "6000.6.2f1",
+    "shader": "Assets/WaterOrbValidation/Runtime/WaterOrbRuntime.shader",
+    "shaderFound": true,
+    "shaderHasErrors": false,
+    "shaderMessages": [],
+    "vertices": 2174,
+    "triangles": 3968,
+    "captures": [
+        "/Users/fran/Documents/Code/mindisle/mindisle/Assets/WaterOrbValidation/Verification/front.png",
+        "/Users/fran/Documents/Code/mindisle/mindisle/Assets/WaterOrbValidation/Verification/yaw_plus10.png",
+        "/Users/fran/Documents/Code/mindisle/mindisle/Assets/WaterOrbValidation/Verification/yaw_minus10.png",
+        "/Users/fran/Documents/Code/mindisle/mindisle/Assets/WaterOrbValidation/Verification/pitch_plus10.png",
+        "/Users/fran/Documents/Code/mindisle/mindisle/Assets/WaterOrbValidation/Verification/pitch_minus10.png",
+        "/Users/fran/Documents/Code/mindisle/mindisle/Assets/WaterOrbValidation/Verification/moved.png",
+        "/Users/fran/Documents/Code/mindisle/mindisle/Assets/WaterOrbValidation/Verification/scaled.png",
+        "/Users/fran/Documents/Code/mindisle/mindisle/Assets/WaterOrbValidation/Verification/background_changed.png",
+        "/Users/fran/Documents/Code/mindisle/mindisle/Assets/WaterOrbValidation/Verification/lighting_changed.png"
+    ],
+    "textureProperties": [
+        "_ThicknessTex",
+        "_FlowMaskTex",
+        "_CausticTex",
+        "_NormalTex",
+        "_EmissionTex"
+    ]
+}

@@ -1,0 +1,9 @@
+# Reusable component maps; no finished screenshot is embedded.
+newmtl WaterOrb
+Ka 0.08 0.25 0.27
+Kd 0.38 0.73 0.75
+Ks 0.90 0.96 0.95
+Ns 90
+d 0.78
+map_Kd water_orb_flow_mask.png
+map_Bump water_orb_normal.png

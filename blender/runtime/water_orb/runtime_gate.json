@@ -1,0 +1,39 @@
+{
+  "mesh_view_checks": {
+    "front": {
+      "projected_width": 2.0001,
+      "projected_height": 2.0,
+      "silhouette_ratio": 1.0
+    },
+    "yaw+10": {
+      "projected_width": 2.0187,
+      "projected_height": 2.0,
+      "silhouette_ratio": 1.0093
+    },
+    "yaw-10": {
+      "projected_width": 1.9844,
+      "projected_height": 2.0,
+      "silhouette_ratio": 0.9922
+    },
+    "pitch+10": {
+      "projected_width": 2.0001,
+      "projected_height": 1.9996,
+      "silhouette_ratio": 1.0003
+    },
+    "pitch-10": {
+      "projected_width": 2.0001,
+      "projected_height": 1.9996,
+      "silhouette_ratio": 1.0003
+    },
+    "yaw+15": {
+      "projected_width": 2.0267,
+      "projected_height": 2.0,
+      "silhouette_ratio": 1.0133
+    },
+    "yaw-15": {
+      "projected_width": 1.9766,
+      "projected_height": 2.0,
+      "silhouette_ratio": 0.9883
+    }
+  }
+}

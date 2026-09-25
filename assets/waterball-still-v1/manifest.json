@@ -1,0 +1,47 @@
+{
+  "asset_id": "mindisle-water-orb-still-2p5d-v1",
+  "version": "v1",
+  "state": "still",
+  "status": "static_visual_locked_reference_driven",
+  "target_reference": "/Users/fran/.codex/generated_images/01a0c089-6cc2-7903-aafd-90aecc05c5d3/exec-6fe1fb9b-f87e-441e-a864-8eb02d726d73.png",
+  "representation": "reference-driven 2.5D image composite for fixed front view",
+  "canvas": [
+    853,
+    1844
+  ],
+  "color_mode": "RGBA PNG",
+  "layer_order": [
+    "00_background_plate",
+    "01_outer_film",
+    "02_internal_cyan_volume",
+    "03_boundary_mask",
+    "04_flow_layer",
+    "05_flow_layer",
+    "06_fine_ink_wash",
+    "07_cool_point_core",
+    "08_cool_point_glow",
+    "09_warm_point_core",
+    "10_warm_point_glow",
+    "11_curvature_highlights"
+  ],
+  "layer_files": {
+    "cool_point": [
+      "layers/07_cool_point_core.png",
+      "layers/08_cool_point_glow.png"
+    ],
+    "warm_point": [
+      "layers/09_warm_point_core.png",
+      "layers/10_warm_point_glow.png"
+    ],
+    "curvature_highlights": [
+      "layers/11_curvature_highlights.png"
+    ]
+  },
+  "composition": "alpha-over in layer_order; all layers share the canvas size",
+  "moving_status": "not implemented",
+  "app_or_unity": "not connected",
+  "source_lock": "formal test/water-orb-still/2p5d-composite-v1 composite and 12 RGBA layers; prior v2-v6 intermediate assets are not used",
+  "visual_acceptance": "pending_user_confirmation",
+  "source_manifest": "test/water-orb-still/2p5d-composite-v1/composite_manifest.json",
+  "runtime_copy": "assets/waterball-still-v1/layers (byte-identical copy of source layers)"
+}

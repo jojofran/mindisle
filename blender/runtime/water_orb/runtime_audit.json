@@ -1,0 +1,50 @@
+{
+  "audit": {
+    "water_orb_thickness.png": {
+      "declared_role": "optical body thickness",
+      "actual_content_after_repair": "smooth near-spherical center-thick edge-thin field",
+      "status": "PASS",
+      "evidence": "correlation with analytic sphere-depth field = 0.9993",
+      "shader_use": "_ThicknessTex -> core tint and thickness alpha"
+    },
+    "water_orb_flow_mask.png": {
+      "declared_role": "grayscale flow influence mask",
+      "actual_content_after_repair": "soft S-shaped influence region; no direction encoding",
+      "status": "PASS",
+      "evidence": "single-channel mask; procedural direction field is generated in WaterOrbRuntime.shader",
+      "shader_use": "_FlowMaskTex -> animated mask sampling, flow color, caustic and normal influence"
+    },
+    "water_orb_caustic.png": {
+      "declared_role": "refractive breakup",
+      "actual_content_after_repair": "large warped bands combined with deterministic low-frequency value variation",
+      "status": "PASS",
+      "evidence": "no fixed tile-copy or final-image content; non-uniform broad structures",
+      "shader_use": "_CausticTex -> low-strength color breakup, modulated by flow mask"
+    },
+    "water_orb_normal.png": {
+      "declared_role": "tangent-space normal",
+      "actual_content_after_repair": "subtle tangent-space perturbation near neutral (0.5, 0.5, 1.0)",
+      "status": "PASS",
+      "evidence": "encoded channel mean ≈ [0.4983, 0.4984, 0.9976]; decoded normal length mean ≈ 0.9937",
+      "shader_use": "_NormalTex -> small surface/refraction perturbation"
+    },
+    "water_orb_emission.png": {
+      "declared_role": "localized luminous accents",
+      "actual_content_after_repair": "two localized highlight points with weak irregular rim contribution",
+      "status": "PASS",
+      "evidence": "only 8.2% of pixels exceed 0.5; no uniform full-body emission",
+      "shader_use": "_EmissionTex * _EmissionColor -> additive accent only"
+    }
+  },
+  "no_cheating": {
+    "reference_embedded": false,
+    "background_baked": false,
+    "finished_orb_texture": false,
+    "single_pixel_camera_dependency": false
+  },
+  "render_status": {
+    "golden_frame": "pending Blender 5.2.2 Metal backend verification",
+    "camera_validation_renders": "pending Blender 5.2.2 Metal backend verification",
+    "geometric_view_gate": "recorded in runtime_gate.json"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "asset": "MindIsle WaterOrb",
+  "mesh": "water_orb.obj",
+  "mesh_stats": {
+    "vertices": 2112,
+    "triangles": 3968
+  },
+  "maps": [
+    "water_orb_thickness.png",
+    "water_orb_flow_mask.png",
+    "water_orb_caustic.png",
+    "water_orb_normal.png",
+    "water_orb_emission.png"
+  ],
+  "reference_embedded": false,
+  "runtime_shader": "WaterOrbRuntime.shader",
+  "runtime_gate": "runtime_gate.json",
+  "audit": "runtime_audit.json",
+  "coordinate_system": "Unity Y-up, object radius 1, front camera +Z"
+}

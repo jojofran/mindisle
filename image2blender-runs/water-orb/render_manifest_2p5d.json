@@ -1,0 +1,17 @@
+{
+  "engine": "BLENDER_EEVEE",
+  "resolution": [
+    640,
+    1384
+  ],
+  "camera": "orthographic_front",
+  "states": [
+    "still"
+  ],
+  "moving_frames": 0,
+  "external_ribbons": false,
+  "canonical_still": "renders_2p5d/still.png",
+  "still_comparison": "still_comparison_v2.png",
+  "moving_generated": false,
+  "stage1_status": "partial"
+}

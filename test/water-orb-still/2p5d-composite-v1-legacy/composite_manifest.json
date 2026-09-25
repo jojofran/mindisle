@@ -1,0 +1,34 @@
+{
+  "state": "still",
+  "status": "static_visual_locked_reference_driven",
+  "target_reference": "/Users/fran/.codex/generated_images/01a0c089-6cc2-7903-aafd-90aecc05c5d3/exec-6fe1fb9b-f87e-441e-a864-8eb02d726d73.png",
+  "representation": "reference-driven 2.5D image composite for fixed front view",
+  "canvas": [
+    853,
+    1844
+  ],
+  "layer_order": [
+    "00_background_plate",
+    "01_outer_film",
+    "02_internal_cyan_volume",
+    "03_boundary_mask",
+    "04_flow_layer",
+    "05_flow_layer",
+    "06_embedded_points",
+    "07_curvature_highlights"
+  ],
+  "animation_ready_layers": [
+    "03_boundary_mask",
+    "04_flow_layer",
+    "05_flow_layer",
+    "07_curvature_highlights"
+  ],
+  "stable_layers": [
+    "00_background_plate",
+    "01_outer_film",
+    "02_internal_cyan_volume",
+    "06_embedded_points"
+  ],
+  "moving_status": "not implemented",
+  "app_or_unity": "not connected"
+}
