@@ -282,7 +282,7 @@
       if (!this.hit(point.x, point.y)) return;
       this.gesture = {active: true, valid: true, startedInside: true, leftHitRadius: false, committed: false, pointerId: event.pointerId};
       this.pressPoint = point;
-      this.pressAmount = 0;
+      this.pressAmount = this.reducedMotion ? 1 : 0;
       this.formationProgress = 0;
       this.formationStartedAt = performance.now();
       this.formationFrom = 0;
@@ -322,8 +322,6 @@
       this.activationCount++;
       this.pressPoint = null;
       this.pressAmount = 0;
-      this.formationProgress = 0;
-      this.formationFrom = 0;
       this.interactionVisualState = 'activated';
       const detail = {state: this.productState, point, activationCount: this.activationCount};
       this.host.dispatchEvent(new CustomEvent('water-orb-hit', {bubbles: true, detail}));
@@ -414,6 +412,8 @@
       this.gesture = {active: false, valid: false, startedInside: false, leftHitRadius: false, committed: false, pointerId: null};
       this.pressPoint = null;
       this.pressAmount = 0;
+      this.formationProgress = 0;
+      this.formationFrom = 0;
       this.draw();
       this.startAnimationLoop();
       this.dispatchEvent(new CustomEvent('lifecycle', {detail: {type: 'reset', idleTime: 0}}));
@@ -446,11 +446,14 @@
       this.idlePhase = ((phase % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
       if (this.ready) {
         if (this.interactionVisualState === 'press' && !this.activationCommitted) {
-          this.pressAmount = clamp((performance.now() - this.formationStartedAt) / 280, 0, 1);
+          this.pressAmount = this.reducedMotion ? 1 : clamp((performance.now() - this.formationStartedAt) / 280, 0, 1);
           this.formationProgress = this.pressAmount;
         } else if (this.activationCommitted && this.formationProgress < 1) {
+          if (this.reducedMotion) this.formationProgress = 1;
+          else {
           const from = this.formationFrom;
           this.formationProgress = clamp(from + (performance.now() - this.formationStartedAt) / 180 * (1 - from), from, 1);
+          }
         }
         const formation = this.formationProgress;
         ctx.save();
@@ -646,8 +649,9 @@
       const warmOld = {x: cx + radius * 0.50, y: cy + radius * 0.45};
       wash(coolOld.x, coolOld.y, radius * 0.24, `rgba(108,184,190,${(0.82 * residual).toFixed(3)})`);
       wash(warmOld.x, warmOld.y, radius * 0.24, `rgba(108,184,190,${(0.82 * residual).toFixed(3)})`);
-      const left = {x: cx + (-radius * 0.20 + (profile.gravity.points[0].position[0] * radius + radius * 0.20) * formation), y: cy - profile.gravity.points[0].position[1] * radius * formation};
-      const right = {x: cx + (radius * 0.20 + (profile.gravity.points[1].position[0] * radius - radius * 0.20) * formation), y: cy - profile.gravity.points[1].position[1] * radius * formation};
+      const [clearCool, clearWarm] = profile.clearCorePositions;
+      const left = {x: cx + (clearCool[0] + (profile.gravity.points[0].position[0] - clearCool[0]) * formation) * radius, y: cy - (clearCool[1] + (profile.gravity.points[0].position[1] - clearCool[1]) * formation) * radius};
+      const right = {x: cx + (clearWarm[0] + (profile.gravity.points[1].position[0] - clearWarm[0]) * formation) * radius, y: cy - (clearWarm[1] + (profile.gravity.points[1].position[1] - clearWarm[1]) * formation) * radius};
       const point = (p, rgb) => {
         const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 0.105);
         glow.addColorStop(0, `rgba(${rgb},0.62)`); glow.addColorStop(0.28, `rgba(${rgb},0.28)`); glow.addColorStop(1, `rgba(${rgb},0)`);
@@ -724,6 +728,11 @@
         silhouetteMaskSource: profile.silhouetteAuthority.layer,
         activationCommitted: this.activationCommitted,
         activationCount: this.activationCount,
+        activationCommitCount: this.activationCount,
+        visualPose: this.activationCommitted
+          ? (this.formationProgress < 1 ? 'forming-still-pose' : 'still-pose')
+          : (this.interactionVisualState === 'press' ? 'press-forming' : 'clear-still'),
+        formationProgress: this.formationProgress,
         gestureActive: this.gesture.active,
         gestureValid: this.gesture.valid,
         gestureStartedInside: this.gesture.startedInside,

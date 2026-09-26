@@ -15,6 +15,9 @@ window.WATERBALL_PROFILE = {
       {name: 'warm', position: [0.50, -0.45], mass: 0.20}
     ]
   },
+  // Clear-still positions are normalized to the same center/radius authority;
+  // they are intentionally separate from the frozen still canonical points.
+  clearCorePositions: [[-0.20, 0], [0.20, 0]],
   assetRoot: 'assets/waterball-still-v1/',
   staticComposite: 'static_composite.png',
   manifest: 'assets/waterball-still-v1/manifest.json',
