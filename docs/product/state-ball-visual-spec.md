@@ -22,18 +22,28 @@
 - 外壳的明暗和光泽应随球体曲率变化，不能形成均匀完整的白色圆环；
 - 内部体积应有青绿色及相邻冷色层次，并呈现深浅、透射和局部雾化；
 - 内部应保留柔和的绕行明暗关系，让人感到两股水体相互包裹，但不能形成具象太极图或 Logo；
-- 静止、clear-still、press 与 still-pose 中，两个细小点位保持左上冷色、右下暖色的 canonical 对角关系，点位嵌入内部体积，不能像按钮、贴纸或装饰灯珠；
+- clear-still 中，两个细小点位位于水球内部中部的平衡区域，形成近似对称关系；still-pose 中，冷点位于左上、暖点位于右下的 canonical 对角位置；press 是两种构型之间的连续迁移。三个阶段的点位都嵌入同一团水，不能像按钮、贴纸或装饰灯珠；
 - 高光应沿球体曲率或内部流层连续展开，亮度克制，不能出现孤立的大白斑或过强光晕。
 
 ## 静止状态
 
-静止状态表达“专注尚未运动或当前保持安静”。
+静止状态（frozen still-pose）表达“专注尚未运动或当前保持安静”。
 
 - 外轮廓、主体中心、体积关系和两个点位保持稳定；
 - 内部主要流动和形变冻结；
 - 只允许明确约定的极轻微呼吸或光泽变化；
 - 内部明暗关系应收敛、安静、可辨识；
 - 第一眼应读成“透明、有体积的水球”，而不是青色雾团、玻璃弹珠或纯色 UI 圆形。
+
+### clear-still → press → still-pose
+
+这不是三张互相替换的图，而是同一颗水球、同一团水的连续构型变化：
+
+- `clear-still` 是尚未被用户唤醒的初始构型：完整、圆润、饱满、清透，青绿色体积较浅，内部结构均衡平静，不出现 frozen still-pose 中明显的凹陷 / 回旋凹口；两个 core 位于水球内部中部的平衡区域，保持 cold / warm identity，并带很轻的 halo / 折射响应；
+- `press` 是外力进入水体后的构型迁移：局部膜面产生轻微压感，压力向内部传导，质量开始定向迁移，青绿色体积逐渐增强，凹陷 / 回旋关系开始形成，两个 core 从中部平衡位置连续向 still-pose 的 canonical positions 移动；
+- `still-pose` 是当前已冻结并通过验收的正式 still 构型：继承 frozen still 的青绿色深度、内部凹陷 / 回旋结构、冷点左上 canonical position、暖点右下 canonical position 及其微动态语言；不重新设计该构型。
+
+其中：`clear-still` 的 initial core positions 不等于 `still-pose` 的 canonical positions；`press` 只表达两者之间的连续视觉迁移，不是新的 ProductState。
 
 ## 运动状态
 
@@ -46,7 +56,7 @@
 - 不得通过突然跳位、闪烁、外部装饰或强烈色彩变化表达运动；
 - 运动参考图中若出现与产品语义冲突的外部装饰，应记录为参考差异，不直接复制。
 - transitioning / moving 中，冷色点与暖色点仍分别保持身份；两个 core 可以随同一团水沿同一逆时针方向连续离开各自 canonical position，暂时越过主体 silhouette 并在球外环绕，但不得瞬移、交换或变成独立 UI 灯珠；halo、折射响应和受控水膜 / 流体拖尾必须从属于各自 core，随运动连续产生并在运动中自然变化。moving 的呼吸感来自角向持续前进与径向距离变化的叠加：moving-ease 时光点缓慢靠近主体，进入下一段 moving-rise 时再缓慢远离；径向变化不得让角向运动反向、重置 phase 或回到 still。
-- canonical positions 只表示 still / clear-still / press / still-pose 中的静止归位位置，以及未来明确停止并回到 still 时的归位目标；它们不是 moving 每圈的必经点。
+- canonical positions 只表示 frozen still-pose 中的静止归位位置，以及未来明确停止并回到 still 时的归位目标；clear-still 使用中部平衡的 initial positions，press 表示从 initial positions 向 canonical positions 的连续迁移；它们不是 moving 每圈的必经点。
 
 ## 状态切换
 
@@ -72,7 +82,7 @@
 
 ## 视觉验收
 
-静止状态必须同时满足：
+静止状态（frozen still-pose）必须同时满足：
 
 1. 球体完整显示，第一眼可读为透明、有体积的水球；
 2. 外壳、内部体积和绕行明暗关系都可辨识；

@@ -10,7 +10,7 @@
 本 brief 必须继承：
 
 - `still → transitioning → moving` 的 ProductState 契约；旧 still-only slice 的 `reset → still` 事实仍然有效，但本流程在更高一层增加 `still` 下的 `clear` 子态；
-- frozen still / still-pose 的 silhouette、主体中心、半径、hitRadius、银白透明膜面、青绿色体积及冷暖点 identity；clear-still 可以是更清透、更平静、更弱激活的独立视觉变体，不重新定义 frozen still；
+- frozen still / still-pose 的 silhouette、主体中心、半径、hitRadius、银白透明膜面、青绿色体积及冷暖点 identity；clear-still 是同一颗水球尚未被唤醒时的初始构型，不是降低 frozen still 参数后的独立简化版，不重新定义 frozen still；
 - `state-ball-visual-spec.md` 对透明体积、内部流动、稳定触摸范围和禁用项的约束；
 - suspend 时冻结有效视觉时间，resume 从冻结点继续，reset 将有效视觉时间归零并建立新的 clear-still t0；
 
@@ -50,7 +50,7 @@ ProductState 继续只有：
 
 ### 3.2 InteractionVisualState
 
-- `clear`：`ProductState=still` 下的默认未点击子态；其视觉名称为 clear-still，是 frozen still / still-pose 的更清透、更平静、更弱激活版本。
+- `clear`：`ProductState=still` 下的默认未点击子态；其视觉名称为 clear-still，是同一颗水球尚未被唤醒时的初始构型。
 - `press`：`ProductState=still` 下 pointer 按下且手势尚未提交或取消；表达手指正在按住这一团水。
 - `activated`：`ProductState=still` 下由 pointerUp inside 原子提交产生的瞬时子态；视觉立即采用正式 still-pose，随后在同一提交的确定性连续中进入 transitioning，不产生第二个可重复触发事件。
 
@@ -61,20 +61,20 @@ transitioning 与 moving 只由 ProductState 表达；moving 内的 low / rise /
 clear-still 正式允许不同于 frozen still，但必须仍然读成同一颗水球的安静起始态：
 
 - 保持同一 silhouette identity、中心、半径、hitRadius、银白透明膜面语言、冷暖点 identity 与整体水球语言；
-- 冷点仍嵌在左上 canonical position 附近，暖点仍嵌在右下 canonical position 附近；两者属于水球视觉系统，不表现为独立 UI 灯珠；
-- 减弱中央青绿色密度、内部水体存在感、密度边界、折射起伏和微动态显著度；
-- 弱化明显中心凹陷，但不引入另一套轮廓或另一颗球；
-- 目标感受是“水还在，只是更安静、更清透、更少被激活”；
+- 冷点与暖点位于水球内部中部的平衡区域，形成近似对称关系；cold / warm identity 保持，core 嵌在水体内部，不表现为独立 UI 灯珠；
+- 保留轻微青绿色内部体积，但明显比 frozen still-pose 更浅、更清透；内部结构更均衡、更完整、更平静，不能变成空玻璃球、肥皂泡、纯白球或均匀雾球；
+- 不出现 frozen still-pose 中明显的凹陷 / 回旋凹口；微动态非常弱，第一眼近似静止；
+- 目标感受是“水还在，只是尚未展开，更安静、更清透”；
 - frozen still 不因 clear-still 而重新定义；正式 still-pose 仍直接继承 frozen still。
 
-clear-still 不通过整体缩放、整体漂移、点位移出或新外部装饰表达。它的差异只能体现在允许的清透度、密度、折射和微动态弱化上。
+clear-still 不通过整体缩放、整体漂移、点位移出或新外部装饰表达，也不能只靠降低 alpha / cyan / flow 把 frozen still 简化。它的差异来自初始内部构型、较浅的体积、均衡结构和更弱微动态。
 
 ## 5. press 与有效点击
 
 ### 5.1 press
 
-`pointerDown` 在 hitRadius 内时进入 press，ProductState 仍为 `still`。press 可以有轻微局部膜面、水体和折射响应，但必须保持 silhouette、中心、半径和 hitRadius 不变。
-press 期间两个点仍嵌在水球内部并保持各自 canonical identity；允许附近水体对 halo、折射边缘和局部亮度产生轻微影响，但不得开始球外轨迹。
+`pointerDown` 在 hitRadius 内时进入 press，ProductState 仍为 `still`。press 的视觉意义不仅是膜面反馈，而是 clear-still → still-pose 的连续构型迁移：触点附近膜面产生轻微局部压感，压力向水体内部传导，内部质量开始定向迁移，青绿色体积逐渐增强，frozen still-pose 所需的凹陷 / 回旋关系开始形成；必须保持 silhouette、中心、半径和 hitRadius 不变。
+press 期间两个 core 仍嵌在水球内部，从 clear-still 的中部平衡位置连续向 still-pose 的 canonical positions 移动：cold 向左上演化，warm 向右下演化；halo、折射边缘和局部亮度与水体同步变化，但不得开始球外轨迹，也不得读成按钮被按下。
 
 ### 5.2 有效点击
 
@@ -91,7 +91,22 @@ pointerDown inside
 
 `pointerUp inside` 与 activation commit 是同一次原子状态提交，提交只发生一次；不得把它们拆成两个可重复触发的产品事件。`activated` 只表达这一原子提交的瞬时 still 子态，正式视觉直接继承 frozen still 的 still-pose、微动态语言、silhouette、center、radius、hitRadius 和冷暖点 identity；在进入 transitioning 前，冷点仍位于左上 canonical position 附近，暖点仍位于右下 canonical position 附近并嵌在主体水体内。
 
-### 5.3 取消与越界
+### 5.3 K0 / K1 / K2 构型定义
+
+```text
+K0 — clear-still
+完整、圆润、清透；青绿色较浅；内部无明显凹陷；cold / warm core 位于中部平衡位置。
+
+K1 — press
+局部膜面受压；内部质量开始迁移；青色逐渐增强；凹陷 / 回旋开始形成；两个 core 连续向 still-pose canonical positions 移动。
+
+K2 — still-pose
+达到当前 frozen still；cold 左上、warm 右下；进入 frozen still 微动态。
+```
+
+K0 → K1 → K2 必须读成同一颗水球、同一团水的连续结构变化，不得是三张独立视觉图的切换。
+
+### 5.4 取消与越界
 
 - `pointerDown outside`：不进入 press，不改变 ProductState，保持 clear-still。
 - `pointerCancel`：不提交激活，平滑回到 clear-still。
@@ -111,7 +126,7 @@ transitioning 表示同一团水从 still-pose 连续增强到 moving。增强�
 - 持续、单向、逆时针、周期性向前推进；phase 只能按 `0 → 2π → 4π → 6π ...` 前进；
 - 一个周期自然经历低幅 → 增强 → peak → 回落 → 再增强；回落是同一逆时针运动的幅度变化，不是反向或呼吸式倒放；
 - 主体中心、主要 silhouette、尺寸和 hitRadius 保持稳定；主体水体的主要变化发生在球体内部，球外变化仅限于 core 及其直接关联的受控流体响应；
-- still / clear-still 中，冷点 canonical position 是左上，暖点 canonical position 是右下；
+- still-pose 中，冷点 canonical position 是左上，暖点 canonical position 是右下；clear-still 使用水球内部中部的平衡 initial positions，press 表示从 initial positions 向 canonical positions 的连续迁移；
 - transitioning / moving 中，两个 core 本体允许参与同一逆时针连续运动；halo、refraction response 和轻量水膜 / 水墨拖尾从属于各自 core，并随 core 连续变化；
 - 冷暖 identity 始终不交换，轨迹不 teleport；两个 core 可以暂时位于主体 silhouette 外并沿球外轨迹环绕，但不得成为独立装饰物；主体 silhouette 与 hitRadius 不因球外 orbit elements 扩大；
 - moving 同时包含持续的角向运动和径向距离变化：角向 phase 始终逆时针向前；moving-ease 时两个 core 随连续轨迹缓慢靠近主体，进入下一段 moving-rise 时再缓慢远离，形成非同步整体缩放式的呼吸感；径向变化不得造成反向、teleport、phase reset 或 ProductState 改变；
@@ -199,7 +214,7 @@ moving → stop / return transition（仅为未来流程占位，不是 ProductS
 
 以下事项不能由本 brief 静默覆盖，必须在实现或 review 前显式处理：
 
-1. **clear-still 与 frozen still 的视觉差异**：clear-still 正式允许比 frozen still / still-pose 更清透、更平静、更弱激活；frozen still 仍只作为 activated still-pose 的既有视觉基准，不能被 clear-still 回写或重新定义。
+1. **clear-still 与 frozen still 的构型差异**：clear-still 是同一颗水球尚未被唤醒时的初始构型，使用中部平衡的 initial core positions、较浅的青绿色体积和更均衡的内部结构；它不是降低 frozen still 参数后的简化版。frozen still 仍只作为 activated still-pose 的既有视觉基准，不能被 clear-still 回写或重新定义。
 2. 当前 Web renderer 的合成径向 mask、动态层变换和 WebGL pass 尚未证明等同于正式 still atlas 的 outer-shell alpha 裁切；若实现继续使用它们，必须先解决正式 silhouette authority delta。
 3. Unity 原型中的外部 ribbons、独立点位轨迹与本 brief 的“球外元素必须从属于冷暖 core、连续附着并随 moving 轨迹自然变化”要求存在潜在冲突；Unity 结果只能作为实现事实，不能作为产品语义覆盖。
 4. moving 参考图中的独立水带、固定环带、Logo 化弧线或与光点无关的外部结构仍不是产品权威；只有由冷暖 core 脱离、环绕和回归自然产生的受控流体尾迹可以被继承。
@@ -251,11 +266,19 @@ moving → stop / return transition（仅为未来流程占位，不是 ProductS
 - **取消与拖出**：PASS。pointerCancel、pointerUp outside、曾离开 hitRadius 的 gesture 都回到 clear；重新进入后必须重新 pointerDown inside。
 - **transitioning / moving 输入**：PASS。transitioning 与 moving 中完整 pointer gesture 均为 no-op，不进入 press、不产生 activation、不重启 transition、不改变 moving phase。
 - **生命周期**：PASS。press+suspend 立即按 pointerCancel 处理；reset 明确产生新的 clear-still t0，并归零有效视觉时间、transitionProgress、movingPhase。
+- **K0 / K1 / K2 构型**：PASS。clear-still 使用中部平衡 initial positions；press 驱动向 still-pose canonical positions 的连续质量迁移；still-pose 继承 frozen still，不重新定义 frozen still。
 - **运动连续性与点位 authority**：PASS。moving phase 单调前进，moving-ease 到下一段 moving-rise 时径向距离连续变化但不反向、不 reset；产品视觉规格已吸收冷暖 core 的同一逆时针连续轨迹、主体 silhouette 稳定、core 与受控尾迹可暂时球外、identity 不交换和 canonical position 仅作为静止/停止归位目标的语义。
 - **reduced-motion**：PASS。状态迁移不变，视觉运动降低或取消，reset / suspend / resume 不变。
 - **阻塞检查**：无 BLOCKER；无 MAJOR 内部语义冲突。剩余 authority delta 和 runtime 未实现项属于后续实现 / visual spec gate，不改变本 brief 的语义结论。
 
-## 17. 结论与后续门槛
+## 17. 当前切片状态
+
+- `SLICE A INTERACTION = PASS`
+- `SLICE A LIFECYCLE = PASS`
+- `SLICE A VISUAL = REOPENED_FOR_K0_K1_CORRECTION`
+- `READY_FOR_SLICE_B = NO`
+
+## 18. 结论与后续门槛
 
 本文件已通过 consistency-only review，状态为 **SEMANTICS FROZEN**。这只冻结本 brief 的交互与运动语义，不代表 runtime、视觉资产或 Unity 验收通过。
 
