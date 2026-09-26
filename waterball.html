@@ -4,6 +4,6 @@
 const params=new URLSearchParams(location.search);if(params.has('pure'))document.body.classList.add('pure');
 const orb=new MindIsleWaterball(document.querySelector('#orb'),{onActivate:()=>{document.querySelector('#status').textContent='水球已触碰，保持安静';}});
 function update(){const s=orb.inspect();document.querySelector('#status').textContent=s.state==='still'?'轻触水球，开始':s.state;}
-window.MINDISLE.waterOrb=orb; window.__MINDISLE__.waterOrb=orb; window.waterballDebug={read:()=>({visual:orb.inspect()}),reset:()=>location.reload()};
+ window.MINDISLE.waterOrb=orb; window.__MINDISLE__.waterOrb=orb; window.waterballDebug={read:()=>({visual:orb.inspect()}),suspend:()=>orb.suspend('debug'),resume:()=>orb.resume('debug'),reset:()=>orb.reset()};
  orb.loaded.then(()=>{update();});
 </script></body></html>

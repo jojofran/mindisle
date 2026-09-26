@@ -18,6 +18,16 @@ window.WATERBALL_PROFILE = {
   assetRoot: 'assets/waterball-still-v1/',
   staticComposite: 'static_composite.png',
   manifest: 'assets/waterball-still-v1/manifest.json',
+  // The still atlas is the visual authority for the body.  This is kept
+  // separate from the geometry used for motion and hit testing so a future
+  // orbit layer can leave the body without changing its silhouette.
+  silhouetteAuthority: {
+    type: 'atlas-alpha',
+    layer: '01_outer_film',
+    threshold: 6
+  },
+  bodyDomain: 'still-silhouette',
+  orbitDomain: 'separate-attached-elements',
   layerOrder: [
     '00_background_plate',
     '01_outer_film',

@@ -15,11 +15,23 @@
       super();
       this.host = host;
       this.state = state;
+      this.productState = state;
+      this.interactionVisualState = 'clear';
+      this.activationCommitted = false;
+      this.activationCount = 0;
+      this.gesture = {active: false, valid: false, startedInside: false, leftHitRadius: false, committed: false, pointerId: null};
+      this.pressPoint = null;
+      this.pressAmount = 0;
+      this.formationProgress = 0;
+      this.formationStartedAt = 0;
+      this.formationFrom = 0;
       this.onActivate = onActivate;
       this.ready = false;
       this.frames = 0;
       this.idleEpoch = performance.now();
       this.idleTime = 0;
+      // Frozen base for the single effective visual-time authority. The
+      // active segment is derived from idleEpoch; idleTime/idlePhase are views.
       this.visualTime = 0;
       this.idlePhase = 0;
       this.lifecycleSuspended = document.visibilityState === 'hidden';
@@ -47,15 +59,10 @@
       this.button.className = 'waterball-touch';
       this.button.disabled = true;
       host.append(this.button);
-      this.button.addEventListener('click', event => {
-        if (!this.ready) return;
-        const rect = host.getBoundingClientRect();
-        if (event.detail && !this.hit(event.clientX - rect.left, event.clientY - rect.top)) return;
-        const detail = {state: this.state, point: {x: event.clientX - rect.left, y: event.clientY - rect.top}};
-        host.dispatchEvent(new CustomEvent('water-orb-hit', {bubbles: true, detail}));
-        this.dispatchEvent(new CustomEvent('water-orb-hit', {detail}));
-        this.onActivate(detail);
-      });
+      this.button.addEventListener('pointerdown', event => this.pointerDown(event));
+      this.button.addEventListener('pointermove', event => this.pointerMove(event));
+      this.button.addEventListener('pointerup', event => this.pointerUp(event));
+      this.button.addEventListener('pointercancel', event => this.cancelGesture(event));
       this.onMotionChange = event => {
         this.reducedMotion = event.matches;
         if (this.reducedMotion) {
@@ -123,24 +130,22 @@
           this.shellShade = shade;
         }
       }
+      this.buildSilhouetteMask();
       this.staticComposite = await loadImage(profile.assetRoot + profile.staticComposite);
+      this.buildClearComposite();
       this.prepareMaterialTexture();
       this.staticCompositeCanvas = document.createElement('canvas');
       this.staticCompositeCanvas.width = profile.frame[0]; this.staticCompositeCanvas.height = profile.frame[1];
       const compositeCtx = this.staticCompositeCanvas.getContext('2d');
       compositeCtx.drawImage(this.staticComposite, 0, 0);
       compositeCtx.globalCompositeOperation = 'destination-in';
-      const compositeMask = compositeCtx.createRadialGradient(profile.center[0], profile.center[1], 410, profile.center[0], profile.center[1], 690);
-      compositeMask.addColorStop(0, 'rgba(255,255,255,1)'); compositeMask.addColorStop(0.72, 'rgba(255,255,255,0.94)'); compositeMask.addColorStop(1, 'rgba(255,255,255,0)');
-      compositeCtx.fillStyle = compositeMask; compositeCtx.fillRect(0, 0, profile.frame[0], profile.frame[1]);
+      compositeCtx.drawImage(this.silhouetteMaskCanvas, 0, 0);
       this.plate = document.createElement('canvas');
       this.plate.width = profile.frame[0]; this.plate.height = profile.frame[1];
       const plateCtx = this.plate.getContext('2d');
       plateCtx.drawImage(this.images['00_background_plate'], 0, 0);
       plateCtx.globalCompositeOperation = 'destination-in';
-      const mask = plateCtx.createRadialGradient(profile.center[0], profile.center[1], 420, profile.center[0], profile.center[1], 700);
-      mask.addColorStop(0, 'rgba(255,255,255,1)'); mask.addColorStop(0.72, 'rgba(255,255,255,0.92)'); mask.addColorStop(1, 'rgba(255,255,255,0)');
-      plateCtx.fillStyle = mask; plateCtx.fillRect(0, 0, profile.frame[0], profile.frame[1]);
+      plateCtx.drawImage(this.silhouetteMaskCanvas, 0, 0);
       this.ready = true;
       this.button.disabled = false;
       this.draw();
@@ -152,7 +157,7 @@
       if (!gl) return;
       const vertex = `attribute vec2 p; void main(){gl_Position=vec4(p,0.0,1.0);}`;
       const fragment = `precision mediump float;
-        uniform vec2 u_resolution, u_center; uniform float u_radius, u_time, u_strength; uniform sampler2D u_texture;
+        uniform vec2 u_resolution, u_center; uniform float u_radius, u_time, u_strength; uniform sampler2D u_texture, u_mask;
         float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
         float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}
         void main(){
@@ -187,25 +192,40 @@
           vec3 source0=texture2D(u_texture,uv0).rgb;
           vec3 source=texture2D(u_texture,uv).rgb;
           vec3 col=mix(source0,source,0.72)+vec3(0.035,0.04,0.03)*light-vec3(0.025,0.03,0.025)*shade;
-          float a=edge*pointKeep*u_strength*(0.16+0.22*light);
+          float silhouette=texture2D(u_mask,uv0).a;
+          float a=edge*pointKeep*u_strength*(0.16+0.22*light)*silhouette;
           gl_FragColor=vec4(col,a);
         }`;
       const compile=(type,src)=>{const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s;};
       const program=gl.createProgram(); gl.attachShader(program,compile(gl.VERTEX_SHADER,vertex)); gl.attachShader(program,compile(gl.FRAGMENT_SHADER,fragment)); gl.linkProgram(program);
       const buffer=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,buffer); gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
       gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-      this.material={gl,program,buffer,p:gl.getAttribLocation(program,'p'),resolution:gl.getUniformLocation(program,'u_resolution'),center:gl.getUniformLocation(program,'u_center'),radius:gl.getUniformLocation(program,'u_radius'),time:gl.getUniformLocation(program,'u_time'),strength:gl.getUniformLocation(program,'u_strength'),texture:gl.getUniformLocation(program,'u_texture')};
+      this.material={gl,program,buffer,p:gl.getAttribLocation(program,'p'),resolution:gl.getUniformLocation(program,'u_resolution'),center:gl.getUniformLocation(program,'u_center'),radius:gl.getUniformLocation(program,'u_radius'),time:gl.getUniformLocation(program,'u_time'),strength:gl.getUniformLocation(program,'u_strength'),texture:gl.getUniformLocation(program,'u_texture'),mask:gl.getUniformLocation(program,'u_mask')};
     }
     prepareMaterialTexture() {
       if (!this.material || !this.staticComposite) return;
-      const gl=this.material.gl; this.material.textureObject=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,this.material.textureObject); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR); gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,this.staticComposite); gl.bindTexture(gl.TEXTURE_2D,null);
+      const gl=this.material.gl; this.material.textureObject=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,this.material.textureObject); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR); gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,this.staticComposite);
+      this.material.maskObject=gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,this.material.maskObject); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR); gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,this.silhouetteMaskCanvas); gl.bindTexture(gl.TEXTURE_2D,null);
     }
-    drawMaterial(layout,time) {
+    buildClearComposite() {
+      const [width, height] = profile.frame;
+      this.clearCompositeCanvas = document.createElement('canvas');
+      this.clearCompositeCanvas.width = width; this.clearCompositeCanvas.height = height;
+      const ctx = this.clearCompositeCanvas.getContext('2d');
+      ctx.drawImage(this.images['00_background_plate'], 0, 0);
+      ctx.drawImage(this.images['01_outer_film'], 0, 0);
+      ctx.globalAlpha = 0.34; ctx.drawImage(this.images['02_internal_cyan_volume'], 0, 0);
+      ctx.globalAlpha = 0.24; ctx.drawImage(this.images['06_fine_ink_wash'], 0, 0);
+      ctx.globalAlpha = 0.42; ctx.globalCompositeOperation = 'screen'; ctx.drawImage(this.images['11_curvature_highlights'], 0, 0);
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'destination-in'; ctx.drawImage(this.silhouetteMaskCanvas, 0, 0);
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    drawMaterial(layout,time,strengthValue = 0.78) {
       if (!this.material || this.reducedMotion) { if (this.material) this.material.gl.clear(this.material.gl.COLOR_BUFFER_BIT); return; }
-      const {gl,program,buffer,p,resolution,center,radius,strength,texture,textureObject} = this.material;
+      const {gl,program,buffer,p,resolution,center,radius,strength,texture,textureObject,maskObject} = this.material;
       const dpr=Math.min(window.devicePixelRatio||1,2); this.materialCanvas.width=Math.max(1,Math.round(layout.width*dpr)); this.materialCanvas.height=Math.max(1,Math.round(layout.height*dpr));
       gl.viewport(0,0,this.materialCanvas.width,this.materialCanvas.height); gl.clearColor(0,0,0,0); gl.clear(gl.COLOR_BUFFER_BIT); gl.useProgram(program); gl.bindBuffer(gl.ARRAY_BUFFER,buffer); gl.enableVertexAttribArray(p); gl.vertexAttribPointer(p,2,gl.FLOAT,false,0,0);
-      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D,textureObject); gl.uniform1i(texture,0); gl.uniform2f(resolution,this.materialCanvas.width,this.materialCanvas.height); gl.uniform2f(center,layout.cx*dpr,(layout.height-layout.cy)*dpr); gl.uniform1f(radius,layout.radius*dpr); gl.uniform1f(this.material.time,time); gl.uniform1f(strength,this.debugMaterial?2.4:0.78);
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D,textureObject); gl.uniform1i(texture,0); gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D,maskObject); gl.uniform1i(this.material.mask,1); gl.uniform2f(resolution,this.materialCanvas.width,this.materialCanvas.height); gl.uniform2f(center,layout.cx*dpr,(layout.height-layout.cy)*dpr); gl.uniform1f(radius,layout.radius*dpr); gl.uniform1f(this.material.time,time); gl.uniform1f(strength,this.debugMaterial?2.4:strengthValue);
       gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
     }
     layout() {
@@ -219,7 +239,120 @@
         radius: profile.radius * scale, hitRadius: profile.hitRadius * scale,
         frame: {width: frameWidth, height: frameHeight}};
     }
-    setState(state) { if (state !== 'still') throw new Error('This slice only supports still'); this.state = state; this.draw(); }
+    buildSilhouetteMask() {
+      const [width, height] = profile.frame;
+      this.silhouetteMaskCanvas = document.createElement('canvas');
+      this.silhouetteMaskCanvas.width = width; this.silhouetteMaskCanvas.height = height;
+      const ctx = this.silhouetteMaskCanvas.getContext('2d', {willReadFrequently: true});
+      const source = this.images[profile.silhouetteAuthority.layer];
+      if (!source) return;
+      ctx.drawImage(source, 0, 0);
+      const image = ctx.getImageData(0, 0, width, height);
+      const threshold = profile.silhouetteAuthority.threshold;
+      // The formal outer-film layer is a translucent ring, so turn its
+      // per-row alpha extents into a filled body mask. This stays derived
+      // from the atlas edge and avoids replacing it with a radial primitive.
+      for (let y = 0; y < height; y++) {
+        let left = width, right = -1, edgeAlpha = 0;
+        for (let x = 0; x < width; x++) {
+          const i = (y * width + x) * 4, alpha = image.data[i + 3];
+          if (alpha >= threshold) { left = Math.min(left, x); right = Math.max(right, x); edgeAlpha = Math.max(edgeAlpha, alpha); }
+        }
+        for (let x = 0; x < width; x++) {
+          const i = (y * width + x) * 4;
+          image.data[i] = 255; image.data[i + 1] = 255; image.data[i + 2] = 255;
+          image.data[i + 3] = right >= left && x >= left && x <= right ? (x === left || x === right ? edgeAlpha : 255) : 0;
+        }
+      }
+      ctx.putImageData(image, 0, 0);
+      this.silhouetteMaskReady = true;
+    }
+    setState(state) {
+      if (!['still', 'transitioning', 'moving'].includes(state)) throw new Error('Unsupported ProductState: ' + state);
+      if (state !== 'still') throw new Error('Activation / moving is not implemented in Slice 0');
+      this.productState = state; this.state = state; this.interactionVisualState = 'clear'; this.draw();
+    }
+    localPoint(event) {
+      const rect = this.host.getBoundingClientRect();
+      return {x: event.clientX - rect.left, y: event.clientY - rect.top};
+    }
+    pointerDown(event) {
+      if (!this.ready || this.lifecycleSuspended || this.gesture.active) return;
+      const point = this.localPoint(event);
+      if (!this.hit(point.x, point.y)) return;
+      this.gesture = {active: true, valid: true, startedInside: true, leftHitRadius: false, committed: false, pointerId: event.pointerId};
+      this.pressPoint = point;
+      this.pressAmount = 0;
+      this.formationProgress = 0;
+      this.formationStartedAt = performance.now();
+      this.formationFrom = 0;
+      this.interactionVisualState = 'press';
+      this.button.setPointerCapture?.(event.pointerId);
+      event.preventDefault();
+      this.draw();
+    }
+    pointerMove(event) {
+      if (!this.gesture.active || event.pointerId !== this.gesture.pointerId) return;
+      const point = this.localPoint(event);
+      this.pressPoint = point;
+      if (!this.hit(point.x, point.y)) {
+        this.gesture.valid = false;
+        this.gesture.leftHitRadius = true;
+        this.interactionVisualState = 'clear';
+        this.pressAmount = 0;
+      }
+      event.preventDefault();
+      this.draw();
+    }
+    pointerUp(event) {
+      if (!this.gesture.active || event.pointerId !== this.gesture.pointerId) return;
+      const point = this.localPoint(event);
+      const valid = this.gesture.valid && !this.gesture.leftHitRadius && this.hit(point.x, point.y);
+      if (valid && !this.gesture.committed) this.commitActivation(point);
+      else this.clearGesture();
+      this.button.releasePointerCapture?.(event.pointerId);
+      event.preventDefault();
+    }
+    commitActivation(point) {
+      this.gesture.committed = true;
+      this.gesture.active = false;
+      this.activationCommitted = true;
+      this.formationFrom = this.formationProgress;
+      this.formationStartedAt = performance.now();
+      this.activationCount++;
+      this.pressPoint = null;
+      this.pressAmount = 0;
+      this.formationProgress = 0;
+      this.formationFrom = 0;
+      this.interactionVisualState = 'activated';
+      const detail = {state: this.productState, point, activationCount: this.activationCount};
+      this.host.dispatchEvent(new CustomEvent('water-orb-hit', {bubbles: true, detail}));
+      this.dispatchEvent(new CustomEvent('water-orb-hit', {detail}));
+      this.onActivate(detail);
+      this.draw();
+      // The marker is observable for the current turn, then settles into the
+      // committed still-pose without inventing a new ProductState.
+      queueMicrotask(() => {
+        if (this.interactionVisualState === 'activated') {
+          this.interactionVisualState = 'clear';
+          this.draw();
+        }
+      });
+    }
+    clearGesture() {
+      this.gesture = {active: false, valid: false, startedInside: false, leftHitRadius: false, committed: false, pointerId: null};
+      this.pressPoint = null;
+      this.pressAmount = 0;
+      this.formationProgress = 0;
+      this.formationFrom = 0;
+      this.interactionVisualState = 'clear';
+      this.draw();
+    }
+    cancelGesture(event) {
+      if (!this.gesture.active) return;
+      if (event?.pointerId != null && event.pointerId !== this.gesture.pointerId) return;
+      this.clearGesture();
+    }
     shouldAnimate() {
       return this.ready && this.state === 'still' && !this.reducedMotion && !this.lifecycleSuspended;
     }
@@ -251,6 +384,7 @@
       this.lifecycleSuspended = true;
       this.idleEpoch = performance.now();
       this.suspendCount++;
+      this.cancelGesture();
       this.stopAnimationLoop();
       this.draw();
       this.dispatchEvent(new CustomEvent('lifecycle', {detail: {type: 'suspend', reason, idleTime: this.visualTime}}));
@@ -273,15 +407,23 @@
       this.idleEpoch = performance.now();
       this.idlePhase = 0;
       this.state = 'still';
+      this.productState = 'still';
+      this.interactionVisualState = 'clear';
+      this.activationCommitted = false;
+      this.activationCount = 0;
+      this.gesture = {active: false, valid: false, startedInside: false, leftHitRadius: false, committed: false, pointerId: null};
+      this.pressPoint = null;
+      this.pressAmount = 0;
       this.draw();
       this.startAnimationLoop();
       this.dispatchEvent(new CustomEvent('lifecycle', {detail: {type: 'reset', idleTime: 0}}));
     }
-    now() {
-      if (this.reducedMotion || this.state !== 'still') return 0;
+    effectiveVisualTime() {
+      if (this.reducedMotion) return this.visualTime;
       const activeSegment = this.lifecycleSuspended ? 0 : (performance.now() - this.idleEpoch) / 1000;
       return Math.max(0, this.visualTime + activeSegment);
     }
+    now() { return this.effectiveVisualTime(); }
     draw() {
       const layout = this.layout();
       if (!layout.width || !layout.height) return;
@@ -289,7 +431,7 @@
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       this.canvas.width = Math.max(1, Math.round(layout.width * dpr));
       this.canvas.height = Math.max(1, Math.round(layout.height * dpr));
-      const ctx = this.canvas.getContext('2d');
+      let ctx = this.canvas.getContext('2d');
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, layout.width, layout.height);
       ctx.fillStyle = '#edf3f5';
@@ -303,10 +445,39 @@
       this.idleTime = t;
       this.idlePhase = ((phase % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
       if (this.ready) {
+        if (this.interactionVisualState === 'press' && !this.activationCommitted) {
+          this.pressAmount = clamp((performance.now() - this.formationStartedAt) / 280, 0, 1);
+          this.formationProgress = this.pressAmount;
+        } else if (this.activationCommitted && this.formationProgress < 1) {
+          const from = this.formationFrom;
+          this.formationProgress = clamp(from + (performance.now() - this.formationStartedAt) / 180 * (1 - from), from, 1);
+        }
+        const formation = this.formationProgress;
         ctx.save();
         ctx.translate(layout.left, layout.top);
         ctx.scale(layout.scale, layout.scale);
-        ctx.drawImage(this.staticCompositeCanvas, 0, 0);
+        const clearStill = formation <= 0.001;
+        const density = clearStill ? 0.40 : formation;
+        ctx.globalAlpha = 1;
+        ctx.drawImage(this.clearCompositeCanvas || this.staticCompositeCanvas, 0, 0);
+        if (formation > 0) {
+          ctx.globalAlpha = formation;
+          ctx.drawImage(this.staticCompositeCanvas, 0, 0);
+        }
+        ctx.globalAlpha = 1;
+        const mainCtx = ctx;
+        if (!this.dynamicBodyCanvas || this.dynamicBodyCanvas.width !== this.canvas.width || this.dynamicBodyCanvas.height !== this.canvas.height) {
+          this.dynamicBodyCanvas = document.createElement('canvas');
+          this.dynamicBodyCanvas.width = this.canvas.width;
+          this.dynamicBodyCanvas.height = this.canvas.height;
+        }
+        const bodyCtx = this.dynamicBodyCanvas.getContext('2d');
+        bodyCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        bodyCtx.clearRect(0, 0, layout.width, layout.height);
+        bodyCtx.save();
+        bodyCtx.translate(layout.left, layout.top);
+        bodyCtx.scale(layout.scale, layout.scale);
+        ctx = bodyCtx;
         const sharedDx = Math.sin(phase) * 10.0;
         const sharedDy = Math.cos(phase) * 7.0;
         const sharedTurn = -Math.sin(phase * 0.92) * 0.085;
@@ -318,6 +489,7 @@
         const volumeDepth = 0.5 - 0.5 * Math.cos(shellTurn - 0.28);
         for (const name of profile.layerOrder) {
           if (!profile.dynamicLayers.has(name)) continue;
+          if (clearStill) continue;
           if (this.reducedMotion) continue;
           const image = this.renderImages[name];
           const [bx, by] = profile.layerBounds[name];
@@ -362,7 +534,7 @@
           ctx.scale(sharedBreathe * breathe * (isShell ? shellStretchX : curveScale), sharedBreathe * breathe * (isShell ? shellStretchY : boundaryScaleY));
           if (isShell) ctx.transform(1, shellShearY, shellShearX, 1, 0, 0);
           ctx.translate(-profile.center[0], -profile.center[1]);
-          ctx.globalAlpha = clamp(isBoundary ? alpha * 1.55 : alpha, 0, 1);
+          ctx.globalAlpha = clamp((isBoundary ? alpha * 1.55 : alpha) * density, 0, 1);
           ctx.globalCompositeOperation = isShell ? 'screen' : 'source-over';
           ctx.filter = isShell ? `blur(${(1.2 + (1 - dent) * 2.4).toFixed(2)}px)` : (isBoundary ? `blur(${(0.8 + (1 - dent) * 1.4).toFixed(2)}px)` : 'none');
           const movingCurve = isShell ? (this.shellCurve || image) : (isBoundary ? (this.boundaryCurve || image) : image);
@@ -412,14 +584,81 @@
             ctx.restore();
           }
         }
+        // The dynamic body result is clipped once, after all body layers have
+        // been composited. Orbit elements will use a separate pass later.
+        ctx.globalCompositeOperation = 'destination-in';
+        ctx.drawImage(this.silhouetteMaskCanvas, 0, 0);
         ctx.restore();
-        this.drawMaterial(layout, t);
+        ctx = mainCtx;
+        ctx.restore();
+        ctx.drawImage(this.dynamicBodyCanvas, 0, 0, layout.width, layout.height);
+        if (formation < 1) this.drawClearStill(ctx, layout, formation);
+        if (this.interactionVisualState === 'press' && this.pressPoint) this.drawPressOverlay(ctx, layout);
+        this.drawMaterial(layout, t, clearStill ? 0.08 : 0.78);
       }
       const left = layout.cx - layout.hitRadius, top = layout.cy - layout.hitRadius, diameter = layout.hitRadius * 2;
       Object.assign(this.button.style, {left: `${left}px`, top: `${top}px`, width: `${diameter}px`, height: `${diameter}px`, borderRadius: '50%'});
       this.button.setAttribute('aria-label', '轻触水球，开始或继续冥想');
       this.host.dataset.visualState = this.state;
       this.frames++;
+    }
+    drawPressOverlay(ctx, layout) {
+      const p = this.pressPoint;
+      if (!p) return;
+      const dx = p.x - layout.cx, dy = p.y - layout.cy;
+      const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, layout.radius * 0.34);
+      gradient.addColorStop(0, 'rgba(156,235,226,0.18)');
+      gradient.addColorStop(0.48, 'rgba(84,176,181,0.08)');
+      gradient.addColorStop(1, 'rgba(84,176,181,0)');
+      ctx.save();
+      ctx.beginPath(); ctx.arc(layout.cx, layout.cy, layout.radius, 0, Math.PI * 2); ctx.clip();
+      ctx.globalAlpha = this.pressAmount;
+      ctx.globalCompositeOperation = 'screen';
+      ctx.fillStyle = gradient;
+      ctx.fillRect(p.x - layout.radius * 0.38, p.y - layout.radius * 0.38, layout.radius * 0.76, layout.radius * 0.76);
+      ctx.globalCompositeOperation = 'multiply';
+      ctx.globalAlpha = this.pressAmount * 0.42;
+      ctx.fillStyle = `rgba(25,105,115,${(0.10 + Math.min(1, Math.hypot(dx, dy) / layout.radius) * 0.05).toFixed(3)})`;
+      ctx.beginPath(); ctx.ellipse(p.x + layout.radius * 0.035, p.y + layout.radius * 0.045, layout.radius * 0.10, layout.radius * 0.065, -0.25, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    }
+    drawClearStill(ctx, layout, formation = 0) {
+      const {cx, cy, radius} = layout;
+      const residual = 1 - formation;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.clip();
+      const volume = ctx.createRadialGradient(cx - radius * 0.08, cy - radius * 0.02, radius * 0.06, cx, cy, radius * 0.84);
+      volume.addColorStop(0, 'rgba(102,190,194,0.22)');
+      volume.addColorStop(0.52, 'rgba(118,202,204,0.13)');
+      volume.addColorStop(1, 'rgba(118,202,204,0)');
+      ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = volume;
+      ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
+      ctx.globalCompositeOperation = 'source-over';
+      // Clear the two diagonal still-pose cores with the same pale water tint,
+      // then place a quieter, symmetric pair across the middle of the sphere.
+      const wash = (x, y, r, color) => {
+        const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, color); g.addColorStop(0.55, 'rgba(142,211,211,0.34)'); g.addColorStop(1, 'rgba(142,211,211,0)');
+        ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2);
+        ctx.globalCompositeOperation = 'source-over';
+      };
+      const coolOld = {x: cx - radius * 0.40, y: cy - radius * 0.45};
+      const warmOld = {x: cx + radius * 0.50, y: cy + radius * 0.45};
+      wash(coolOld.x, coolOld.y, radius * 0.24, `rgba(108,184,190,${(0.82 * residual).toFixed(3)})`);
+      wash(warmOld.x, warmOld.y, radius * 0.24, `rgba(108,184,190,${(0.82 * residual).toFixed(3)})`);
+      const left = {x: cx + (-radius * 0.20 + (profile.gravity.points[0].position[0] * radius + radius * 0.20) * formation), y: cy - profile.gravity.points[0].position[1] * radius * formation};
+      const right = {x: cx + (radius * 0.20 + (profile.gravity.points[1].position[0] * radius - radius * 0.20) * formation), y: cy - profile.gravity.points[1].position[1] * radius * formation};
+      const point = (p, rgb) => {
+        const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 0.105);
+        glow.addColorStop(0, `rgba(${rgb},0.62)`); glow.addColorStop(0.28, `rgba(${rgb},0.28)`); glow.addColorStop(1, `rgba(${rgb},0)`);
+        ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = residual; ctx.fillStyle = glow;
+        ctx.fillRect(p.x - radius * 0.12, p.y - radius * 0.12, radius * 0.24, radius * 0.24);
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.beginPath(); ctx.arc(p.x, p.y, radius * 0.030, 0, Math.PI * 2); ctx.fillStyle = `rgba(${rgb},0.88)`; ctx.fill();
+      };
+      point(left, '91,184,195');
+      point(right, '240,181,136');
+      ctx.restore();
     }
     drawIdleMaterial(ctx, phase) {
       const [cx, cy] = profile.center;
@@ -452,16 +691,47 @@
       ctx.restore();
     }
     hit(x, y) { const l = this.geometry; return !!l && Math.hypot(x - l.cx, y - l.cy) <= l.hitRadius; }
+    bodyMaskDiagnostics() {
+      if (!this.dynamicBodyCanvas || !this.silhouetteMaskCanvas || !this.geometry) return {ready: false, outsidePixelCount: null, maxOutsideAlpha: null};
+      const {width, height, left, top, scale} = this.geometry;
+      const mask = document.createElement('canvas'); mask.width = this.dynamicBodyCanvas.width; mask.height = this.dynamicBodyCanvas.height;
+      const maskCtx = mask.getContext('2d'); const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      maskCtx.setTransform(dpr, 0, 0, dpr, 0, 0); maskCtx.translate(left, top); maskCtx.scale(scale, scale); maskCtx.drawImage(this.silhouetteMaskCanvas, 0, 0);
+      const bodyData = this.dynamicBodyCanvas.getContext('2d').getImageData(0, 0, this.dynamicBodyCanvas.width, this.dynamicBodyCanvas.height).data;
+      const maskData = maskCtx.getImageData(0, 0, mask.width, mask.height).data;
+      let outsidePixelCount = 0, maxOutsideAlpha = 0;
+      for (let i = 3; i < bodyData.length; i += 4) {
+        if (bodyData[i] > 0 && maskData[i] === 0) { outsidePixelCount++; maxOutsideAlpha = Math.max(maxOutsideAlpha, bodyData[i]); }
+      }
+      return {ready: true, outsidePixelCount, maxOutsideAlpha, source: profile.silhouetteAuthority.layer};
+    }
     inspect() {
       const l = this.geometry || this.layout();
       const effectiveVisualTime = this.now();
-      return {renderer: profile.renderer, version: profile.version, state: this.state, ready: this.ready,
-        idleAnimation: this.state === 'still' && !this.reducedMotion, idleTime: effectiveVisualTime, visualTime: effectiveVisualTime, idlePhase: this.idlePhase,
+      return {renderer: profile.renderer, version: profile.version, state: this.state,
+        productState: this.productState, ProductState: this.productState,
+        interactionVisualState: this.interactionVisualState, InteractionVisualState: this.interactionVisualState,
+        ready: this.ready, VisualReady: this.ready,
+        idleAnimation: this.state === 'still' && !this.reducedMotion, idleTime: effectiveVisualTime, visualTime: effectiveVisualTime,
+        effectiveVisualTime, transitionProgress: null, movingPhase: null, idlePhase: this.idlePhase,
         lifecycle: {suspended: this.lifecycleSuspended, animationLoopRunning: this.animationLoopRunning,
           animationLoopStarts: this.animationLoopStarts, suspendCount: this.suspendCount, resumeCount: this.resumeCount},
         reducedMotion: this.reducedMotion, frame: {width: profile.frame[0], height: profile.frame[1]},
-        center: {x: l.cx, y: l.cy}, radius: l.radius,
+        center: {x: l.cx, y: l.cy}, radius: l.radius, hitRadius: l.hitRadius,
         hitRegion: {type: 'circle', x: l.cx, y: l.cy, radius: l.hitRadius},
+        silhouette: {authority: profile.silhouetteAuthority, maskReady: !!this.silhouetteMaskReady, bodyDomain: profile.bodyDomain, orbitDomain: profile.orbitDomain},
+        silhouetteMaskReady: !!this.silhouetteMaskReady,
+        silhouetteMaskSource: profile.silhouetteAuthority.layer,
+        activationCommitted: this.activationCommitted,
+        activationCount: this.activationCount,
+        gestureActive: this.gesture.active,
+        gestureValid: this.gesture.valid,
+        gestureStartedInside: this.gesture.startedInside,
+        gestureLeftHitRadius: this.gesture.leftHitRadius,
+        bodyDomainReady: !!this.silhouetteMaskReady && !!this.dynamicBodyCanvas,
+        bodyDomainMaskDiagnostics: this.bodyMaskDiagnostics(),
+        orbitDomainReady: false,
+        orbitDomain: {ready: false, status: 'notImplemented'},
         layerNames: [...profile.layerOrder], gravity: profile.gravity,
         material: {type:'webgl-flow-field', ready:!!this.material, debug:this.debugMaterial}, frames: this.frames};
     }
