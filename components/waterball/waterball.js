@@ -212,11 +212,17 @@
       this.clearCompositeCanvas = document.createElement('canvas');
       this.clearCompositeCanvas.width = width; this.clearCompositeCanvas.height = height;
       const ctx = this.clearCompositeCanvas.getContext('2d');
-      ctx.drawImage(this.images['00_background_plate'], 0, 0);
-      ctx.drawImage(this.images['01_outer_film'], 0, 0);
-      ctx.globalAlpha = 0.34; ctx.drawImage(this.images['02_internal_cyan_volume'], 0, 0);
-      ctx.globalAlpha = 0.24; ctx.drawImage(this.images['06_fine_ink_wash'], 0, 0);
-      ctx.globalAlpha = 0.42; ctx.globalCompositeOperation = 'screen'; ctx.drawImage(this.images['11_curvature_highlights'], 0, 0);
+      ctx.globalAlpha = 0.94; ctx.drawImage(this.images['00_background_plate'], 0, 0);
+      // Stable material identity is shared with K2: keep the membrane and
+      // curvature language strong, while only the pose-dependent interior is
+      // reduced and rebalanced for clear-still.
+      ctx.globalAlpha = 0.88; ctx.drawImage(this.images['01_outer_film'], 0, 0);
+      ctx.globalAlpha = 0.94; ctx.drawImage(this.images['02_internal_cyan_volume'], 0, 0);
+      ctx.globalAlpha = 0.36; ctx.drawImage(this.images['03_boundary_mask'], 0, 0);
+      ctx.globalAlpha = 0.22; ctx.drawImage(this.images['04_flow_layer'], 0, 0);
+      ctx.globalAlpha = 0.22; ctx.drawImage(this.images['05_flow_layer'], 0, 0);
+      ctx.globalAlpha = 0.62; ctx.drawImage(this.images['06_fine_ink_wash'], 0, 0);
+      ctx.globalAlpha = 0.62; ctx.globalCompositeOperation = 'screen'; ctx.drawImage(this.images['11_curvature_highlights'], 0, 0);
       ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'destination-in'; ctx.drawImage(this.silhouetteMaskCanvas, 0, 0);
       ctx.globalCompositeOperation = 'source-over';
     }
@@ -446,7 +452,7 @@
       this.idlePhase = ((phase % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
       if (this.ready) {
         if (this.interactionVisualState === 'press' && !this.activationCommitted) {
-          this.pressAmount = this.reducedMotion ? 1 : clamp((performance.now() - this.formationStartedAt) / 280, 0, 1);
+          this.pressAmount = this.reducedMotion ? 1 : clamp((performance.now() - this.formationStartedAt) / 520, 0, 1);
           this.formationProgress = this.pressAmount;
         } else if (this.activationCommitted && this.formationProgress < 1) {
           if (this.reducedMotion) this.formationProgress = 1;
@@ -460,7 +466,7 @@
         ctx.translate(layout.left, layout.top);
         ctx.scale(layout.scale, layout.scale);
         const clearStill = formation <= 0.001;
-        const density = clearStill ? 0.40 : formation;
+        const density = clearStill ? 0.40 : clamp(formation * 1.15, 0, 1);
         ctx.globalAlpha = 1;
         ctx.drawImage(this.clearCompositeCanvas || this.staticCompositeCanvas, 0, 0);
         if (formation > 0) {
@@ -631,8 +637,8 @@
       ctx.save();
       ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.clip();
       const volume = ctx.createRadialGradient(cx - radius * 0.08, cy - radius * 0.02, radius * 0.06, cx, cy, radius * 0.84);
-      volume.addColorStop(0, 'rgba(102,190,194,0.22)');
-      volume.addColorStop(0.52, 'rgba(118,202,204,0.13)');
+      volume.addColorStop(0, 'rgba(86,170,177,0.30)');
+      volume.addColorStop(0.52, 'rgba(106,190,194,0.19)');
       volume.addColorStop(1, 'rgba(118,202,204,0)');
       ctx.globalCompositeOperation = 'multiply'; ctx.fillStyle = volume;
       ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
@@ -653,12 +659,20 @@
       const left = {x: cx + (clearCool[0] + (profile.gravity.points[0].position[0] - clearCool[0]) * formation) * radius, y: cy - (clearCool[1] + (profile.gravity.points[0].position[1] - clearCool[1]) * formation) * radius};
       const right = {x: cx + (clearWarm[0] + (profile.gravity.points[1].position[0] - clearWarm[0]) * formation) * radius, y: cy - (clearWarm[1] + (profile.gravity.points[1].position[1] - clearWarm[1]) * formation) * radius};
       const point = (p, rgb) => {
-        const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 0.105);
-        glow.addColorStop(0, `rgba(${rgb},0.62)`); glow.addColorStop(0.28, `rgba(${rgb},0.28)`); glow.addColorStop(1, `rgba(${rgb},0)`);
-        ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = residual; ctx.fillStyle = glow;
-        ctx.fillRect(p.x - radius * 0.12, p.y - radius * 0.12, radius * 0.24, radius * 0.24);
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.beginPath(); ctx.arc(p.x, p.y, radius * 0.030, 0, Math.PI * 2); ctx.fillStyle = `rgba(${rgb},0.88)`; ctx.fill();
+        const halo = ctx.createRadialGradient(p.x, p.y, radius * 0.015, p.x, p.y, radius * 0.20);
+        halo.addColorStop(0, `rgba(${rgb},0.22)`); halo.addColorStop(0.38, `rgba(${rgb},0.12)`); halo.addColorStop(1, `rgba(${rgb},0)`);
+        ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = residual; ctx.fillStyle = halo;
+        ctx.fillRect(p.x - radius * 0.18, p.y - radius * 0.18, radius * 0.36, radius * 0.36);
+        const core = ctx.createRadialGradient(p.x - radius * 0.010, p.y - radius * 0.012, radius * 0.004, p.x, p.y, radius * 0.045);
+        core.addColorStop(0, 'rgba(255,255,255,0.40)');
+        core.addColorStop(0.22, `rgba(${rgb},0.56)`);
+        core.addColorStop(0.62, `rgba(${rgb},0.30)`);
+        core.addColorStop(1, `rgba(${rgb},0)`);
+        ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = core;
+        ctx.beginPath(); ctx.arc(p.x, p.y, radius * 0.045, 0, Math.PI * 2); ctx.fill();
+        ctx.globalAlpha = residual * 0.10;
+        ctx.strokeStyle = 'rgba(235,255,252,0.42)'; ctx.lineWidth = Math.max(1, radius * 0.006);
+        ctx.beginPath(); ctx.arc(p.x, p.y, radius * 0.060, 0, Math.PI * 2); ctx.stroke();
       };
       point(left, '91,184,195');
       point(right, '240,181,136');
