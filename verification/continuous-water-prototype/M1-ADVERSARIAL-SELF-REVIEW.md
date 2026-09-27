@@ -1,118 +1,110 @@
 # MindIsle WaterBall M1 Evidence Package
-## Adversarial Self-Review and Evidence Correction Report
+## Corrected Final Art Authority and Clean Branch Consistency Review
 
-审计范围：`verification/continuous-water-prototype/` 的 M1 reference、authority、carrier semantics 和 Review 页面。本文不审查 Web、Unity、Blender 或 production 实现，也不把它们作为 M1 结论依据。
+审计范围：M1 current reference authority、provenance、Review 页面、roadmap identity、carrier semantics 和历史错误映射隔离。本文不审查 Web、Unity、Blender 或 production 实现，也不重新制作 Neutral Material。
 
-## 1. 审计结论
+## 1. Correction result
 
-当前唯一 machine-readable M1 authority 是 [`m1-current-evidence.json`](m1-current-evidence.json)。reference package 已复制到 [`references/`](references/)，并由 [`references/provenance.json`](references/provenance.json) 记录原始路径、逐文件 SHA-256、视觉身份和使用政策。
+人工裁决已将 M1 canonical reference 从临时 Candidate C 标签切换到 Final Art IDs。当前唯一 machine-readable M1 authority 是 [`m1-current-evidence.json`](m1-current-evidence.json)，reference provenance 是 [`references/provenance.json`](references/provenance.json)。
 
 ```text
-REFERENCE FILES EXIST = PASS
+CORRECT FINAL_ART_025 = PASS
+CORRECT FINAL_ART_050 = PASS
+CORRECT FINAL_ART_075 = PASS
+CORRECT FROZEN_K2 = PASS
 REFERENCE HASH MATCH = PASS
-REFERENCE VISUAL IDENTITY = PASS
-REPORT LINKS = PASS
-REVIEW BROKEN IMAGES = 0
-CARRIER NAMING = PASS
-CARRIER SOURCE SEMANTICS = PASS
-CURRENT M1 AUTHORITY = UNIQUE
-HISTORICAL EVIDENCE ISOLATED = PASS
+CURRENT AUTHORITY USES NO WRONG CANDIDATE_C = PASS
 ```
 
+## 2. Canonical reference identity
+
+| ID | tracked path | role | authority / use policy |
+|---|---|---|---|
+| `FINAL_ART_025` | [`references/final-art-025.png`](references/final-art-025.png) | PRIMARY_MATERIAL_RICHNESS_REFERENCE | `VISUAL_MATERIAL_REFERENCE_ONLY` |
+| `FINAL_ART_050` | [`references/final-art-050.png`](references/final-art-050.png) | DEPTH_THICKNESS_CLOUDY_STRUCTURE_REFERENCE | `VISUAL_MATERIAL_REFERENCE_ONLY`；不是 neutral pose reference |
+| `FINAL_ART_075` | [`references/final-art-075.png`](references/final-art-075.png) | MATURE_MATERIAL_UPPER_BOUND | `POSE_CONTAMINATION = HIGH`；禁止复制 cavity/swirl/directional density/K2 pose |
+| `FROZEN_K2_FINAL_ART` | [`references/frozen-k2-final-art.png`](references/frozen-k2-final-art.png) | FINAL_OPTICAL_ENDPOINT_AUTHORITY | `FROZEN_ENDPOINT`；`ENDPOINT_ONLY = true`；`DIRECT_SHADER_SOURCE = false` |
+| `NEUTRAL_RESTRAINT_D_K0` | [`references/neutral-restraint-d-k0.png`](references/neutral-restraint-d-k0.png) | NEUTRAL_RESTRAINT_REFERENCE | 只负责安静、平衡、无明显 cavity/directional pose |
+| `FINAL_ART_FIVE_FRAME` | [`references/final-art-five-frame.png`](references/final-art-five-frame.png) | SEQUENCE_CONTEXT_REFERENCE | context only；不是 shader source |
+| `FINAL_ART_CLOSE_STRIP` | [`references/final-art-close-strip.png`](references/final-art-close-strip.png) | CLOSE_SEQUENCE_CONTEXT_REFERENCE | context only；不是 shader source |
+
+六张新 Final Art 文件均来自原 dirty worktree 的唯一精确文件名。0.25/0.50/0.75/K2 close 在原 dirty worktree 的 `verification/m0.5-last-good-review/index.html` 中被明确引用；five-frame/close-strip 是原 dirty worktree 中唯一同名 root evidence。该历史页面仅用于 provenance 判断，不是 clean branch 当前输入。原图已实际打开确认视觉身份，复制前后逐文件 SHA-256 一致。
+
+## 3. Wrong mapping isolation
+
+此前的 Candidate C / old Frozen K2 映射已从 current `references/` 移到 [`historical/wrong-reference-mapping/`](historical/wrong-reference-mapping/)。该目录的 README 明确标记：
+
 ```text
-M1 REVIEW PACKAGE = READY_FOR_HUMAN_REVIEW
-MATERIAL FAMILY = AWAITING HUMAN REVIEW
+NON_AUTHORITATIVE = true
+WRONG_M1_REFERENCE_MAPPING = true
+```
+
+当前 authority 不再引用 `formation-0.25-close.png`、`formation-0.50-close.png`、`formation-0.75-close.png` 或 `k2-reference-close.png`。这些文件只保留历史追溯价值，不能被解释为 M1 material authority。
+
+## 4. Current Neutral Material state
+
+现有 `m1-neutral-hero.png` 与 `m1-neutral-source.png` 没有删除或修改，当前状态明确为：
+
+```text
+CURRENT_NEUTRAL_MATERIAL = EXISTING_EXPERIMENTAL_OUTPUT
+MATERIAL FAMILY = AWAITING HUMAN REVIEW AGAINST CORRECTED FINAL-ART REFERENCES
 NEUTRAL POSE = AWAITING HUMAN REVIEW
 READY_FOR_M2 = NO
 ```
 
-## 2. 当前 M1 authority 入口
+本轮只修正 visual authority、provenance、review package 和 roadmap identity，不 retune Neutral Material，不进入 M2。
 
-[`m1-current-evidence.json`](m1-current-evidence.json) 只描述 M1 neutral material study：
+## 5. Carrier semantics
 
-- Candidate C 0.25 是 PRIMARY MATERIAL RICHNESS REFERENCE；
-- Candidate C 0.50 是 DEPTH / THICKNESS / CLOUDY STRUCTURE REFERENCE；
-- Candidate C 0.75 是 MATURE MATERIAL UPPER-BOUND，且 `POSE CONTAMINATION = HIGH`；
-- Candidate D K0 是 NEUTRAL / RESTRAINT REFERENCE；
-- Frozen K2 是 FINAL OPTICAL / MATERIAL FAMILY ENDPOINT AUTHORITY，`ENDPOINT-ONLY`；
-- 当前 Hero/source 仍是 verification-only，不是 production asset authority；
-- `TECHNICAL STRUCTURE = PASS`，两个视觉 gate 仍等待人工裁决，`readyForM2 = false`。
-
-该文件禁止声明 M3 spatial transport、M4 core integration、formation/deformation、transitioning、moving 或 production migration 已通过。
-
-## 3. Reference provenance 审计
-
-| Reference | tracked clean path | 最终身份 |
-|---|---|---|
-| Candidate C 0.00 | [`references/candidate-c-0.00.png`](references/candidate-c-0.00.png) | HISTORICAL SEQUENCE REFERENCE |
-| Candidate C 0.25 | [`references/candidate-c-0.25.png`](references/candidate-c-0.25.png) | PRIMARY MATERIAL RICHNESS REFERENCE |
-| Candidate C 0.50 | [`references/candidate-c-0.50.png`](references/candidate-c-0.50.png) | DEPTH / THICKNESS / CLOUDY STRUCTURE REFERENCE |
-| Candidate C 0.75 | [`references/candidate-c-0.75.png`](references/candidate-c-0.75.png) | MATURE MATERIAL UPPER-BOUND；POSE CONTAMINATION = HIGH |
-| Candidate D K0 | [`references/candidate-d-k0.png`](references/candidate-d-k0.png) | NEUTRAL / RESTRAINT REFERENCE |
-| Frozen K2 | [`references/frozen-k2.png`](references/frozen-k2.png) | FINAL OPTICAL / MATERIAL FAMILY ENDPOINT；ENDPOINT-ONLY |
-
-六张图片均为 byte-preserving copy，未 resize、crop、recompress、recolor、sharpen、blur、去 UI 或改 alpha。逐文件 hash 与原 dirty worktree 相同，详见 [`references/provenance.json`](references/provenance.json)。
-
-视觉 identity check 已实际打开原图并通过：C0.25 具有白青低饱和、丰富 cloudy volume 和水体厚度；C0.50 具有更明确的 depth/thickness/cloudy structure；C0.75 具有成熟 optical richness，但带 pose contamination；D K0 安静平衡且无明显 cavity；Frozen K2 是真正 final optical endpoint。C0.00 只保留历史连续序列身份。
-
-所有 reference 都是 `VISUAL_REFERENCE_ONLY`。它们不得成为 canonical shader texture、carrier raw input 或 neutral material source texture。C0.75 的 cavity、swirl、directional density 与 Frozen K2 的 final pose 禁止直接采样或复制。
-
-## 4. Carrier A/B/C 与 source semantics
-
-| ID | 名称 | derivedFrom | directSample | neutralizationRequired |
+| Carrier | 定义 | derivedFrom | directSample | neutralizationRequired |
 |---|---|---|---:|---:|
-| Carrier A | neutral volume | `02_internal_cyan_volume` | false | true |
-| Carrier B | sparse water detail | `04_flow_layer`, `05_flow_layer`, `06_fine_ink_wash` | false | true |
-| Carrier C | thickness / optical | `11_curvature_highlights` | false | true |
+| A | neutral volume | `02_internal_cyan_volume` | false | true |
+| B | sparse water detail | `04_flow_layer`, `05_flow_layer`, `06_fine_ink_wash` | false | true |
+| C | thickness / optical | `11_curvature_highlights` | false | true |
 
-这三类 carrier 是 neutralized / derived material sources，不是 raw pose-contaminated K2 layer。`sources` 字段已从当前 M1 authority 中移除，避免把历史 layer 误读成可直接采样的 source。[`material-source-classification.json`](material-source-classification.json) 与 [`m1-current-evidence.json`](m1-current-evidence.json) 对 02、04、05、06、11 均明确 `directSample = false`、`neutralizationRequired = true`。
+Final Art / K2 reference 不会成为 carrier raw source。`material-source-classification.json` 与 `m1-current-evidence.json` 保持上述语义。
 
-## 5. Historical evidence 隔离
+## 6. Roadmap and document audit
 
-[`authority-audit.json`](authority-audit.json) 与 [`evidence.json`](evidence.json) 保留历史价值，但都明确标记为 `HISTORICAL / NON-AUTHORITATIVE FOR M1`，`currentM1Authority = false`，并指向 `m1-current-evidence.json`。它们不能被解释为当前 M1 material family PASS，也不能替代当前 reference package。
+- `docs/tasks/waterball-continuous-roadmap.md`：已做一处最小 reference identity clarification；M1 仍 ACTIVE，M2 仍 BLOCKED，Acceptance Gate 和 frozen constraints 未改。
+- `AGENTS.md`：NO_CHANGE。
+- `docs/analysis/CURRENT_RUNTIME_FACTS.md`：NO_CHANGE；视觉 reference 修正不改变 runtime facts。
+- `docs/analysis/WATERBALL_M0_AUTHORITY_FREEZE.md`：NO_CHANGE；implementation authority 不涉及本次 reference identity。
+- `REPORT.md`、`m1-current-evidence.json`、`index.html`：已统一使用 Final Art canonical IDs。
 
-## 6. Review 页面复核
+历史 M0.5 review 可以继续出现 Candidate C 作为历史恢复标签，但不得作为 current M1 authority；current package 已无旧 Candidate C image path。
 
-Review 页面：[`index.html`](index.html)。默认 reference review 展示七项：
+## 7. Review page evidence
 
-1. Candidate C 0.00；
-2. Candidate C 0.25；
-3. Candidate C 0.50；
-4. Candidate C 0.75（明确 pose contamination）；
-5. Candidate D K0；
-6. Frozen K2（明确 endpoint-only）；
-7. New Neutral Material（verification-only）。
+Review 页面：[`index.html`](index.html)。默认分组为：
 
-控件可查看 New Neutral hero、Neutral source、Carrier A、Carrier B、Carrier C。页面所有 reference 图片均从 `references/` 加载，并提供 provenance 链接；历史 M3/M4 evidence 不占据 M1 主 Review。
+1. Material Authority：Final Art 0.25、0.50、0.75、Frozen K2 Final Art；
+2. Neutral Restraint：Neutral Restraint D K0；
+3. Current Experiment：New Neutral Material；
+4. Context：Final Art Five Frame、Final Art Close Strip。
 
-实际加载矩阵：`images checked = 8`、`broken images = 0`、`captions = 7`；8 张图片包含 7 张 reference review 图片和 stage 中重复显示的一张 M1 hero。
+实际打开 clean branch 页面后确认：
 
-页面状态：
+- `broken images = 0`；
+- 0.25/0.50/0.75/K2 为本次人工确认的 Final Art 文件；
+- 页面不再显示旧 formation 组作为 current reference；
+- `FINAL_ART_075` caption 明确 `POSE CONTAMINATION = HIGH`；
+- Frozen K2 caption 明确 `ENDPOINT ONLY`；
+- New Neutral Material 像素未被修改。
 
-```text
-M1 VISUAL = AWAITING HUMAN REVIEW
-TECHNICAL STRUCTURE = PASS
-READY_FOR_M2 = NO
-```
-
-## 7. Authority docs
-
-`docs/analysis/CURRENT_RUNTIME_FACTS.md` 与 `docs/analysis/WATERBALL_M0_AUTHORITY_FREEZE.md` 已从原 dirty worktree 纳入 clean branch，保留同一 authority 版本和内容；仅清理 3 个 Markdown 行尾空格以通过 `git diff --check`。`CURRENT_RUNTIME_FACTS` 保留其事实源快照 `037f300`；`037f300..cec2cd6` 未改动 production WaterBall 代码，因此与本基线和 roadmap 兼容。
-
-## 8. 未修改内容
-
-本任务没有修改 Neutral Material 像素、carrier 像素、shader、production renderer、production assets、frozen still manifest、formation、deformation、core implementation、timing 或 roadmap milestone 状态。
-
-## 9. Final gate
+## 8. Final consistency gate
 
 ```text
-CLEAN BRANCH = PASS
-REFERENCE VISUAL IDENTITY = PASS
-REFERENCE PACKAGE SELF-CONTAINED = PASS
+FINAL ART REFERENCE IDENTITY = PASS
 REFERENCE PROVENANCE = PASS
-CARRIER SOURCE SEMANTICS = PASS
-STATUS CONSISTENCY = PASS
-MILESTONE EVIDENCE ISOLATION = PASS
+CURRENT M1 AUTHORITY = CONSISTENT
+WRONG REFERENCE MAPPING = REMOVED
+REPORT / JSON / HTML = CONSISTENT
+ROADMAP REFERENCE IDENTITY = CONSISTENT
+CARRIER SEMANTICS = PASS
+HISTORICAL WRONG MAPPING = NON_AUTHORITATIVE
+BROKEN IMAGES = 0
+git diff --check = PASS
 
 M1 REVIEW PACKAGE = READY_FOR_HUMAN_REVIEW
 MATERIAL FAMILY = AWAITING HUMAN REVIEW
@@ -120,4 +112,4 @@ NEUTRAL POSE = AWAITING HUMAN REVIEW
 READY_FOR_M2 = NO
 ```
 
-本报告不替代人工 Material Family 或 Neutral Pose 裁决，也不授权进入 M2/M3/M4。
+本报告不替代人工 Material Family 或 Neutral Pose 裁决，也不授权进入 M2。

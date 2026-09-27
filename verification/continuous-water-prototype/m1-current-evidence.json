@@ -4,51 +4,63 @@
   "milestoneName": "Neutral Water Material",
   "scope": "neutral material study only",
   "referencePackage": "references/provenance.json",
-  "historicalSequenceReference": {
-    "id": "C000",
-    "label": "Candidate C 0.00",
-    "path": "references/candidate-c-0.00.png",
-    "authority": "historical sequence reference; not primary material authority"
-  },
   "primaryReference": {
-    "id": "C025",
-    "label": "Candidate C 0.25",
-    "path": "references/candidate-c-0.25.png",
+    "id": "FINAL_ART_025",
+    "label": "Final Art 0.25",
+    "path": "references/final-art-025.png",
     "role": "PRIMARY_MATERIAL_RICHNESS_REFERENCE",
-    "authority": "primary material richness reference; visual reference only"
+    "authority": "primary material richness reference; visual material reference only"
   },
   "depthReference": {
-    "id": "C050",
-    "label": "Candidate C 0.50",
-    "path": "references/candidate-c-0.50.png",
+    "id": "FINAL_ART_050",
+    "label": "Final Art 0.50",
+    "path": "references/final-art-050.png",
     "role": "DEPTH_THICKNESS_CLOUDY_STRUCTURE_REFERENCE",
-    "authority": "depth/thickness/cloudy structure vocabulary; no pose copy"
+    "authority": "depth/thickness/cloudy organization reference; not neutral pose authority"
   },
   "upperBoundReference": {
-    "id": "C075",
-    "label": "Candidate C 0.75",
-    "path": "references/candidate-c-0.75.png",
+    "id": "FINAL_ART_075",
+    "label": "Final Art 0.75",
+    "path": "references/final-art-075.png",
     "role": "MATURE_MATERIAL_UPPER_BOUND",
     "poseContamination": "HIGH",
-    "authority": "material and optical/detail upper bound only; no cavity, swirl, or directional pose copy"
-  },
-  "restraintReference": {
-    "id": "D_K0",
-    "label": "Candidate D · K0",
-    "path": "references/candidate-d-k0.png",
-    "role": "NEUTRAL_RESTRAINT_REFERENCE",
-    "authority": "neutral restraint reference; not a material richness authority"
+    "authority": "maturity and optical/detail upper bound only; no cavity, swirl, directional density, or K2 pose copy"
   },
   "endpointReference": {
-    "id": "FROZEN_K2",
-    "label": "Frozen K2",
-    "path": "references/frozen-k2.png",
+    "id": "FROZEN_K2_FINAL_ART",
+    "label": "Frozen K2 Final Art",
+    "path": "references/frozen-k2-final-art.png",
     "role": "FINAL_OPTICAL_ENDPOINT_AUTHORITY",
-    "authority": "endpoint reference only; no shader sampling and no claim that M1 or K2 is passed"
+    "authority": "FROZEN_ENDPOINT; endpoint only; direct shader source is false"
+  },
+  "sequenceContextReferences": [
+    {
+      "id": "FINAL_ART_FIVE_FRAME",
+      "label": "Final Art Five Frame",
+      "path": "references/final-art-five-frame.png",
+      "role": "SEQUENCE_CONTEXT_REFERENCE",
+      "authority": "visual lineage context only; not shader source"
+    },
+    {
+      "id": "FINAL_ART_CLOSE_STRIP",
+      "label": "Final Art Close Strip",
+      "path": "references/final-art-close-strip.png",
+      "role": "CLOSE_SEQUENCE_CONTEXT_REFERENCE",
+      "authority": "close material continuity context only; not shader source"
+    }
+  ],
+  "restraintReference": {
+    "id": "NEUTRAL_RESTRAINT_D_K0",
+    "label": "Neutral Restraint D K0",
+    "path": "references/neutral-restraint-d-k0.png",
+    "role": "NEUTRAL_RESTRAINT_REFERENCE",
+    "authority": "neutral restraint only; not material richness authority"
   },
   "currentNeutralMaterial": {
     "hero": "m1-neutral-hero.png",
     "source": "m1-neutral-source.png",
+    "status": "EXISTING_EXPERIMENTAL_OUTPUT",
+    "reviewBasis": "CORRECTED_FINAL_ART_REFERENCES",
     "verificationOnly": true,
     "productionAssetAuthority": false
   },
@@ -77,6 +89,7 @@
   },
   "referenceUsePolicy": {
     "allReferencesAreVisualOnly": true,
+    "finalArtReferencesMayBeDirectShaderSource": false,
     "rawPoseContaminatedLayersMayBeDirectSampled": false,
     "shaderSamplingAllowed": false,
     "carrierRawInputAllowed": false
@@ -92,7 +105,7 @@
     "productionAssetChanged": false
   },
   "humanGates": {
-    "MATERIAL_FAMILY": "AWAITING_HUMAN_REVIEW",
+    "MATERIAL_FAMILY": "AWAITING_HUMAN_REVIEW_AGAINST_CORRECTED_FINAL_ART_REFERENCES",
     "NEUTRAL_POSE": "AWAITING_HUMAN_REVIEW"
   },
   "readyForM2": false,

@@ -39,7 +39,7 @@ Current active milestone: **M1 — Neutral Water Material**
 - **Status:** ACTIVE
 - **Goal:** 建立 pose-neutral、静止时就属于 MindIsle 水体材质家族的 internal material。
 - **Frozen:** formal silhouette；center / radius / hitRadius；Frozen K2 endpoint；07–10 cold/warm optical identity；ProductState / interaction semantics；lifecycle / single-loop principles。
-- **Allowed:** `verification/` 或明确 `experimental/` 范围内的新 neutral material source、neutral volume、thickness / optical source、sparse water detail、material study、screenshots、diagnostics。Primary material reference = Candidate C；K0 restraint reference = Candidate D；final endpoint authority = Frozen K2。
+- **Allowed:** `verification/` 或明确 `experimental/` 范围内的新 neutral material source、neutral volume、thickness / optical source、sparse water detail、material study、screenshots、diagnostics。Primary material reference = Final Art 0.25 verified reference；depth/thickness reference = Final Art 0.50；material maturity upper bound = Final Art 0.75；neutral restraint = Candidate D K0；final endpoint authority = Frozen K2 Final Art。
 - **Forbidden:** 修改 production renderer；修改 frozen still v1 manifest；formation / deformation；core migration；timing；transitioning / moving；production migration。
 - **Acceptance:** Human Gate A — Material family PASS；Human Gate B — Neutral pose PASS。两个 gate 都通过后，`M1 = CLOSED/FROZEN`，`READY_FOR_M2 = YES`。
 - **Next:** 仅推进 Neutral Material 实验与两个人工 gate；不得提前进入 M2。
