@@ -1,58 +1,68 @@
-# M1 — Neutral Water Material
+# M1 — Neutral Water Material · Representation Repair Loop
 
-## 0. 参考与本轮边界
+## 1. 最初 root cause
 
-本轮使用已锁定的 self-contained Final Art package：
+当前 Neutral 的 formal silhouette 与中性 pose 没有问题。材质 family blocker 来自 representation：旧 hero 主要由手工软 blob 和低强度叠加构成，缺少来自正式 source layers 的可读 cloudy mass、厚度场和 authored-like sparse structure。因此它太平、太薄、太柔，内部细节像 stain。
 
-- `FINAL_ART_025`：主要材质丰富度参考；
-- `FINAL_ART_050`：深度、厚度和 cloudy structure 参考；
-- `FINAL_ART_075`：成熟度上限，只看 optical richness，不继承 cavity、swirl、directional density 或 K2 pose；
-- `FROZEN_K2_FINAL_ART`：最终 optical endpoint authority，只用于判断是否属于同一种水；
-- `NEUTRAL_RESTRAINT_D_K0`：安静、平衡和无 pose contamination 的约束。
+## 2. Representation correction
 
-本轮只修改 `verification/continuous-water-prototype/` 中的 M1 experimental material 与 review artifacts。Neutral Pose、formal silhouette、outer membrane、core、formation、deformation、timing、ProductState、production renderer、shader production path 和 frozen v1 assets 均未修改。
+本轮没有继续做第三轮参数 polish，而是重构了 M1 experimental material source：
 
-## 1. 主要视觉 root cause
+- 从 `02_internal_cyan_volume` 提炼低频 cloudy volume，并通过水平/垂直翻转平均去除 baked directional organization；
+- 从 `06_fine_ink_wash` 提炼 authored-like sparse internal structure，保留低对比和不规则尺度，不使用 generic noise；
+- 从 `11_curvature_highlights` 提炼 broad thickness / transmission vocabulary，作为低强度前后层；
+- 重新组合 cloud / deep volume / sparse detail / transmission 四个静态层，固定 formal silhouette；
+- 重新生成 `m1-neutral-hero.png`、`m1-neutral-source.png` 与三类 verification carrier debug 图。
 
-当前 New Neutral 的外膜和中性轮廓已经正确，最大差距是内部材质过于平均：cloudy mass 没有自然聚散，前后厚度读数偏弱，内部 sparse detail 几乎消失。因此它更像漂亮的半透明介质，还不像 Final Art 家族中有重量和空间层次的一团水。
+没有采样 `FINAL_ART_025`、`FINAL_ART_050` 或 Frozen K2 作为 shader texture，也没有 full-frame crossfade、core、formation、cavity 或 directional flow。
 
-## 2. 实际调整
+## 3. 视觉循环结果
 
-- **Cloudy mass distribution**：在正式 silhouette 内加入柔和、非对称、低频的聚散质量；没有形成 cavity、swirl、directional flow 或中心 radial pose。
-- **Optical thickness / depth**：增加 front water layer、cloudy internal mass 与 deeper translucent volume 的低对比叠层，保留银白膜面和柔和 rear transmission；没有玻璃球化、强 lens effect 或强 contrast。
-- **Sparse natural detail**：加入少量不同尺度、低对比、近乎消失的内部特征，为未来 deformation 保留可追踪结构；没有 fingerprint、contour、marble、wood grain、repeating bands 或 procedural-noise demo。
+- **修复前**：内部是均匀的半透明渐变，细节读成 blob / stain。
+- **第一轮 representation repair**：引入 source-derived cloudy field 和 authored-like sparse structure，内部开始出现真实水体组织，但深层厚度仍偏弱。
+- **第二轮**：只提高 deep translucent volume 权重，增强前后空间感；没有增加高频噪声或改变 pose。
+- **当前**：cloudy mass、内部 sparse structure 和透深已经可读，未再发现明显的 representation-level material-family defect，因此进入人工 Review。
 
-这是两次窄幅视觉调整后的最终 M1 experimental output，没有继续堆叠高频 noise。
+## 4. 最终 material source / carrier 结构
 
-## 3. Carrier 职责
+Carrier 职责保持不变，但内部实现已替换：
 
-Carrier A/B/C 的职责没有改变：
+- **Carrier A — neutral volume**：由 `02_internal_cyan_volume` 中和后的低频 field 提供 cloudy mass；`directSample = false`，`neutralizationRequired = true`。
+- **Carrier B — sparse water detail**：由 `06_fine_ink_wash` 中和后的 authored-like field 提供稀疏内部结构；`directSample = false`，`neutralizationRequired = true`。
+- **Carrier C — thickness / optical**：由 `11_curvature_highlights` 中和后的 broad field 提供 thickness / transmission；`directSample = false`，`neutralizationRequired = true`。
 
-- **Carrier A — neutral volume**：`derivedFrom = 02_internal_cyan_volume`，`directSample = false`，`neutralizationRequired = true`；负责大尺度 cloudy volume。
-- **Carrier B — sparse water detail**：`derivedFrom = 04_flow_layer / 05_flow_layer / 06_fine_ink_wash`，`directSample = false`，`neutralizationRequired = true`；负责稀疏低对比水感细节。
-- **Carrier C — thickness / optical**：`derivedFrom = 11_curvature_highlights`，`directSample = false`，`neutralizationRequired = true`；负责 broad membrane/refraction vocabulary。
+没有新增 carrier，没有改变 carrier 职责，没有修改 production renderer 或 shader production path。
 
-没有新增 carrier，也没有把任何 Final Art 或 pose-contaminated layer 作为 raw shader source。
+## 5. Neutral Pose
 
-## 4. Pose contamination / representation blocker
+**NEUTRAL POSE = PRESERVED**。当前 Hero 保持 calm / balanced neutral state；没有 cavity、swirl、directional mass organization、core 或 formation。
 
-当前 hero 没有可读的 core、formation、cavity、swirl 或 directional flow。Neutral Pose 的冻结约束未被修改；本轮没有发现需要升级为 `MATERIAL REPRESENTATION BLOCKER` 的问题。
+## 6. Current vs Final Art 对比
 
-## 5. Evidence
+- 相比 `FINAL_ART_025`：当前已补上淡青 cloudy volume、内部质量聚散和低对比水感结构；仍保留 Neutral 的克制亮度。
+- 相比 `FINAL_ART_050`：当前已补上更明显的前后透深与内部层次，但不复制其 formation pose、cavity 或 directional flow。
+- 相比 `FROZEN_K2_FINAL_ART`：当前属于同一低饱和银白水体材质方向，但仍是无 core、无 formation 的 neutral endpoint study。
 
-- **M1 Neutral Material Hero**：[`m1-neutral-hero.png`](m1-neutral-hero.png)
-- **Neutral source**：[`m1-neutral-source.png`](m1-neutral-source.png)
-- **Review page**：[`index.html`](index.html)
-- **Reference provenance**：[`references/provenance.json`](references/provenance.json)
-- **Evidence state**：[`m1-current-evidence.json`](m1-current-evidence.json)
+## 7. Hero / Review
 
-Review 页面默认把 `FINAL_ART_025`、`FINAL_ART_050`、`FINAL_ART_075`、`FROZEN_K2_FINAL_ART`、`NEUTRAL_RESTRAINT_D_K0` 和 `NEW_NEUTRAL` 放在同一页面，并提供 Carrier A/B/C debug view。`window.__M1_NEUTRAL__.inspect()` 返回 `state=static`、`cores=false`、`formation=false`、`cavity=false`、`directionalFlow=false`、`passes=1`、`framebuffers=0`。
+- **Hero**：[m1-neutral-hero.png](m1-neutral-hero.png)
+- **Neutral source**：[m1-neutral-source.png](m1-neutral-source.png)
+- **Review page**：[index.html](index.html)
+- **Evidence**：[m1-current-evidence.json](m1-current-evidence.json)
 
-## 6. Gate result
+Review 页面默认并排展示 `FINAL_ART_025`、`FINAL_ART_050`、`FINAL_ART_075`、`FROZEN_K2_FINAL_ART`、`NEUTRAL_RESTRAINT_D_K0` 和当前 New Neutral，并提供 Carrier A/B/C debug view。
+
+## 8. Three.js feasibility review
+
+Three.js `MeshPhysicalMaterial` 确实提供 `transmission`、`transmissionMap`、`thickness` 和 `thicknessMap`，可以表达体积边界与光学透射；但这些能力仍需要已有的 thickness / transmission source 才能产生有意义的结果，而且官方文档提示其 transmission 路径依赖环境反射并带来更高 per-pixel 成本。当前 blocker 已通过 source representation repair 解决，Three.js 不会补充缺失的 material information；迁移只会增加 renderer abstraction 和玻璃球风险。因此本轮不做 Three.js spike。
+
+**THREE.JS = NOT NEEDED**。
+
+## 9. Final state
 
 - **MATERIAL SYSTEM STRUCTURE = PASS**
-- **MATERIAL FAMILY = AWAITING HUMAN REVIEW**
-- **NEUTRAL POSE = AWAITING HUMAN REVIEW（冻结约束未改动）**
+- **NEUTRAL POSE = PRESERVED**
+- **MATERIAL FAMILY = READY FOR HUMAN REVIEW**
 - **READY_FOR_M2 = NO**
 
-本轮不进入 M2，等待人工判断 New Neutral 与 Final Art / Frozen K2 是否明显属于同一种水体材质。
+本轮不进入 M2，不修改 production，不 push。
