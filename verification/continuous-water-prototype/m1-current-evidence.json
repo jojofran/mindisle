@@ -59,7 +59,7 @@
   "currentNeutralMaterial": {
     "hero": "m1-neutral-hero.png",
     "source": "m1-neutral-source.png",
-    "status": "READY_FOR_HUMAN_REVIEW",
+    "status": "MATERIAL_REPRESENTATION_BLOCKER",
     "reviewBasis": "FINAL_ART_025_AND_FINAL_ART_050",
     "verificationOnly": true,
     "productionAssetAuthority": false,
@@ -112,11 +112,11 @@
     "directionalFlow": false,
     "productionRendererChanged": false,
     "productionAssetChanged": false,
-    "materialRepresentation": "READY_FOR_HUMAN_REVIEW",
+    "materialRepresentation": "BLOCKER",
     "neutralPose": "PRESERVED"
   },
   "humanGates": {
-    "MATERIAL_FAMILY": "READY_FOR_HUMAN_REVIEW",
+    "MATERIAL_FAMILY": "MATERIAL_REPRESENTATION_BLOCKER",
     "NEUTRAL_POSE": "AWAITING_HUMAN_REVIEW"
   },
   "readyForM2": false,
