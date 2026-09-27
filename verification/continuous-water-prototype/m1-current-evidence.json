@@ -1,7 +1,7 @@
 {
-  "evidenceStatus": "CURRENT_M1_AUTHORITY",
-  "milestone": "M1",
-  "milestoneName": "Neutral Water Material",
+  "evidenceStatus": "CURRENT_M1_1_AUTHORED_SOURCE_BLOCKER",
+  "milestone": "M1.1",
+  "milestoneName": "Authored Neutral Material Source",
   "scope": "neutral material study only",
   "referencePackage": "references/provenance.json",
   "primaryReference": {
@@ -59,11 +59,11 @@
   "currentNeutralMaterial": {
     "hero": "m1-neutral-hero.png",
     "source": "m1-neutral-source.png",
-    "status": "MATERIAL_REPRESENTATION_BLOCKER",
+    "status": "M1_MATERIAL_SOURCE_BLOCKER",
     "reviewBasis": "FINAL_ART_025_AND_FINAL_ART_050",
     "verificationOnly": true,
     "productionAssetAuthority": false,
-    "representation": "neutralized authored-like source-derived fields from 02_internal_cyan_volume, 06_fine_ink_wash, 11_curvature_highlights"
+    "representation": "authored neutral volume + explicit thickness/depth + sparse detail source attempts"
   },
   "carriers": {
     "A": {
@@ -116,7 +116,7 @@
     "neutralPose": "PRESERVED"
   },
   "humanGates": {
-    "MATERIAL_FAMILY": "MATERIAL_REPRESENTATION_BLOCKER",
+    "MATERIAL_FAMILY": "M1_MATERIAL_SOURCE_BLOCKER",
     "NEUTRAL_POSE": "AWAITING_HUMAN_REVIEW"
   },
   "readyForM2": false,
@@ -128,5 +128,25 @@
     "moving",
     "production migration",
     "future milestone completion"
-  ]
+  ],
+  "authoredSources": {
+    "A": {
+      "name": "neutral-water-volume",
+      "path": "neutral-water-volume.png",
+      "role": "authored large-scale cloudy mass",
+      "status": "attempted"
+    },
+    "B": {
+      "name": "neutral-water-detail",
+      "path": "neutral-water-detail.png",
+      "role": "authored sparse water detail",
+      "status": "attempted"
+    },
+    "C": {
+      "name": "neutral-thickness",
+      "path": "neutral-thickness.png",
+      "role": "authored shallow/medium/deep thickness encoding",
+      "status": "attempted"
+    }
+  }
 }
