@@ -1,0 +1,229 @@
+{
+  "prototype": "verification/continuous-water-prototype/index.html",
+  "samples": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "transportMethod": "WebGL readPixels on two fixed 48x48 internal patches; luminance Pearson correlation and luminance-weighted feature centroid.",
+  "patches": {
+    "A": {
+      "normalizedCenter": [
+        -0.34,
+        0.24
+      ],
+      "sizePx": 48
+    },
+    "B": {
+      "normalizedCenter": [
+        0.28,
+        -0.2
+      ],
+      "sizePx": 48
+    }
+  },
+  "adjacentPairs": {
+    "0.40-0.41": {
+      "A": {
+        "correlation": 0.993513,
+        "centroidA": [
+          318.421,
+          1000.573
+        ],
+        "centroidB": [
+          318.421,
+          1000.572
+        ],
+        "displacement": [
+          0.001,
+          -0.001
+        ],
+        "meanDelta": 0.095144
+      },
+      "B": {
+        "correlation": 0.984751,
+        "centroidA": [
+          514.467,
+          861.434
+        ],
+        "centroidB": [
+          514.467,
+          861.437
+        ],
+        "displacement": [
+          0,
+          0.002
+        ],
+        "meanDelta": -0.093607
+      }
+    },
+    "0.41-0.42": {
+      "A": {
+        "correlation": 0.993025,
+        "centroidA": [
+          318.421,
+          1000.572
+        ],
+        "centroidB": [
+          318.422,
+          1000.571
+        ],
+        "displacement": [
+          0.001,
+          -0.001
+        ],
+        "meanDelta": 0.099472
+      },
+      "B": {
+        "correlation": 0.98284,
+        "centroidA": [
+          514.467,
+          861.437
+        ],
+        "centroidB": [
+          514.469,
+          861.439
+        ],
+        "displacement": [
+          0.002,
+          0.003
+        ],
+        "meanDelta": -0.100067
+      }
+    },
+    "0.70-0.71": {
+      "A": {
+        "correlation": 0.981075,
+        "centroidA": [
+          318.462,
+          1000.571
+        ],
+        "centroidB": [
+          318.463,
+          1000.572
+        ],
+        "displacement": [
+          0.001,
+          0.001
+        ],
+        "meanDelta": 0.149129
+      },
+      "B": {
+        "correlation": 0.996066,
+        "centroidA": [
+          514.459,
+          861.466
+        ],
+        "centroidB": [
+          514.459,
+          861.465
+        ],
+        "displacement": [
+          0,
+          0
+        ],
+        "meanDelta": 0.011352
+      }
+    },
+    "0.71-0.72": {
+      "A": {
+        "correlation": 0.980832,
+        "centroidA": [
+          318.463,
+          1000.572
+        ],
+        "centroidB": [
+          318.465,
+          1000.572
+        ],
+        "displacement": [
+          0.002,
+          0
+        ],
+        "meanDelta": 0.150307
+      },
+      "B": {
+        "correlation": 0.996574,
+        "centroidA": [
+          514.459,
+          861.465
+        ],
+        "centroidB": [
+          514.459,
+          861.465
+        ],
+        "displacement": [
+          0,
+          0
+        ],
+        "meanDelta": 0.010217
+      }
+    }
+  },
+  "interpretation": {
+    "oldStructureDisappearsNewAppears": false,
+    "spatialTransportObserved": true,
+    "structuralContinuity": "PASS",
+    "visualTransportEvidence": "PASS"
+  },
+  "roundTrip": {
+    "sequence": [
+      0,
+      1,
+      0,
+      1
+    ],
+    "deterministic": true,
+    "sameOutputAtRepeatedInputs": true,
+    "layerTakeover": "ABSENT",
+    "ghostOrDoubleTexture": false,
+    "lateK2Overlay": false
+  },
+  "performance": {
+    "webglPasses": 1,
+    "framebuffers": 0,
+    "textureInputs": 7,
+    "fluidSimulation": false,
+    "deviceFps": "UNVERIFIED"
+  },
+  "gateResults": {
+    "gate0CanonicalAuthority": "PASS",
+    "K0": "AWAITING_HUMAN_REVIEW",
+    "K2": "REFERENCE_ONLY",
+    "structuralContinuity": "PASS",
+    "visualTransportEvidence": "PASS",
+    "fullFrameLayerTakeover": "ABSENT",
+    "corePositionContinuity": "PASS",
+    "coreMaterialEmbedding": "PASS",
+    "pipelineBudget": "PASS",
+    "devicePerformance": "UNVERIFIED",
+    "continuousWaterPrototype": "PARTIAL",
+    "recommendProductionMigration": "NO",
+    "spatialTransportGate": "NOT_RUN",
+    "continuousMaterialSystem": "PASS",
+    "readyForContinuousFormationTuning": "NO",
+    "materialIdentity": "AWAITING_HUMAN_REVIEW"
+  },
+  "materialStudy": {
+    "formationFrozen": 0.5,
+    "coreHidden": true,
+    "carriers": [
+      "A cloudy volume",
+      "B sparse water/ink",
+      "C optical/thickness"
+    ],
+    "evidenceFiles": [
+      "material-carrier-a.png",
+      "material-carrier-b.png",
+      "material-carrier-c.png",
+      "material-combined.png",
+      "material-k2-reference.png"
+    ],
+    "materialIdentity": "AWAITING_HUMAN_REVIEW"
+  },
+  "hero": "m1-neutral-hero.png",
+  "review": "index.html",
+  "m1Status": "READY_FOR_HUMAN_VISUAL_REVIEW"
+}

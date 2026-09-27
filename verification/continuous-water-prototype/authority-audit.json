@@ -1,0 +1,87 @@
+{
+  "gate": "Gate 0",
+  "status": "PASS",
+  "formalSilhouetteSource": "components/waterball/profile.js silhouetteAuthority.layer = 01_outer_film; components/waterball/waterball.js buildSilhouetteMask() row-fill derived from atlas alpha threshold 6",
+  "textureInput": "../../assets/waterball-still-v1/layers/01_outer_film.png, uploaded as outerTex and as a derived formalMaskTex",
+  "bodyDomain": "still-silhouette; profile frame 853x1844, center [426.5,925], radius 316",
+  "circularFallback": false,
+  "inputs": [
+    {
+      "input": "01_outer_film",
+      "classification": "pose-neutral material information / formal silhouette source",
+      "canonical": true
+    },
+    {
+      "input": "formal silhouette / center / radius",
+      "classification": "pose-neutral material information",
+      "canonical": true
+    },
+    {
+      "input": "07_cool_point_core + 08_cool_point_glow",
+      "classification": "pose-neutral optical identity",
+      "canonical": true
+    },
+    {
+      "input": "09_warm_point_core + 10_warm_point_glow",
+      "classification": "pose-neutral optical identity",
+      "canonical": true
+    },
+    {
+      "input": "04_flow_layer / 05_flow_layer",
+      "classification": "pose-dependent result image or uncertain carrier",
+      "canonical": false
+    },
+    {
+      "input": "06_fine_ink_wash",
+      "classification": "pose-dependent result image",
+      "canonical": false
+    },
+    {
+      "input": "02_internal_cyan_volume / 03_boundary_mask / 11_curvature_highlights",
+      "classification": "pose-dependent result image",
+      "canonical": false
+    },
+    {
+      "input": "staticCompositeCanvas / poseCompositeWithoutCores",
+      "classification": "forbidden full-frame composite",
+      "canonical": false
+    },
+    {
+      "input": "K2 reference frames",
+      "classification": "endpoint-only reference",
+      "canonical": false
+    }
+  ],
+  "poseNeutralCarrier": "analytic low-frequency carrier generated in shader; no baked internal full-frame carrier reused",
+  "continuousRepresentation": "PASS",
+  "carrierDecomposition": {
+    "A": {
+      "name": "NEUTRAL_CLOUDY_VOLUME",
+      "sources": [
+        "02_internal_cyan_volume"
+      ],
+      "method": "rotational low-frequency projection with core-radius suppression",
+      "status": "FAIL"
+    },
+    "B": {
+      "name": "SPARSE_WATER_INK_DETAIL",
+      "sources": [
+        "04_flow_layer",
+        "05_flow_layer",
+        "06_fine_ink_wash"
+      ],
+      "method": "rotational low-contrast packed projection",
+      "status": "PARTIAL"
+    },
+    "C": {
+      "name": "OPTICAL_THICKNESS_VARIATION",
+      "sources": [
+        "11_curvature_highlights"
+      ],
+      "method": "rotational broad highlight projection",
+      "status": "PARTIAL"
+    }
+  },
+  "materialIdentity": "FAIL",
+  "spatialTransportGate": "NOT_RUN"
+}
