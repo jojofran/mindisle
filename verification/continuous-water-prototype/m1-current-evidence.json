@@ -1,0 +1,72 @@
+{
+  "evidenceStatus": "CURRENT_M1_AUTHORITY",
+  "milestone": "M1",
+  "milestoneName": "Neutral Water Material",
+  "scope": "neutral material study only",
+  "primaryReference": {
+    "id": "candidate-c",
+    "label": "Candidate C",
+    "paths": [
+      "../slice-a-final-review/evidence/formation-0.00.png",
+      "../slice-a-final-review/evidence/formation-0.25-close.png",
+      "../slice-a-final-review/evidence/formation-0.50-close.png",
+      "../slice-a-final-review/evidence/formation-0.75-close.png"
+    ],
+    "authority": "historical visual input for material vocabulary; not a pass result"
+  },
+  "restraintReference": {
+    "id": "candidate-d-k0",
+    "label": "Candidate D · K0",
+    "path": "../slice-a-final-review/evidence/k0-close.png",
+    "authority": "historical restraint reference; not a pass result"
+  },
+  "endpointReference": {
+    "id": "frozen-k2",
+    "label": "Frozen K2",
+    "path": "../slice-a-formation-20260927/k2-reference-close.png",
+    "authority": "endpoint reference only; not a claim that M1 or K2 is passed"
+  },
+  "currentNeutralMaterial": {
+    "hero": "m1-neutral-hero.png",
+    "source": "m1-neutral-source.png",
+    "verificationOnly": true,
+    "productionAssetAuthority": false
+  },
+  "carriers": {
+    "A": {
+      "name": "neutral volume",
+      "sources": ["02_internal_cyan_volume"],
+      "role": "large cloudy volume"
+    },
+    "B": {
+      "name": "sparse water detail",
+      "sources": ["04_flow_layer", "05_flow_layer", "06_fine_ink_wash"],
+      "role": "low-contrast sparse detail"
+    },
+    "C": {
+      "name": "thickness / optical",
+      "sources": ["11_curvature_highlights"],
+      "role": "broad membrane/refraction vocabulary"
+    }
+  },
+  "currentStructuralStatus": {
+    "technicalStructure": "PASS",
+    "staticStudy": true,
+    "cores": false,
+    "formation": false,
+    "cavity": false,
+    "directionalFlow": false,
+    "productionRendererChanged": false,
+    "productionAssetChanged": false
+  },
+  "humanGates": {
+    "MATERIAL_FAMILY": "AWAITING_HUMAN_REVIEW",
+    "NEUTRAL_POSE": "AWAITING_HUMAN_REVIEW"
+  },
+  "readyForM2": false,
+  "forbiddenClaims": [
+    "M3 spatial transport PASS",
+    "M4 core integration PASS",
+    "future milestone completion"
+  ]
+}

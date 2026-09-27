@@ -1,4 +1,7 @@
 {
+  "evidenceStatus": "HISTORICAL_NON_AUTHORITATIVE_FOR_M1",
+  "currentM1Authority": false,
+  "supersededBy": "m1-current-evidence.json",
   "gate": "Gate 0",
   "status": "PASS",
   "formalSilhouetteSource": "components/waterball/profile.js silhouetteAuthority.layer = 01_outer_film; components/waterball/waterball.js buildSilhouetteMask() row-fill derived from atlas alpha threshold 6",

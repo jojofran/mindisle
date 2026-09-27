@@ -1,4 +1,7 @@
 {
+  "evidenceStatus": "HISTORICAL_MIXED_SCOPE_NON_AUTHORITATIVE_FOR_M1",
+  "currentM1Authority": false,
+  "supersededBy": "m1-current-evidence.json",
   "prototype": "verification/continuous-water-prototype/index.html",
   "samples": [
     0,

@@ -8,7 +8,7 @@
 - [C · formation 0.25](../slice-a-final-review/evidence/formation-0.25-close.png)
 - [C · formation 0.50](../slice-a-final-review/evidence/formation-0.50-close.png)
 - [C · formation 0.75](../slice-a-final-review/evidence/formation-0.75-close.png)
-- [Frozen K2](../slice-a-final-review/evidence/k2-close.png)
+- [Frozen K2](../slice-a-formation-20260927/k2-reference-close.png)
 - [Candidate D · K0](../slice-a-final-review/evidence/k0-close.png)
 
 C 0.00 用于淡青 cloudy volume 与基础厚度；C 0.25 / 0.50 用于低频 cloudy depth 与克制的 water/ink 细节；C 0.75 只用于成熟度和光学厚度上限；Candidate D 用于维持中性平衡。中间帧的 cavity、swirl、directional density 与 K2 pose 均未复制。
@@ -24,8 +24,8 @@ C 0.00 用于淡青 cloudy volume 与基础厚度；C 0.25 / 0.50 用于低频 c
 源层边界依据 [waterball-clear-still-source-layer-audit.md](../../docs/analysis/waterball-clear-still-source-layer-audit.md)，产品视觉约束依据 [state-ball-visual-spec.md](../../docs/product/state-ball-visual-spec.md)。
 
 - **Carrier A — neutral volume**：来自 `02_internal_cyan_volume` 的低频 cloudy / thickness vocabulary，经方向中和后形成主体体积。
-- **Carrier B — thickness / optical**：来自 `11_curvature_highlights` 的 broad membrane/refraction vocabulary，只保留大尺度光学层次。
-- **Carrier C — sparse water detail**：来自 `04_flow_layer`、`05_flow_layer`、`06_fine_ink_wash` 的稀疏低对比 detail vocabulary；不做 full-frame alpha takeover。
+- **Carrier B — sparse water detail**：来自 `04_flow_layer`、`05_flow_layer`、`06_fine_ink_wash` 的稀疏低对比 detail vocabulary；不做 full-frame alpha takeover。
+- **Carrier C — thickness / optical**：来自 `11_curvature_highlights` 的 broad membrane/refraction vocabulary，只保留大尺度光学层次。
 - `03_boundary_mask`、K2 cavity、pose composite、完整 K2 overlay 和 core source 均未作为 neutral 输入。
 
 当前 Hero 是 verification-only 静态 raster preview；它用于人工材质判断，不是 production asset authority，也不证明 M2 静态 GPU 已完成。
@@ -50,7 +50,7 @@ Hero 中心由单一浅色渐变改为柔和、非对称的多尺度 cloudy volu
 
 ## 6. Gate result
 
-- MATERIAL SYSTEM STRUCTURE = **PASS**
+- TECHNICAL STRUCTURE = **PASS**
 - MATERIAL FAMILY = **AWAITING HUMAN REVIEW**
 - NEUTRAL POSE = **AWAITING HUMAN REVIEW**
 - READY_FOR_M2 = **NO**
