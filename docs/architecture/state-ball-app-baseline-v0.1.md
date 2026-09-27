@@ -3,6 +3,8 @@
 > Status: BASELINE（产品状态、视觉资产契约和验收闭环已冻结）
 > Open decision: 最终 App 宿主（Web、原生或跨平台）尚未冻结；宿主只能替换渲染适配器，不得改变产品状态和验收语义。
 
+> Execution note (2026-09-27): 本文仍是 WaterBall v1 production runtime baseline。Continuous Water 属于独立的 experimental v2 migration；当前执行顺序以 [`docs/tasks/waterball-continuous-roadmap.md`](../tasks/waterball-continuous-roadmap.md) 为准。在 M5.5 Rendering Contract v2 获得人工批准前，continuous experiment 不得替换本文的 production renderer 或 asset authority。
+
 ## 1. 目标与范围
 
 本基线定义中央状态球如何从产品状态变成可运行的 App 视觉组件。它不规定具体框架，也不要求完整 3D 模型。当前目标是让固定正面视角的水球在真实交互中可靠表达 `still`、`transitioning` 和 `moving`。

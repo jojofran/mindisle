@@ -73,13 +73,15 @@ reset → still
 
 ## 验证规则
 
-每个核心改动至少验证一条当前已经裁决的真实操作路径。当前必测路径是：
+最终产品的 E2E target 仍然是：
 
 ```text
 进入专注 → 触摸状态球 → transitioning → moving
 ```
 
-当前最小测试场景还应覆盖：启动静止、读取过渡进度、运动状态持续变化、外部误触不改变状态、确定性重置、挂起时钟冻结、恢复后只继续一次。
+这是一条最终目标，不是所有当前任务都必须完整跑通的通用门槛。每个 milestone 只验证当前 scope 已真实实现的路径；不得为了满足未来 E2E target 而伪造或提前实现 `transitioning` / `moving`。只有当当前 milestone 正式包含这些状态时，它们才成为该轮必测项。
+
+当前最小测试场景应由 milestone acceptance 定义，并按已实现范围覆盖启动静止、读取过渡进度、运动状态持续变化、外部误触、确定性重置、挂起时钟冻结和恢复后只继续一次等行为；未进入当前 milestone 的行为只记录为未来 target，不得冒充通过。
 
 验证不能只依赖截图，同时检查：
 
@@ -101,7 +103,7 @@ reset → still
 
 ## 完成标准
 
-当前原型阶段只承诺：
+单个 milestone 的完成标准由其 roadmap / task state 中的 acceptance 定义。只有当该 milestone 正式包含三态运行时，下面的状态路径才属于该轮完成条件：
 
 - `still → transitioning → moving` 可以稳定发生；
 - 状态、计时和视觉表现保持一致；
@@ -111,6 +113,24 @@ reset → still
 - 参考图方向已经转化为可检查的视觉目标。
 
 长期产品完成标准是：用户无需复杂说明，就能通过中央状态球开始、进入静止状态、继续并结束一段专注；音乐和计时在整个过程中可靠；视觉、触感和状态反馈共同形成安静、连续、可理解的体验。
+
+## Long-running work / Milestone workflow
+
+- 跨阶段视觉、runtime、架构迁移必须采用 milestone 制。
+- 开始非平凡任务前必须确认：当前 active milestone、milestone goal、frozen constraints、allowed scope、forbidden scope、acceptance criteria，以及是否需要 human gate。
+- 一次只推进当前 milestone；当前 milestone 未关闭，不得提前实现后续 milestone。“后面顺便能解决”不是越界理由。
+- `Experimental success` 不等于 `Production authority`。
+- 已关闭 milestone 默认冻结；重新打开必须有新证据、回归或人工裁决。
+- Material identity、motion feel、最终视觉 PASS 由人工裁决；Agent 不能自行关闭。
+- `AGENTS.md` 不记录瞬时项目进度；实际进度放在 roadmap / task state。
+
+对于 WaterBall 的非平凡任务，优先读取：
+
+1. `docs/analysis/CURRENT_RUNTIME_FACTS.md`
+2. `docs/tasks/waterball-continuous-roadmap.md` 与当前 active task state
+3. 与当前 milestone 直接相关的 product / architecture spec
+
+不默认遍历全部历史 verification / analysis；supporting docs 按需读取。如果旧文档与 `CURRENT_RUNTIME_FACTS.md` 冲突，先标记冲突，不自行猜测；产品冻结语义仍以正式 product authority 为准。
 
 ## AI 协作边界
 
