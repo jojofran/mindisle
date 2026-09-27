@@ -59,29 +59,37 @@
   "currentNeutralMaterial": {
     "hero": "m1-neutral-hero.png",
     "source": "m1-neutral-source.png",
-    "status": "EXISTING_EXPERIMENTAL_OUTPUT",
-    "reviewBasis": "CORRECTED_FINAL_ART_REFERENCES",
+    "status": "REFINED_M1_NEUTRAL_MATERIAL",
+    "reviewBasis": "FINAL_ART_025_AND_FINAL_ART_050",
     "verificationOnly": true,
     "productionAssetAuthority": false
   },
   "carriers": {
     "A": {
       "name": "neutral volume",
-      "derivedFrom": ["02_internal_cyan_volume"],
+      "derivedFrom": [
+        "02_internal_cyan_volume"
+      ],
       "directSample": false,
       "neutralizationRequired": true,
       "role": "large cloudy volume"
     },
     "B": {
       "name": "sparse water detail",
-      "derivedFrom": ["04_flow_layer", "05_flow_layer", "06_fine_ink_wash"],
+      "derivedFrom": [
+        "04_flow_layer",
+        "05_flow_layer",
+        "06_fine_ink_wash"
+      ],
       "directSample": false,
       "neutralizationRequired": true,
       "role": "low-contrast sparse detail"
     },
     "C": {
       "name": "thickness / optical",
-      "derivedFrom": ["11_curvature_highlights"],
+      "derivedFrom": [
+        "11_curvature_highlights"
+      ],
       "directSample": false,
       "neutralizationRequired": true,
       "role": "broad membrane/refraction vocabulary"
