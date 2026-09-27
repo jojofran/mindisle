@@ -3,28 +3,48 @@
   "milestone": "M1",
   "milestoneName": "Neutral Water Material",
   "scope": "neutral material study only",
+  "referencePackage": "references/provenance.json",
+  "historicalSequenceReference": {
+    "id": "C000",
+    "label": "Candidate C 0.00",
+    "path": "references/candidate-c-0.00.png",
+    "authority": "historical sequence reference; not primary material authority"
+  },
   "primaryReference": {
-    "id": "candidate-c",
-    "label": "Candidate C",
-    "paths": [
-      "../slice-a-final-review/evidence/formation-0.00.png",
-      "../slice-a-final-review/evidence/formation-0.25-close.png",
-      "../slice-a-final-review/evidence/formation-0.50-close.png",
-      "../slice-a-final-review/evidence/formation-0.75-close.png"
-    ],
-    "authority": "historical visual input for material vocabulary; not a pass result"
+    "id": "C025",
+    "label": "Candidate C 0.25",
+    "path": "references/candidate-c-0.25.png",
+    "role": "PRIMARY_MATERIAL_RICHNESS_REFERENCE",
+    "authority": "primary material richness reference; visual reference only"
+  },
+  "depthReference": {
+    "id": "C050",
+    "label": "Candidate C 0.50",
+    "path": "references/candidate-c-0.50.png",
+    "role": "DEPTH_THICKNESS_CLOUDY_STRUCTURE_REFERENCE",
+    "authority": "depth/thickness/cloudy structure vocabulary; no pose copy"
+  },
+  "upperBoundReference": {
+    "id": "C075",
+    "label": "Candidate C 0.75",
+    "path": "references/candidate-c-0.75.png",
+    "role": "MATURE_MATERIAL_UPPER_BOUND",
+    "poseContamination": "HIGH",
+    "authority": "material and optical/detail upper bound only; no cavity, swirl, or directional pose copy"
   },
   "restraintReference": {
-    "id": "candidate-d-k0",
+    "id": "D_K0",
     "label": "Candidate D · K0",
-    "path": "../slice-a-final-review/evidence/k0-close.png",
-    "authority": "historical restraint reference; not a pass result"
+    "path": "references/candidate-d-k0.png",
+    "role": "NEUTRAL_RESTRAINT_REFERENCE",
+    "authority": "neutral restraint reference; not a material richness authority"
   },
   "endpointReference": {
-    "id": "frozen-k2",
+    "id": "FROZEN_K2",
     "label": "Frozen K2",
-    "path": "../slice-a-formation-20260927/k2-reference-close.png",
-    "authority": "endpoint reference only; not a claim that M1 or K2 is passed"
+    "path": "references/frozen-k2.png",
+    "role": "FINAL_OPTICAL_ENDPOINT_AUTHORITY",
+    "authority": "endpoint reference only; no shader sampling and no claim that M1 or K2 is passed"
   },
   "currentNeutralMaterial": {
     "hero": "m1-neutral-hero.png",
@@ -35,19 +55,31 @@
   "carriers": {
     "A": {
       "name": "neutral volume",
-      "sources": ["02_internal_cyan_volume"],
+      "derivedFrom": ["02_internal_cyan_volume"],
+      "directSample": false,
+      "neutralizationRequired": true,
       "role": "large cloudy volume"
     },
     "B": {
       "name": "sparse water detail",
-      "sources": ["04_flow_layer", "05_flow_layer", "06_fine_ink_wash"],
+      "derivedFrom": ["04_flow_layer", "05_flow_layer", "06_fine_ink_wash"],
+      "directSample": false,
+      "neutralizationRequired": true,
       "role": "low-contrast sparse detail"
     },
     "C": {
       "name": "thickness / optical",
-      "sources": ["11_curvature_highlights"],
+      "derivedFrom": ["11_curvature_highlights"],
+      "directSample": false,
+      "neutralizationRequired": true,
       "role": "broad membrane/refraction vocabulary"
     }
+  },
+  "referenceUsePolicy": {
+    "allReferencesAreVisualOnly": true,
+    "rawPoseContaminatedLayersMayBeDirectSampled": false,
+    "shaderSamplingAllowed": false,
+    "carrierRawInputAllowed": false
   },
   "currentStructuralStatus": {
     "technicalStructure": "PASS",
@@ -67,6 +99,10 @@
   "forbiddenClaims": [
     "M3 spatial transport PASS",
     "M4 core integration PASS",
+    "formation/deformation completion",
+    "transitioning",
+    "moving",
+    "production migration",
     "future milestone completion"
   ]
 }

@@ -1,0 +1,78 @@
+{
+  "package": "MindIsle WaterBall M1 reference package",
+  "packagePolicy": "REFERENCE_ONLY; no image is a canonical shader texture, carrier raw input, or neutral material source texture",
+  "references": [
+    {
+      "id": "C000",
+      "role": "HISTORICAL_SEQUENCE_REFERENCE",
+      "originalRepositoryRelativePath": "verification/slice-a-final-review/evidence/formation-0.00.png",
+      "cleanReferencePath": "verification/continuous-water-prototype/references/candidate-c-0.00.png",
+      "sha256": "9c6b6309bd0a09f07ede017c4877360e0465ecd548537d1ada34f4f87bc4e7f9",
+      "copiedExact": true,
+      "generatedForM1": false,
+      "poseContamination": "LOW",
+      "usePolicy": "VISUAL_REFERENCE_ONLY_HISTORICAL_SEQUENCE",
+      "authority": "historical sequence reference; not primary material authority"
+    },
+    {
+      "id": "C025",
+      "role": "PRIMARY_MATERIAL_RICHNESS_REFERENCE",
+      "originalRepositoryRelativePath": "verification/slice-a-final-review/evidence/formation-0.25-close.png",
+      "cleanReferencePath": "verification/continuous-water-prototype/references/candidate-c-0.25.png",
+      "sha256": "18b6dda4a863de40e951f92a1a765d3dc366dc192629a381150a97f29f387d33",
+      "copiedExact": true,
+      "generatedForM1": false,
+      "poseContamination": "LOW",
+      "usePolicy": "VISUAL_REFERENCE_ONLY",
+      "authority": "primary material richness reference"
+    },
+    {
+      "id": "C050",
+      "role": "DEPTH_THICKNESS_CLOUDY_STRUCTURE_REFERENCE",
+      "originalRepositoryRelativePath": "verification/slice-a-final-review/evidence/formation-0.50-close.png",
+      "cleanReferencePath": "verification/continuous-water-prototype/references/candidate-c-0.50.png",
+      "sha256": "01cb3ca81a593b26a86fdac6f1540450050a01b68bd6531d882efedf84abdf23",
+      "copiedExact": true,
+      "generatedForM1": false,
+      "poseContamination": "MEDIUM",
+      "usePolicy": "VISUAL_REFERENCE_ONLY",
+      "authority": "depth, thickness, and cloudy structure reference; not neutral pose authority"
+    },
+    {
+      "id": "C075",
+      "role": "MATURE_MATERIAL_UPPER_BOUND",
+      "originalRepositoryRelativePath": "verification/slice-a-final-review/evidence/formation-0.75-close.png",
+      "cleanReferencePath": "verification/continuous-water-prototype/references/candidate-c-0.75.png",
+      "sha256": "e2a0fe298e71453cadba09b0ae118905ce7d0a1d782b49475ad967dd171e37bc",
+      "copiedExact": true,
+      "generatedForM1": false,
+      "poseContamination": "HIGH",
+      "usePolicy": "VISUAL_REFERENCE_ONLY_NO_POSE_COPY",
+      "authority": "mature material and optical/detail upper bound; cavity, swirl, and directional density are excluded"
+    },
+    {
+      "id": "D_K0",
+      "role": "NEUTRAL_RESTRAINT_REFERENCE",
+      "originalRepositoryRelativePath": "verification/slice-a-final-review/evidence/k0-close.png",
+      "cleanReferencePath": "verification/continuous-water-prototype/references/candidate-d-k0.png",
+      "sha256": "5c1aba612e4bc9a5aa51fc0d255beb86efdebcc82463d73acc2545e68a4527c5",
+      "copiedExact": true,
+      "generatedForM1": false,
+      "poseContamination": "LOW",
+      "usePolicy": "VISUAL_REFERENCE_ONLY_RESTRAINT",
+      "authority": "neutral restraint reference; not sufficient alone for material richness authority"
+    },
+    {
+      "id": "FROZEN_K2",
+      "role": "FINAL_OPTICAL_ENDPOINT_AUTHORITY",
+      "originalRepositoryRelativePath": "verification/slice-a-formation-20260927/k2-reference-close.png",
+      "cleanReferencePath": "verification/continuous-water-prototype/references/frozen-k2.png",
+      "sha256": "ba86ad8f8afeafad187835a574d7c0e39d505ab6b6b9d9b4b51084854283cfa5",
+      "copiedExact": true,
+      "generatedForM1": false,
+      "poseContamination": "FINAL_POSE",
+      "usePolicy": "ENDPOINT_REFERENCE_ONLY_NO_SHADER_SAMPLING",
+      "authority": "Frozen K2 final optical/material family endpoint authority; no direct shader or carrier sampling"
+    }
+  ]
+}
