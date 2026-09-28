@@ -135,7 +135,7 @@
       "derivedFrom": [
         "FINAL_ART_025"
       ],
-      "bakingMethod": "local FINAL_ART_025 patch recomposition after core/text inpaint",
+      "bakingMethod": "local FINAL_ART_025 patch recomposition after core inpaint, followed by irregular local continuity sanitation; review-only warp stress",
       "runtimeDirectSample": false,
       "productionAssetAuthority": false
     },
@@ -156,7 +156,7 @@
       "derivedFrom": [
         "FINAL_ART_025"
       ],
-      "bakingMethod": "band-pass vocabulary extraction from cleaned FINAL_ART_025 with sparse selection",
+      "bakingMethod": "band-pass vocabulary extraction from cleaned FINAL_ART_025 with irregular feathered masks and fragmented sparse alpha sanitation",
       "runtimeDirectSample": false,
       "productionAssetAuthority": false
     }
@@ -177,5 +177,17 @@
       "sourceAssetChanged": false,
       "alphaView": "review-only"
     }
+  },
+  "carrierSanitation": {
+    "milestone": "M1.3",
+    "method": "verification-only local sanitation; no source reference pixels or production assets modified",
+    "outputs": [
+      "neutral-water-volume-raw.png",
+      "neutral-water-volume-warp-stress.png",
+      "sparse-detail-alpha-raw.png",
+      "sparse-detail-alpha.png",
+      "shell-edge-ab-crop.png"
+    ],
+    "formalShellSourceUnchanged": true
   }
 }

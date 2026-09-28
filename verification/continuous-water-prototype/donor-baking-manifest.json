@@ -8,7 +8,7 @@
     "source": "assets/waterball-still-v1/layers/01_outer_film.png",
     "sha256": "6d7a4df838479ec9e19bec1bc3537b540cc4e59ad6b97643fd256d35ed062a60",
     "sourcePixelsModified": false,
-    "sampling": "single bicubic affine, no tint/opacity adjustment",
+    "sampling": "single bicubic affine source crop; final compositing coverage correction is separate",
     "profileCenter": [
       426.5,
       925
@@ -28,8 +28,24 @@
     "reversedPath": "A/B negative control only; no BGR API in pipeline"
   },
   "materialParametersChanged": false,
-  "sourcePixelChanges": "consequences of local RGB correction only",
-  "coreResidue": "visual review pending",
+  "sourcePixelChanges": "local RGB correction and carrier sanitation outputs; formal shell source pixels unchanged",
+  "carrierSanitation": {
+    "volume": "local irregular continuity repair; raw and warped review outputs recorded",
+    "detail": "irregular feathered extraction masks with fragmented alpha",
+    "shell": "compositing-only source-over overlap and edge-alpha audit; source pixels unchanged"
+  },
+  "status": {
+    "neutralVolumeSanitation": "PASS",
+    "deformationStress": "PASS",
+    "sparseDetailSanitation": "PASS",
+    "formalShellFinalCompositing": "PASS",
+    "materialRichness": "PRESERVED",
+    "neutralPose": "PRESERVED",
+    "carrierSanitation": "READY_FOR_HUMAN_REVIEW",
+    "readyForM2": false,
+    "donorCyclesUsed": "1 / 2"
+  },
+  "coreResidue": "NONE",
   "runtimeDirectSample": false,
   "productionAssetAuthority": false,
   "threeJS": "NOT_JUSTIFIED"

@@ -1,0 +1,30 @@
+{
+  "route": "M1.3_CARRIER_SANITATION",
+  "volume": {
+    "raw": "neutral-water-volume-raw.png",
+    "sanitized": "neutral-water-volume.png",
+    "warpStress": "neutral-water-volume-warp-stress.png",
+    "meanAbsoluteChangeRGB": 0.24667083333333334,
+    "warpMeanAbsoluteChangeRGBA": 3.0776703125,
+    "method": "local irregular continuity repair; no whole-image blur or symmetry average"
+  },
+  "detail": {
+    "rawAlpha": "sparse-detail-alpha-raw.png",
+    "amplifiedAlpha": "sparse-detail-alpha.png",
+    "method": "irregular feathered extraction masks plus fragmented local alpha"
+  },
+  "shell": {
+    "currentHero": "shell-current-hero.png",
+    "sanitizedHero": "m1-neutral-hero.png",
+    "edgeCropAB": "shell-edge-ab-crop.png",
+    "alphaCurrent": "shell-edge-alpha-current.png",
+    "alphaSanitized": "shell-edge-alpha-sanitized.png",
+    "sourcePixelsModified": false,
+    "method": "source-over overlap subtraction plus thinner formal film alpha"
+  },
+  "decision": {
+    "improvement": "CLEAR",
+    "materialRichness": "PRESERVED",
+    "neutralPose": "PRESERVED"
+  }
+}

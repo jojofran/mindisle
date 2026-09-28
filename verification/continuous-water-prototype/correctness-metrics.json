@@ -57,7 +57,7 @@
   "alphaView": {
     "raw": "exact source alpha",
     "gain": 4,
-    "nonzeroFraction": 0.1546625,
-    "maxAlpha": 159
+    "nonzeroFraction": 0.09360625,
+    "maxAlpha": 74
   }
 }

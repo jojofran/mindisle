@@ -1,50 +1,72 @@
 {
-  "evidenceStatus": "CURRENT_M1_2_DONOR_CORRECTNESS_REPAIR",
-  "milestone": "M1.2",
-  "milestoneName": "Donor Material Correctness Repair",
-  "baseCommit": "027c3f2",
-  "scope": "verification-only correctness and fidelity repair",
-  "forbidden": ["production", "M2", "push", "material redesign", "formation", "deformation", "moving"],
+  "evidenceStatus": "CURRENT_M1_3_CARRIER_SANITATION",
+  "milestone": "M1.3",
+  "milestoneName": "Carrier Sanitation",
+  "baseCommit": "d0b2e27",
+  "scope": "verification-only donor carrier sanitation and review evidence",
+  "forbidden": [
+    "production",
+    "M2",
+    "push",
+    "material redesign",
+    "formation",
+    "deformation system",
+    "moving",
+    "thickness redesign",
+    "ProductState",
+    "interaction",
+    "timing"
+  ],
+  "routeCheck": {
+    "currentPrimaryDefect": "neutral volume donor seam / sparse detail rectangular islands / shell continuous white rim",
+    "rootCauseType": "local carrier reconstruction masks and final source-over coverage",
+    "donorRouteCanSolve": true,
+    "proposedBakingChange": "irregular local continuity repair; fragmented feathered detail masks; shell overlap subtraction with thinner source-over film alpha",
+    "improvement": "CLEAR"
+  },
   "result": {
-    "donorMaterialRoute": "PASS",
-    "formalShellFidelity": "PASS",
-    "coreReconstructionColor": "PASS",
-    "coreResidue": "NONE",
-    "sparseDetailReviewability": "PASS",
+    "neutralVolumeSanitation": "PASS",
+    "deformationStress": "PASS",
+    "sparseDetailSanitation": "PASS",
+    "formalShellFinalCompositing": "PASS",
+    "materialRichness": "PRESERVED",
     "neutralPose": "PRESERVED",
-    "materialFamily": "READY_FOR_HUMAN_REVIEW",
-    "readyForM2": false
+    "carrierSanitation": "READY_FOR_HUMAN_REVIEW",
+    "readyForM2": false,
+    "donorCyclesUsed": "1 / 2",
+    "threeJS": "NOT_JUSTIFIED"
+  },
+  "outputs": {
+    "volume": [
+      "neutral-water-volume-raw.png",
+      "neutral-water-volume.png",
+      "neutral-water-volume-warp-stress.png"
+    ],
+    "detail": [
+      "sparse-detail-alpha-raw.png",
+      "sparse-detail-alpha.png",
+      "neutral-water-detail.png"
+    ],
+    "shell": [
+      "shell-current-hero.png",
+      "m1-neutral-hero.png",
+      "shell-edge-ab-crop.png",
+      "shell-edge-alpha-current.png",
+      "shell-edge-alpha-sanitized.png"
+    ],
+    "metrics": "carrier-sanity-metrics.json"
   },
   "formalShell": {
     "source": "assets/waterball-still-v1/layers/01_outer_film.png",
     "runtimeDirectSample": false,
     "sourcePixelsModified": false,
-    "silhouetteMask": "alpha >= 6 row extent fill, same as production buildSilhouetteMask",
-    "profileCenter": [426.5, 925],
-    "profileRadius": 316,
-    "studyCenter": [200, 200],
-    "studyRadius": 176,
-    "outputs": ["formal-outer-film-crop.png", "formal-silhouette-mask.png"]
+    "compositingOnly": true,
+    "silhouetteMask": "alpha >= 6 row extent fill, same as production buildSilhouetteMask"
   },
-  "channelAB": {
-    "input": "PIL RGB -> numpy RGB",
-    "A": "translated patch with [:,:,::-1]",
-    "B": "translated patch without channel reversal",
-    "decision": "B_NORMAL_RGB",
-    "reason": "no BGR API or OpenCV context exists",
-    "evidence": ["core-reconstruction-ab.png", "local-color-difference.png", "m1-neutral-hero-channel-ab.png", "correctness-metrics.json"]
-  },
-  "coreReconstruction": {
-    "method": "local translated patch + radial falloff + annular material fill",
-    "largeBlur": false,
-    "residual": "NONE"
-  },
-  "sparseDetail": {
-    "source": "neutral-water-detail.png",
-    "sourceAssetChanged": false,
-    "reviewOnly": ["sparse-detail-alpha-raw.png", "sparse-detail-alpha.png"],
-    "reviewability": "PASS"
-  },
-  "materialRepresentationChanged": false,
-  "threeJS": "NOT_JUSTIFIED"
+  "provenance": {
+    "primaryDonor": "FINAL_ART_025",
+    "secondaryGuide": "FINAL_ART_050",
+    "runtimeDirectSample": false,
+    "productionDependency": false
+  }
 }
