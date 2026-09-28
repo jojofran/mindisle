@@ -1,0 +1,63 @@
+{
+  "A": "legacy reversed channels",
+  "B": "normal RGB",
+  "onlyABVariable": "reverse_channels",
+  "heroInputs": "each variant uses its own field, volume, thickness, detail; shared formal shell/mask",
+  "localColorDifference": [
+    {
+      "region": "cold",
+      "crop": [
+        90,
+        105,
+        205,
+        220
+      ],
+      "mean_B_minus_A_RGB": [
+        -2.0728166351606805,
+        0.0,
+        2.1107750472589792
+      ],
+      "mean_absolute_difference": 1.3945305608065532,
+      "max_absolute_difference": 7.0
+    },
+    {
+      "region": "warm",
+      "crop": [
+        210,
+        175,
+        335,
+        300
+      ],
+      "mean_B_minus_A_RGB": [
+        -4.368192,
+        0.0,
+        4.367744
+      ],
+      "mean_absolute_difference": 2.9119786666666667,
+      "max_absolute_difference": 11.0
+    },
+    {
+      "region": "halo",
+      "crop": [
+        240,
+        220,
+        350,
+        330
+      ],
+      "mean_B_minus_A_RGB": [
+        -4.497024793388429,
+        0.0,
+        4.488512396694215
+      ],
+      "mean_absolute_difference": 2.9951790633608817,
+      "max_absolute_difference": 11.0
+    }
+  ],
+  "differencePreviewGain": 4,
+  "alphaView": {
+    "raw": "exact source alpha",
+    "gain": 4,
+    "nonzeroFraction": 0.1546625,
+    "maxAlpha": 159
+  }
+}

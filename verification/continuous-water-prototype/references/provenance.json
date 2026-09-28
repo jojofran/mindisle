@@ -160,5 +160,22 @@
       "runtimeDirectSample": false,
       "productionAssetAuthority": false
     }
-  ]
+  ],
+  "correctnessRepair": {
+    "formalShell": {
+      "source": "assets/waterball-still-v1/layers/01_outer_film.png",
+      "runtimeDirectSample": false,
+      "sourcePixelsModified": false,
+      "role": "verification-domain shell fidelity only"
+    },
+    "coreReconstruction": {
+      "channelDecision": "B_NORMAL_RGB",
+      "legacyReversedPath": "A/B negative control only",
+      "runtimeDirectSample": false
+    },
+    "sparseDetailReview": {
+      "sourceAssetChanged": false,
+      "alphaView": "review-only"
+    }
+  }
 }

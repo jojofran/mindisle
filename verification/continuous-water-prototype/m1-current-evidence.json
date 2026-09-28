@@ -1,51 +1,50 @@
 {
-  "evidenceStatus": "CURRENT_M1_2_DONOR_MATERIAL_REVIEW",
+  "evidenceStatus": "CURRENT_M1_2_DONOR_CORRECTNESS_REPAIR",
   "milestone": "M1.2",
-  "milestoneName": "Final Art Donor Material Baking",
-  "model": "GPT-6 Astra",
-  "scope": "offline donor-baked neutral material study only",
-  "branch": "exp/waterball-m1-clean",
-  "baseCommit": "cdbb488",
-  "referencePackage": "references/provenance.json",
-  "authorityChange": {
-    "FINAL_ART_025": {"visualReference": true, "offlineDerivationDonor": true, "runtimeDirectSample": false, "productionDependency": false},
-    "FINAL_ART_050": {"visualReference": true, "role": "depth / thickness / cloudy organization guide", "runtimeDirectSample": false},
-    "FINAL_ART_075": {"visualReference": true, "role": "upper-bound reference only", "runtimeDirectSample": false},
-    "FROZEN_K2": {"endpointAuthority": true, "runtimeDirectSample": false}
-  },
-  "route": "FINAL_ART_OFFLINE_DONOR_ROUTE",
-  "donorCyclesUsed": 2,
-  "donorCycleLimit": 2,
-  "outputs": {
-    "neutralVolume": {"path": "neutral-water-volume.png", "derivedFrom": ["FINAL_ART_025"], "bakingMethod": "local patch recomposition + core/text inpaint + low-frequency donor mass"},
-    "thickness": {"path": "neutral-thickness.png", "derivedFrom": ["FINAL_ART_025", "FINAL_ART_050"], "bakingMethod": "analytic sphere/body thickness + trusted low-frequency local mass; RGB shallow/medium/deep"},
-    "sparseDetail": {"path": "neutral-water-detail.png", "derivedFrom": ["FINAL_ART_025"], "bakingMethod": "band-pass extraction + sparse region selection + low contrast"},
-    "currentHero": {"path": "m1-neutral-hero.png", "verificationOnly": true, "productionAssetAuthority": false}
-  },
-  "coreRemoval": {"method": "masked local patch reconstruction and annular material fill", "coreResidue": "NONE"},
-  "freshCritic": {
-    "cycle1": {"sameWater": "partial", "fogBall": "yes", "authoredCloudyMass": "no", "depth": "no", "sparseDetail": "no", "neutralPose": "preserved", "improvement": "REGRESSION", "failureSignal": "patch seams and screenshot chrome remained visible"},
-    "cycle2": {"sameWater": "clearer", "fogBall": "no obvious blocker", "authoredCloudyMass": "yes", "depth": "成立为 shallow/medium/deep source", "sparseDetail": "present but low contrast", "neutralPose": "preserved", "improvement": "CLEAR", "failureSignal": "none requiring another donor cycle"}
-  },
-  "currentStructuralStatus": {
-    "technicalStructure": "PASS",
-    "staticStudy": true,
-    "cores": false,
-    "formation": false,
-    "cavity": false,
-    "directionalFlow": false,
-    "productionRendererChanged": false,
-    "productionAssetChanged": false,
-    "runtimeDirectSample": false,
-    "threeJS": "NOT_JUSTIFIED"
-  },
+  "milestoneName": "Donor Material Correctness Repair",
+  "baseCommit": "027c3f2",
+  "scope": "verification-only correctness and fidelity repair",
+  "forbidden": ["production", "M2", "push", "material redesign", "formation", "deformation", "moving"],
   "result": {
-    "donorMaterialRoute": "READY_FOR_HUMAN_REVIEW",
-    "materialFamily": "READY_FOR_HUMAN_REVIEW",
+    "donorMaterialRoute": "PASS",
+    "formalShellFidelity": "PASS",
+    "coreReconstructionColor": "PASS",
+    "coreResidue": "NONE",
+    "sparseDetailReviewability": "PASS",
     "neutralPose": "PRESERVED",
-    "readyForM2": false,
-    "oldSourceDerivedRoute": "CLOSED",
-    "fromScratchAuthoredRoute": "CLOSED"
+    "materialFamily": "READY_FOR_HUMAN_REVIEW",
+    "readyForM2": false
   },
-  "forbiddenClaims": ["M1 human gate pass", "M2 readiness", "M3 spatial transport PASS", "M4 core integration PASS", "transitioning", "moving", "production migration"]
+  "formalShell": {
+    "source": "assets/waterball-still-v1/layers/01_outer_film.png",
+    "runtimeDirectSample": false,
+    "sourcePixelsModified": false,
+    "silhouetteMask": "alpha >= 6 row extent fill, same as production buildSilhouetteMask",
+    "profileCenter": [426.5, 925],
+    "profileRadius": 316,
+    "studyCenter": [200, 200],
+    "studyRadius": 176,
+    "outputs": ["formal-outer-film-crop.png", "formal-silhouette-mask.png"]
+  },
+  "channelAB": {
+    "input": "PIL RGB -> numpy RGB",
+    "A": "translated patch with [:,:,::-1]",
+    "B": "translated patch without channel reversal",
+    "decision": "B_NORMAL_RGB",
+    "reason": "no BGR API or OpenCV context exists",
+    "evidence": ["core-reconstruction-ab.png", "local-color-difference.png", "m1-neutral-hero-channel-ab.png", "correctness-metrics.json"]
+  },
+  "coreReconstruction": {
+    "method": "local translated patch + radial falloff + annular material fill",
+    "largeBlur": false,
+    "residual": "NONE"
+  },
+  "sparseDetail": {
+    "source": "neutral-water-detail.png",
+    "sourceAssetChanged": false,
+    "reviewOnly": ["sparse-detail-alpha-raw.png", "sparse-detail-alpha.png"],
+    "reviewability": "PASS"
+  },
+  "materialRepresentationChanged": false,
+  "threeJS": "NOT_JUSTIFIED"
 }

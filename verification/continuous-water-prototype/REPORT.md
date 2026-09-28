@@ -1,162 +1,130 @@
-# M1.2 — Final Art Donor Material Baking
+# M1.2 — Donor Material Correctness Repair
 
 ## Final state
 
-- **OLD SOURCE-DERIVED ROUTE = CLOSED**
-- **FROM-SCRATCH AUTHORED ROUTE = CLOSED**
-- **FINAL ART DONOR ROUTE = READY FOR HUMAN REVIEW**
-- **MATERIAL FAMILY = READY FOR HUMAN REVIEW**
+- **DONOR MATERIAL ROUTE = PASS**
+- **FORMAL SHELL FIDELITY = PASS**
+- **CORE RECONSTRUCTION COLOR = PASS**
+- **CORE RESIDUE = NONE**
+- **SPARSE DETAIL REVIEWABILITY = PASS**
 - **NEUTRAL POSE = PRESERVED**
-- **DONOR CYCLES USED = 2 / 2**
-- **THREE.JS = NOT JUSTIFIED**
+- **MATERIAL FAMILY = READY FOR HUMAN REVIEW**
 - **READY_FOR_M2 = NO**
 
-“READY FOR HUMAN REVIEW” 是本轮实验出口，不是 Human Gate A/B 通过，也不打开 M2。
+本轮只修 correctness 与 fidelity；没有重新设计 neutral material，没有进入 M2，没有修改 production，也没有 push。
 
-## 1. Authority / provenance
+## 1. Hero shell 原来的错误
 
-`FINAL_ART_025` 现在被允许作为：
+旧 Hero 使用 `analytic circle mask + procedural white rim`。这造成均匀白描边，和正式 Still 的薄、不均匀、随曲率变化的 outer film 不是同一个 shell identity。
 
-- `visualReference = true`
-- `offlineDerivationDonor = true`
-- `runtimeDirectSample = false`
-- `canonicalFinalFrameTexture = false`
-- `productionDependency = false`
+## 2. 正式 shell 修复
 
-`FINAL_ART_050` 只作为 depth / thickness / cloudy organization guide；`FINAL_ART_075` 只作为 upper-bound reference；`FROZEN_K2` 仍是 endpoint authority。Frozen K2 authority 未修改。完整 provenance 见 [`references/provenance.json`](references/provenance.json)。
+修复后 Hero 使用：
 
-新生成的三份 source 都记录 `derivedFrom` 与 baking method，并保持 verification-only；runtime 未来只能使用烘焙后的 neutral assets，不能直接使用 Final Art。
+- `assets/waterball-still-v1/layers/01_outer_film.png` 的真实视觉内容；
+- profile 冻结的 center `[426.5, 925]` 与 radius `316`；
+- 与 production `buildSilhouetteMask()` 一致的 `alpha >= 6` 逐行左右边界填充 mask；
+- 同一 400px study body domain 的 affine 映射。
 
-## 2. Route Check — Cycle 1
+没有修改正式 PNG 像素内容，没有重新画白色圆环，也没有改变 center / radius / body domain。正式 source hash、crop 和 mask 见 [`donor-baking-manifest.json`](donor-baking-manifest.json)、[`formal-outer-film-crop.png`](formal-outer-film-crop.png) 和 [`formal-silhouette-mask.png`](formal-silhouette-mask.png)。
 
-- **CURRENT PRIMARY DEFECT =** authored-source Hero 是均匀雾球；Final Art 的局部 cloudy mass、厚度关系和 sparse water vocabulary 没有进入可见材料。
-- **ROOT CAUSE TYPE =** material representation / source organization。
-- **DONOR ROUTE CAN SOLVE = YES**。
-- **WHY =** `FINAL_ART_025` 已经包含品牌认可的 white-cyan cloudy mass、局部厚薄和稀疏水纹，可通过局部 patch 提取并重新编排；不需要继续全局 neutralization。
-- **PROPOSED BAKING CHANGE =** 对 025 做局部 patch / warp / recomposition，先遮掉 UI chrome 与 cold/warm core，再输出 volume、thickness、detail 三份中间源。
-- **EXPECTED VISIBLE EFFECT =** Hero 出现 donor-derived 的 authored cloudy structure，并与 025 保持材质家族连续。
-- **FAILURE SIGNAL =** 拼接带、截图文字残留、core halo 或 patch 几何边界可见。
+结果：均匀白描边感明显消失，Hero 外膜更接近 Final Art / Frozen Still 的薄膜折射身份，内部 donor material 保持。
 
-### Cycle 1 Fresh Critic
+## 3. RGB/BGR correctness A/B
 
-先只看 `FINAL_ART_025`、`FINAL_ART_050`、`FROZEN_K2`、D K0 和第一版 neutral Hero：
+原实现中的：
 
-1. 是否明显是同一种水：**部分**；
-2. 是否仍是雾球 / 磨砂球：**是**；
-3. cloudy mass 是否像 authored structure：**否，patch 边界先于材质被看到**；
-4. front/internal/rear depth 是否成立：**否**；
-5. sparse detail 是否属于水体：**否**；
-6. Neutral Pose 是否成立：**是**。
+```python
+patch = arr[sy, sx][:, :, ::-1]
+```
 
-**IMPROVEMENT = REGRESSION**。失败信号明确，不能沿用同一版继续微调。
+输入 `arr` 来自 PIL RGB image → numpy RGB array。当前 pipeline 没有 BGR API，也没有 OpenCV context，因此这个反转没有依据。
 
-## 3. Route Check — Cycle 2
+A/B 只改变 `reverse_channels`：
 
-- **CURRENT PRIMARY DEFECT =** Cycle 1 的 donor patch 带有可见拼接边界，且原图文字/core 位置记忆残留。
-- **ROOT CAUSE TYPE =** local reconstruction / compositing seam。
-- **DONOR ROUTE CAN SOLVE = YES**。
-- **WHY =** 缺陷集中在局部 patch 的 mask、inpaint 和 upper-region handoff；025 的材料 vocabulary 本身仍然可用。
-- **PROPOSED BAKING CHANGE =** 改用 core-clean 局部带重建、宽幅 feather、translated patch warp 和 annular material fill；重新计算 analytic body thickness，并把 025 band-pass 细节稀疏筛选后以低对比接入。
-- **EXPECTED VISIBLE EFFECT =** 无 UI chrome、无可读 cold/warm core、无明显 patch seam；Hero 具有非均匀 cloudy mass，厚度源明确表达 shallow / medium / deep。
-- **FAILURE SIGNAL =** 仍出现 core residue、明显方向性 cavity/swirl、重复条带、或 source 仍退回均匀 fog disc。
+- **A**：保留 channel reversal，作为 negative control；
+- **B**：正常 RGB patch，其他步骤与 shell 完全相同。
 
-### Cycle 2 Fresh Critic
+输出：
 
-只看四份 Final Art / D K0 reference 和当前 donor Hero：
+- [`core-reconstruction-ab.png`](core-reconstruction-ab.png)
+- [`local-color-difference.png`](local-color-difference.png)
+- [`m1-neutral-hero-channel-ab.png`](m1-neutral-hero-channel-ab.png)
+- [`correctness-metrics.json`](correctness-metrics.json)
 
-1. 是否明显是同一种水：**更清楚，是同一材质家族的 neutral 版本**；
-2. 是否仍是雾球 / 磨砂球：**没有明显 blocker**；
-3. cloudy mass 是否像 authored structure：**是，局部聚散和水体重量可读**；
-4. front/internal/rear depth 是否成立：**在静态 source 层成立，thickness map 明确有 shallow / medium / deep 编码**；
-5. sparse detail 是否属于水体：**有，刻意保持低对比、局部存在/缺失**；
-6. Neutral Pose 是否仍然成立：**是，无 cavity、swirl、强左→右方向或 K1/K2 结构**。
+Fresh comparison 显示 B 的局部色彩与 donor 周边连续，A 在 cold/warm reconstruction 区域出现偏暖/偏灰偏移。因此最终修复采用 **B_NORMAL_RGB**，没有保留 unexplained channel swap。
 
-**IMPROVEMENT = CLEAR**。本轮不再开第三个 donor cycle。
+## 4. Core / halo reconstruction
 
-## 4. Asset A — Neutral Water Volume
+只做局部 correctness repair：translated local patch、radial falloff 和周边 annular material fill。没有使用大 blur 掩盖问题。
 
-输出：[`neutral-water-volume.png`](neutral-water-volume.png)。
+检查项：
 
-以 `FINAL_ART_025` 为主要 donor，先去除 UI chrome 和 cold/warm core，再从不同内部区域选取局部 patch，做小幅旋转、翻转和宽幅羽化重组；`FINAL_ART_050` 只提供轻量 low-frequency mass variation。保留了：
+- cold core：无可读色偏；
+- warm core：无可读色偏；
+- halo：无亮斑、暗斑或 crater；
+- patch boundary：无明显矩形边界；
+- final Hero：无 localized blue/orange residue。
 
-- white-cyan cloudy mass；
-- 局部实 / 透关系；
-- 大尺度非均匀与水体重量；
-- donor 的 authored optical complexity。
+**CORE RESIDUE = NONE**。
 
-删除了：
+## 5. Sparse Detail Alpha Visualization
 
-- cold / warm core 及 halo memory；
-- 明确 cavity、swirl 和单向 K1/K2 组织；
-- screenshot text 和 full-frame state composition。
+`neutral-water-detail.png` 的 source asset 保持不变。新增 review-only：
 
-A 单独看不是 radial gradient、fog disc 或几个 soft blob；它是局部 donor material 的 neutral spatial recomposition。
+- [`sparse-detail-alpha-raw.png`](sparse-detail-alpha-raw.png)：原始 alpha；
+- [`sparse-detail-alpha.png`](sparse-detail-alpha.png)：只提高显示增益，不改变 source；
+- Review 页面中的 `SPARSE DETAIL — ALPHA VIEW`。
 
-## 5. Asset B — Thickness / Depth
+Alpha view 可直接检查 detail 的分布、稀疏程度、局部存在/缺失和是否形成 blob / fingerprint / contour。当前分布是少量、断裂、不同尺度、低覆盖率结构，未见规则重复带。
 
-输出：[`neutral-thickness.png`](neutral-thickness.png)。
+## 6. Corrected Hero
 
-使用 analytic sphere/body thickness 作为深度骨架，再加入来自 025/050 的可信低频 local mass variation。RGB 明确编码 shallow / medium / deep，不从 Final Art brightness 直接反推 depth，也没有把图压成单一灰色模糊圆。当前 Hero 的 compositor 使用该深度源控制 front veil、internal mass 与 rear transmission 的相对密度。
+当前 Hero：[`m1-neutral-hero.png`](m1-neutral-hero.png)。
 
-## 6. Asset C — Sparse Water Detail
+它使用同一套：
 
-输出：[`neutral-water-detail.png`](neutral-water-detail.png)。
+- Neutral Volume；
+- Thickness；
+- Sparse Detail；
+- corrected B_NORMAL_RGB reconstruction；
+- formal `01_outer_film` + formal silhouette mask。
 
-从清理后的 025 提取 band-pass structure，再按局部区域筛选少量 irregular soft ridges、fine cloudy breakup 和断裂水纹；保留不同尺度、低对比、局部存在/缺失，禁止 stain、fingerprint、contour、marble、repeated bands 与 generic FBM。Detail 在 Hero 中只作为低权重 vocabulary，不接管整幅画面。
+没有重新调 cloudy richness、thickness design、detail vocabulary、formation 或 deformation。
 
-## 7. Core residue check
+## 7. Final Art comparison / Fresh Critic
 
-Core removal 使用精确位置 mask、translated local patch warp 和周边 annular material fill；不是 blur-to-neutral。当前 review readout 与像素检查记录 `coreResidue = NONE`，Hero 中没有可读 cold/warm dot 或 halo crater。
+只看 `FINAL_ART_025`、`FINAL_ART_050`、`FROZEN_K2` 与 corrected Hero：
 
-## 8. Static compositor / review evidence
+1. **外膜是否仍有明显白描边/程序化圆环感？** 没有，formal outer film 的不均匀薄膜折射可读。
+2. **内部 water material 是否保留 donor-route cloudy richness？** 保留；内部 material representation 未重做。
+3. **core reconstruction 是否存在色偏或痕迹？** A 有偏移，B 已消除；B 为最终版本。
+4. **front / internal / rear depth 是否仍成立？** 成立；Thickness source 与 Hero compositor 未改设计。
+5. **sparse detail alpha 是否自然且稀疏？** 是；新增 alpha view 后可直接检查。
+6. **Hero 是否更接近 Final Art material family？** 是；shell fidelity 修复后更接近 Final Art / Frozen Still 的整体身份。
 
-Review 页面：[`index.html`](index.html)。页面展示：
+**IMPROVEMENT = CLEAR**。未发现 correctness-level blocker，也没有发生 internal material regression。
 
-- `FINAL_ART_025`、`FINAL_ART_050`、`FROZEN_K2`、D K0；
-- Neutral Volume、Thickness / Depth、Sparse Detail；
-- Current Hero；
-- Old Authored Failed Hero vs New Donor Hero。
+## 8. 是否修改 material representation
 
-旧 Hero 只是历史负面证据；新 Hero 只由 formal outer membrane、三份新 baked source 和 minimal neutral optical compositor 组成。没有 runtime direct sampling、full-frame state crossfade、canonical final-frame texture 或 production dependency。
+没有重新设计 material representation。修改仅限：
 
-## 9. Old Hero vs New Hero
-
-旧 Hero 是 M1.1 authored-source blocker：均匀青白填充、内部厚度不可读、detail 不成立。新 Hero 的性质改善是：
-
-- cloudy mass 变成 donor-derived 的多尺度局部组织；
-- front / internal / rear 的静态厚度关系可由 B source 解释；
-- sparse detail 不再是 UI 线段或重复软 blob；
-- core、cavity、swirl 和方向性结构不再成为主视觉。
-
-它仍需 Human Gate A/B，不能据此宣布 M2 ready。
-
-## 10. Final report
-
-- donor route 是否可行：**可行，达到 READY FOR HUMAN REVIEW**；
-- FINAL_ART_025 保留：white-cyan cloudy mass、局部实/透关系、大尺度非均匀、水体重量、稀疏 water vocabulary、authorial optical complexity；
-- 删除：core、halo、cavity、swirl、directional K1/K2 organization、state-specific composition、UI chrome；
-- Neutral Volume：局部 donor patch / warp / recomposition + core/text reconstruction；
-- Thickness：analytic body thickness + 025/050 low-frequency local mass，RGB shallow/medium/deep；
-- Sparse Detail：025 band-pass extraction + sparse region selection + low contrast；
-- core residue：**NONE**；
-- Route Check：2 次，均记录于本报告；
-- Fresh Critic：Cycle 1 = REGRESSION，Cycle 2 = CLEAR；
-- improvement：**CLEAR**；
-- old Hero vs new Hero：new donor Hero 的 cloudy mass、静态厚度解释和材质家族连续性改善；
-- Final Art comparison：025/050 的材质 vocabulary 被保留，075 仅作上限，FROZEN_K2 仍只作 endpoint；
-- Neutral Pose：**PRESERVED**；
-- provenance：[`references/provenance.json`](references/provenance.json) 与 [`m1-current-evidence.json`](m1-current-evidence.json)；
-- commit hash：由本轮最终 git commit 记录；见任务最终报告。
+- formal shell source / mask correctness；
+- core reconstruction RGB channel correctness；
+- review-only alpha visualization；
+- generated evidence 与 provenance。
 
 ## Final boundary
 
 ```text
-OLD SOURCE-DERIVED ROUTE = CLOSED
-FROM-SCRATCH AUTHORED ROUTE = CLOSED
-FINAL_ART_DONOR_ROUTE = READY FOR HUMAN REVIEW
+DONOR MATERIAL ROUTE = PASS
+FORMAL SHELL FIDELITY = PASS
+CORE RECONSTRUCTION COLOR = PASS
+CORE RESIDUE = NONE
+SPARSE DETAIL REVIEWABILITY = PASS
 NEUTRAL POSE = PRESERVED
 MATERIAL FAMILY = READY FOR HUMAN REVIEW
-DONOR CYCLES USED = 2 / 2
-THREE.JS = NOT JUSTIFIED
 READY_FOR_M2 = NO
 ```
+
+Commit hash：本轮提交后记录于最终报告。

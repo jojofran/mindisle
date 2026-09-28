@@ -4,18 +4,33 @@
   "secondaryGuide": "FINAL_ART_050",
   "upperBound": "FINAL_ART_075",
   "endpoint": "FROZEN_K2",
-  "method": {
-    "volume": "local donor patch recomposition after patch-inpainting UI text and cold/warm cores",
-    "thickness": "analytic sphere body thickness plus low-frequency 025/050 local mass variation; RGB shallow/medium/deep encoding",
-    "detail": "band-pass extraction from cleaned 025, sparse region selection, low-contrast alpha",
-    "hero": "formal outer membrane + baked volume + baked depth-controlled veil + sparse donor detail"
+  "formalShell": {
+    "source": "assets/waterball-still-v1/layers/01_outer_film.png",
+    "sha256": "6d7a4df838479ec9e19bec1bc3537b540cc4e59ad6b97643fd256d35ed062a60",
+    "sourcePixelsModified": false,
+    "sampling": "single bicubic affine, no tint/opacity adjustment",
+    "profileCenter": [
+      426.5,
+      925
+    ],
+    "profileRadius": 316,
+    "studyCenter": [
+      200,
+      200
+    ],
+    "studyRadius": 176,
+    "mask": "alpha >= 6 row extent fill, same as production buildSilhouetteMask",
+    "bodyDomain": "still-silhouette"
   },
-  "forbidden": [
-    "runtime_direct_sampling",
-    "full_frame_state_crossfade",
-    "canonical_final_frame_texture",
-    "production_dependency"
-  ],
-  "coreResidue": "NONE_BY_MASKED_PATCH_RECONSTRUCTION",
+  "channelCorrectness": {
+    "input": "PIL RGB",
+    "decision": "B_NORMAL_RGB",
+    "reversedPath": "A/B negative control only; no BGR API in pipeline"
+  },
+  "materialParametersChanged": false,
+  "sourcePixelChanges": "consequences of local RGB correction only",
+  "coreResidue": "visual review pending",
+  "runtimeDirectSample": false,
+  "productionAssetAuthority": false,
   "threeJS": "NOT_JUSTIFIED"
 }
