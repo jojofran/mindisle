@@ -1,20 +1,25 @@
 {
-  "package": "MindIsle WaterBall M1 corrected Final Art reference package",
-  "packagePolicy": "REFERENCE_ONLY; no image is a canonical shader texture, carrier raw input, or neutral material source texture",
+  "package": "MindIsle WaterBall M1.2 Final Art offline donor package",
+  "packagePolicy": "REFERENCE_AND_OFFLINE_DERIVATION_DONOR; no image is a runtime texture, canonical final-frame texture, or production asset",
   "sourceEvidence": "ORIGINAL_DIRTY_WORKTREE: verification/m0.5-last-good-review/index.html (historical provenance only; not required current input)",
   "references": [
     {
       "id": "FINAL_ART_025",
-      "role": "PRIMARY_MATERIAL_RICHNESS_REFERENCE",
+      "role": "OFFLINE_DERIVATION_DONOR_AND_PRIMARY_MATERIAL_REFERENCE",
       "sourceRelativePath": "verification-final-art-k1-025-close.png",
       "cleanReferencePath": "verification/continuous-water-prototype/references/final-art-025.png",
       "sha256": "0a31489f0364a9a53401fc2931bc72b78c6086e41a3b195642b40aebf2929f04",
       "copiedExact": true,
       "generatedForM1": false,
       "poseContamination": "LOW",
-      "usePolicy": "VISUAL_MATERIAL_REFERENCE_ONLY",
+      "usePolicy": "VISUAL_REFERENCE_AND_OFFLINE_DERIVATION_DONOR_ONLY",
       "authority": "primary material richness reference",
-      "directShaderSource": false
+      "directShaderSource": false,
+      "offlineDerivationDonor": true,
+      "visualReference": true,
+      "runtimeDirectSample": false,
+      "canonicalFinalFrameTexture": false,
+      "productionDependency": false
     },
     {
       "id": "FINAL_ART_050",
@@ -25,9 +30,10 @@
       "copiedExact": true,
       "generatedForM1": false,
       "poseContamination": "MEDIUM",
-      "usePolicy": "VISUAL_MATERIAL_REFERENCE_ONLY",
+      "usePolicy": "DEPTH_THICKNESS_CLOUDY_GUIDE_ONLY",
       "authority": "depth, thickness, and cloudy organization reference; not neutral pose authority",
-      "directShaderSource": false
+      "directShaderSource": false,
+      "offlineDerivationDonor": false
     },
     {
       "id": "FINAL_ART_075",
@@ -38,9 +44,10 @@
       "copiedExact": true,
       "generatedForM1": false,
       "poseContamination": "HIGH",
-      "usePolicy": "VISUAL_MATERIAL_REFERENCE_ONLY_NO_POSE_COPY",
+      "usePolicy": "UPPER_BOUND_REFERENCE_ONLY",
       "authority": "material maturity, optical richness, thickness, and cloudy/detail upper bound; cavity, swirl, directional density, and K2 pose are excluded",
-      "directShaderSource": false
+      "directShaderSource": false,
+      "offlineDerivationDonor": false
     },
     {
       "id": "FROZEN_K2_FINAL_ART",
@@ -93,6 +100,65 @@
       "usePolicy": "NEUTRAL_RESTRAINT_REFERENCE_ONLY",
       "authority": "neutral restraint only; not material richness authority",
       "directShaderSource": false
+    }
+  ],
+  "authorityChange": {
+    "FINAL_ART_025": {
+      "visualReference": true,
+      "offlineDerivationDonor": true,
+      "runtimeDirectSample": false,
+      "canonicalFinalFrameTexture": false,
+      "productionDependency": false
+    },
+    "FINAL_ART_050": {
+      "visualReference": true,
+      "offlineDerivationDonor": false,
+      "role": "depth / thickness / cloudy organization guide",
+      "runtimeDirectSample": false
+    },
+    "FINAL_ART_075": {
+      "visualReference": true,
+      "offlineDerivationDonor": false,
+      "role": "upper-bound reference only",
+      "runtimeDirectSample": false
+    },
+    "FROZEN_K2": {
+      "endpointAuthority": true,
+      "runtimeDirectSample": false,
+      "donor": false
+    }
+  },
+  "generatedAssets": [
+    {
+      "id": "neutral-water-volume",
+      "path": "neutral-water-volume.png",
+      "derivedFrom": [
+        "FINAL_ART_025"
+      ],
+      "bakingMethod": "local FINAL_ART_025 patch recomposition after core/text inpaint",
+      "runtimeDirectSample": false,
+      "productionAssetAuthority": false
+    },
+    {
+      "id": "neutral-thickness",
+      "path": "neutral-thickness.png",
+      "derivedFrom": [
+        "FINAL_ART_025",
+        "FINAL_ART_050"
+      ],
+      "bakingMethod": "analytic sphere thickness plus FINAL_ART_025/050 low-frequency local mass",
+      "runtimeDirectSample": false,
+      "productionAssetAuthority": false
+    },
+    {
+      "id": "neutral-water-detail",
+      "path": "neutral-water-detail.png",
+      "derivedFrom": [
+        "FINAL_ART_025"
+      ],
+      "bakingMethod": "band-pass vocabulary extraction from cleaned FINAL_ART_025 with sparse selection",
+      "runtimeDirectSample": false,
+      "productionAssetAuthority": false
     }
   ]
 }

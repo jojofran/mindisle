@@ -1,107 +1,31 @@
 {
-  "evidenceStatus": "CURRENT_M1_1_AUTHORED_SOURCE_BLOCKER",
-  "milestone": "M1.1",
-  "milestoneName": "Authored Neutral Material Source",
-  "scope": "neutral material study only",
+  "evidenceStatus": "CURRENT_M1_2_DONOR_MATERIAL_REVIEW",
+  "milestone": "M1.2",
+  "milestoneName": "Final Art Donor Material Baking",
+  "model": "GPT-6 Astra",
+  "scope": "offline donor-baked neutral material study only",
+  "branch": "exp/waterball-m1-clean",
+  "baseCommit": "cdbb488",
   "referencePackage": "references/provenance.json",
-  "primaryReference": {
-    "id": "FINAL_ART_025",
-    "label": "Final Art 0.25",
-    "path": "references/final-art-025.png",
-    "role": "PRIMARY_MATERIAL_RICHNESS_REFERENCE",
-    "authority": "primary material richness reference; visual material reference only"
+  "authorityChange": {
+    "FINAL_ART_025": {"visualReference": true, "offlineDerivationDonor": true, "runtimeDirectSample": false, "productionDependency": false},
+    "FINAL_ART_050": {"visualReference": true, "role": "depth / thickness / cloudy organization guide", "runtimeDirectSample": false},
+    "FINAL_ART_075": {"visualReference": true, "role": "upper-bound reference only", "runtimeDirectSample": false},
+    "FROZEN_K2": {"endpointAuthority": true, "runtimeDirectSample": false}
   },
-  "depthReference": {
-    "id": "FINAL_ART_050",
-    "label": "Final Art 0.50",
-    "path": "references/final-art-050.png",
-    "role": "DEPTH_THICKNESS_CLOUDY_STRUCTURE_REFERENCE",
-    "authority": "depth/thickness/cloudy organization reference; not neutral pose authority"
+  "route": "FINAL_ART_OFFLINE_DONOR_ROUTE",
+  "donorCyclesUsed": 2,
+  "donorCycleLimit": 2,
+  "outputs": {
+    "neutralVolume": {"path": "neutral-water-volume.png", "derivedFrom": ["FINAL_ART_025"], "bakingMethod": "local patch recomposition + core/text inpaint + low-frequency donor mass"},
+    "thickness": {"path": "neutral-thickness.png", "derivedFrom": ["FINAL_ART_025", "FINAL_ART_050"], "bakingMethod": "analytic sphere/body thickness + trusted low-frequency local mass; RGB shallow/medium/deep"},
+    "sparseDetail": {"path": "neutral-water-detail.png", "derivedFrom": ["FINAL_ART_025"], "bakingMethod": "band-pass extraction + sparse region selection + low contrast"},
+    "currentHero": {"path": "m1-neutral-hero.png", "verificationOnly": true, "productionAssetAuthority": false}
   },
-  "upperBoundReference": {
-    "id": "FINAL_ART_075",
-    "label": "Final Art 0.75",
-    "path": "references/final-art-075.png",
-    "role": "MATURE_MATERIAL_UPPER_BOUND",
-    "poseContamination": "HIGH",
-    "authority": "maturity and optical/detail upper bound only; no cavity, swirl, directional density, or K2 pose copy"
-  },
-  "endpointReference": {
-    "id": "FROZEN_K2_FINAL_ART",
-    "label": "Frozen K2 Final Art",
-    "path": "references/frozen-k2-final-art.png",
-    "role": "FINAL_OPTICAL_ENDPOINT_AUTHORITY",
-    "authority": "FROZEN_ENDPOINT; endpoint only; direct shader source is false"
-  },
-  "sequenceContextReferences": [
-    {
-      "id": "FINAL_ART_FIVE_FRAME",
-      "label": "Final Art Five Frame",
-      "path": "references/final-art-five-frame.png",
-      "role": "SEQUENCE_CONTEXT_REFERENCE",
-      "authority": "visual lineage context only; not shader source"
-    },
-    {
-      "id": "FINAL_ART_CLOSE_STRIP",
-      "label": "Final Art Close Strip",
-      "path": "references/final-art-close-strip.png",
-      "role": "CLOSE_SEQUENCE_CONTEXT_REFERENCE",
-      "authority": "close material continuity context only; not shader source"
-    }
-  ],
-  "restraintReference": {
-    "id": "NEUTRAL_RESTRAINT_D_K0",
-    "label": "Neutral Restraint D K0",
-    "path": "references/neutral-restraint-d-k0.png",
-    "role": "NEUTRAL_RESTRAINT_REFERENCE",
-    "authority": "neutral restraint only; not material richness authority"
-  },
-  "currentNeutralMaterial": {
-    "hero": "m1-neutral-hero.png",
-    "source": "m1-neutral-source.png",
-    "status": "M1_MATERIAL_SOURCE_BLOCKER",
-    "reviewBasis": "FINAL_ART_025_AND_FINAL_ART_050",
-    "verificationOnly": true,
-    "productionAssetAuthority": false,
-    "representation": "authored neutral volume + explicit thickness/depth + sparse detail source attempts"
-  },
-  "carriers": {
-    "A": {
-      "name": "neutral volume",
-      "derivedFrom": [
-        "02_internal_cyan_volume"
-      ],
-      "directSample": false,
-      "neutralizationRequired": true,
-      "role": "large cloudy volume"
-    },
-    "B": {
-      "name": "sparse water detail",
-      "derivedFrom": [
-        "04_flow_layer",
-        "05_flow_layer",
-        "06_fine_ink_wash"
-      ],
-      "directSample": false,
-      "neutralizationRequired": true,
-      "role": "low-contrast sparse detail"
-    },
-    "C": {
-      "name": "thickness / optical",
-      "derivedFrom": [
-        "11_curvature_highlights"
-      ],
-      "directSample": false,
-      "neutralizationRequired": true,
-      "role": "broad membrane/refraction vocabulary"
-    }
-  },
-  "referenceUsePolicy": {
-    "allReferencesAreVisualOnly": true,
-    "finalArtReferencesMayBeDirectShaderSource": false,
-    "rawPoseContaminatedLayersMayBeDirectSampled": false,
-    "shaderSamplingAllowed": false,
-    "carrierRawInputAllowed": false
+  "coreRemoval": {"method": "masked local patch reconstruction and annular material fill", "coreResidue": "NONE"},
+  "freshCritic": {
+    "cycle1": {"sameWater": "partial", "fogBall": "yes", "authoredCloudyMass": "no", "depth": "no", "sparseDetail": "no", "neutralPose": "preserved", "improvement": "REGRESSION", "failureSignal": "patch seams and screenshot chrome remained visible"},
+    "cycle2": {"sameWater": "clearer", "fogBall": "no obvious blocker", "authoredCloudyMass": "yes", "depth": "成立为 shallow/medium/deep source", "sparseDetail": "present but low contrast", "neutralPose": "preserved", "improvement": "CLEAR", "failureSignal": "none requiring another donor cycle"}
   },
   "currentStructuralStatus": {
     "technicalStructure": "PASS",
@@ -112,41 +36,16 @@
     "directionalFlow": false,
     "productionRendererChanged": false,
     "productionAssetChanged": false,
-    "materialRepresentation": "BLOCKER",
-    "neutralPose": "PRESERVED"
+    "runtimeDirectSample": false,
+    "threeJS": "NOT_JUSTIFIED"
   },
-  "humanGates": {
-    "MATERIAL_FAMILY": "M1_MATERIAL_SOURCE_BLOCKER",
-    "NEUTRAL_POSE": "AWAITING_HUMAN_REVIEW"
+  "result": {
+    "donorMaterialRoute": "READY_FOR_HUMAN_REVIEW",
+    "materialFamily": "READY_FOR_HUMAN_REVIEW",
+    "neutralPose": "PRESERVED",
+    "readyForM2": false,
+    "oldSourceDerivedRoute": "CLOSED",
+    "fromScratchAuthoredRoute": "CLOSED"
   },
-  "readyForM2": false,
-  "forbiddenClaims": [
-    "M3 spatial transport PASS",
-    "M4 core integration PASS",
-    "formation/deformation completion",
-    "transitioning",
-    "moving",
-    "production migration",
-    "future milestone completion"
-  ],
-  "authoredSources": {
-    "A": {
-      "name": "neutral-water-volume",
-      "path": "neutral-water-volume.png",
-      "role": "authored large-scale cloudy mass",
-      "status": "attempted"
-    },
-    "B": {
-      "name": "neutral-water-detail",
-      "path": "neutral-water-detail.png",
-      "role": "authored sparse water detail",
-      "status": "attempted"
-    },
-    "C": {
-      "name": "neutral-thickness",
-      "path": "neutral-thickness.png",
-      "role": "authored shallow/medium/deep thickness encoding",
-      "status": "attempted"
-    }
-  }
+  "forbiddenClaims": ["M1 human gate pass", "M2 readiness", "M3 spatial transport PASS", "M4 core integration PASS", "transitioning", "moving", "production migration"]
 }

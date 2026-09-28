@@ -1,0 +1,21 @@
+{
+  "route": "FINAL_ART_OFFLINE_DONOR_ROUTE",
+  "primaryDonor": "FINAL_ART_025",
+  "secondaryGuide": "FINAL_ART_050",
+  "upperBound": "FINAL_ART_075",
+  "endpoint": "FROZEN_K2",
+  "method": {
+    "volume": "local donor patch recomposition after patch-inpainting UI text and cold/warm cores",
+    "thickness": "analytic sphere body thickness plus low-frequency 025/050 local mass variation; RGB shallow/medium/deep encoding",
+    "detail": "band-pass extraction from cleaned 025, sparse region selection, low-contrast alpha",
+    "hero": "formal outer membrane + baked volume + baked depth-controlled veil + sparse donor detail"
+  },
+  "forbidden": [
+    "runtime_direct_sampling",
+    "full_frame_state_crossfade",
+    "canonical_final_frame_texture",
+    "production_dependency"
+  ],
+  "coreResidue": "NONE_BY_MASKED_PATCH_RECONSTRUCTION",
+  "threeJS": "NOT_JUSTIFIED"
+}
