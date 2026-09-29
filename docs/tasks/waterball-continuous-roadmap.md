@@ -1,6 +1,6 @@
 # WaterBall Continuous Water Roadmap
 
-Current active milestone: **M1 — Neutral Water Material**
+Current active milestone: **M2 — Static GPU Material**
 
 本文件是 Continuous Water 的唯一执行入口。它只记录 milestone 状态、边界和下一步；当前代码事实读取 [`docs/analysis/CURRENT_RUNTIME_FACTS.md`](../analysis/CURRENT_RUNTIME_FACTS.md)，产品冻结语义仍以正式 product authority 为准。
 
@@ -36,23 +36,24 @@ Current active milestone: **M1 — Neutral Water Material**
 
 ## M1 — Neutral Water Material
 
-- **Status:** ACTIVE
-- **Goal:** 建立 pose-neutral、静止时就属于 MindIsle 水体材质家族的 internal material。
+- **Status:** PASS / FROZEN
+- **Closure:** CLOSED / FROZEN — MATERIAL SOURCE PACKAGE ONLY
+- **Goal:** 建立 pose-neutral、provenance-clean、deformation-ready、可供 GPU 采样的 internal material source package。
 - **Frozen:** formal silhouette；center / radius / hitRadius；Frozen K2 endpoint；07–10 cold/warm optical identity；ProductState / interaction semantics；lifecycle / single-loop principles。
 - **Allowed:** `verification/` 或明确 `experimental/` 范围内的新 neutral material source、neutral volume、thickness / optical source、sparse water detail、material study、screenshots、diagnostics。Primary material reference = Final Art 0.25 verified reference；depth/thickness reference = Final Art 0.50；material maturity upper bound = Final Art 0.75；neutral restraint = Candidate D K0；final endpoint authority = Frozen K2 Final Art。
 - **Forbidden:** 修改 production renderer；修改 frozen still v1 manifest；formation / deformation；core migration；timing；transitioning / moving；production migration。
-- **Acceptance:** Human Gate A — Material family PASS；Human Gate B — Neutral pose PASS。两个 gate 都通过后，`M1 = CLOSED/FROZEN`，`READY_FOR_M2 = YES`。
-- **Next:** 仅推进 Neutral Material 实验与两个人工 gate；不得提前进入 M2。
+- **Acceptance:** source package 通过 pose-neutral、no-core、no-cavity、no-directional-pose、no-donor-topology、stable provenance、authored cloudy volume、meaningful thickness、organic sparse detail 和 GPU-sampling suitability 检查。raw source 不自证最终 rendered material family；最终视觉 family gate 迁移到 M2。
+- **Next:** 保持 source package 关闭；M2 负责 static rendered material family 与 shell / optical integration 的人工 gate。
 
 ## M2 — Static GPU Material
 
-- **Status:** BLOCKED
+- **Status:** ACTIVE
 - **Goal:** 将通过 M1 的 neutral material 建立为静态 GPU material study。
 - **Frozen:** M1 的 material identity、silhouette、K2 endpoint 和产品语义。
 - **Allowed:** 只在 M1 CLOSED 后验证静态 GPU pass、masking 和诊断。
 - **Forbidden:** formation、deformation、interaction timing、production migration。
-- **Acceptance:** 静态 GPU material 与 M1 authority 一致，并通过人工视觉 gate。
-- **Next:** 等待 M1 CLOSED。
+- **Acceptance:** Human Gate A — Static rendered material family；Human Gate B — Static shell / optical integration。GPU material 必须真实采样 neutral volume、thickness / depth、sparse detail、formal silhouette 和 formal outer film；thickness 必须参与最终 pixel output。M2 未通过前禁止 M3。
+- **Next:** 完成最多 3 个受限的 builder → fresh critic → repair cycle；结束状态只能是 `READY FOR HUMAN REVIEW` 或 `BLOCKED`，并记录 blocker 类型。
 
 ## M3 — Continuous Field
 

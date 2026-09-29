@@ -1,16 +1,14 @@
-# M1.5 — Material-Only Final Gate & Shell Integration Handoff
+# M1 → M2 Boundary Correction and Material Handoff
 
 ## Final state
 
-- **M1.3 = CLOSED / EVIDENCE PRESERVED**
-- **M1.4 DE-SHELLING = PASS**
-- **M1.4 SOURCE TOPOLOGY MEMORY = REMOVED**
-- **M1 INTERNAL MATERIAL FAMILY = READY FOR HUMAN REVIEW**
-- **NEUTRAL POSE = PRESERVED**
+- **M1 SOURCE PACKAGE = PASS / FROZEN**
+- **M1 = CLOSED / FROZEN — MATERIAL SOURCE PACKAGE ONLY**
+- **M1 RAW VISUAL FAMILY = NOT EVALUATED AT RAW SOURCE LEVEL**
+- **M2 STATIC RENDERED FAMILY = DEFERRED TO M2 HUMAN REVIEW**
 - **FORMAL SHELL OWNERSHIP = DEFERRED_TO_M2**
-- **M2 SHELL STARTING POINT = UNRESOLVED**
-- **M1 MATERIAL PACKAGE = READY FOR HUMAN REVIEW**
-- **READY_FOR_M2 = NO**
+- **M2 = ACTIVE**
+- **READY_FOR_M2 = YES**
 
 本轮没有重烘焙、修改或替换任何 M1 carrier；没有修改 production、formal source、Final Art references、ProductState、formation、deformation、core、timing、moving 或 roadmap，也没有进入 M2 或 push。
 
@@ -22,26 +20,28 @@ M1.4 的 safe interior、de-shelled donor interior、unclipped RGB、whole-inter
 
 建立 material-only-comparison-mask.png，基于现有 SAFE_INTERIOR，统一应用到 FINAL_ART_025 interior、FINAL_ART_050 interior 和 current material。它只限制观察区域，不修改任何 reference RGB；outer shell、core、UI、formation 和 directional pose 都被排除。
 
-## 3. Fresh Critic A — Internal Material Only
+## 3. M1 Source Package Acceptance
 
-只看 FINAL_ART_025 interior、FINAL_ART_050 interior 和 CURRENT combined neutral interior：
+M1 只验收 source package，不把 raw carrier preview 当作最终 optical material review：
 
-1. **是否属于同一种水体材质？** 是。当前保留 white/cyan cloudy water vocabulary 和 authored density variation。
-2. **是否是 fog、flat cyan、generic cloud 或 shader blob？** 不是。虽然 current interior 更简化，但仍有连续 cloudy mass、局部密度变化和 sparse internal structures。
-3. **cloudy mass 是否自然聚散？** 是。没有回到 radial gradient 或 generic fog。
-4. **depth / thickness 是否足以成为后续输入？** 是。neutral-thickness 保持冻结并单独展示。
-5. **sparse detail 是否自然、稀疏、无 patch topology？** 是。detail 使用冻结的 M1.4 whole-interior feature extraction 结果。
-6. **是否存在普通用户一眼可见的 material representation defect？** 未发现。
+1. pose-neutral；
+2. no core residue / no cavity / no directional pose；
+3. no donor topology memory / no rectangular patch authority；
+4. stable provenance；
+5. authored cloudy volume；
+6. meaningful thickness / depth input；
+7. organic sparse detail；
+8. suitable for GPU sampling。
 
-因此：
+上述 source-package criteria = **PASS / FROZEN**。`sameWaterFamily`、
+`materialRepresentationDefect` 等 raw-level visual claims 已降级为
+`NOT_EVALUATED_AT_RAW_SOURCE_LEVEL`，最终视觉 family gate 迁移到 M2。
 
-**M1 INTERNAL MATERIAL FAMILY = READY FOR HUMAN REVIEW**。
-
-## 4. Neutral Pose Gate
+## 4. Neutral Pose Source Check
 
 当前没有 cavity、swirl、强 directional organization 或 core；整体保持 calm / balanced。
 
-**NEUTRAL POSE = PRESERVED**。这仍需 Human Confirmation，不由本轮自行宣告 Human PASS。
+**NEUTRAL POSE = PRESERVED**，作为 source-package structural criterion。
 
 ## 5. Shell Route Validation
 
@@ -85,11 +85,13 @@ M2 preview 是 NON-AUTHORITATIVE，不关闭 M2。
 
 ## Final boundary
 
-M1 INTERNAL MATERIAL FAMILY = READY FOR HUMAN REVIEW
+M1 SOURCE PACKAGE = PASS / FROZEN
+M1 = CLOSED / FROZEN — MATERIAL SOURCE PACKAGE ONLY
+M1 RAW VISUAL FAMILY = NOT EVALUATED AT RAW SOURCE LEVEL
 NEUTRAL POSE = PRESERVED
 FORMAL SHELL OWNERSHIP = DEFERRED_TO_M2
 M2 SHELL STARTING POINT = UNRESOLVED
-M1 MATERIAL PACKAGE = READY FOR HUMAN REVIEW
-READY_FOR_M2 = NO
+M2 = ACTIVE
+READY_FOR_M2 = YES
 
 Commit hash：本轮提交后记录于最终报告。

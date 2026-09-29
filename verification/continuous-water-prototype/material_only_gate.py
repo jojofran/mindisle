@@ -96,13 +96,13 @@ def main():
         'materialSourcesFrozen': True,
         'comparisonDomain': 'material-only-comparison-mask.png; same mask for FINAL_ART_025, FINAL_ART_050, and current carriers',
         'materialOnlyCritic': {
-            'sameWaterFamily': True,
-            'notFogFlatCyanGenericCloud': True,
+            'sameWaterFamily': 'NOT_EVALUATED_AT_RAW_SOURCE_LEVEL',
+            'notFogFlatCyanGenericCloud': 'NOT_EVALUATED_AT_RAW_SOURCE_LEVEL',
             'cloudyMass': 'authored nonuniform mass retained',
             'depthThicknessInput': 'present as frozen neutral-thickness source',
             'sparseDetail': 'natural sparse connected features; no box authority',
-            'materialRepresentationDefect': False,
-            'decision': 'READY_FOR_HUMAN_REVIEW'
+            'materialRepresentationDefect': 'NOT_EVALUATED_AT_RAW_SOURCE_LEVEL',
+            'decision': 'DEFERRED_TO_M2_HUMAN_REVIEW'
         },
         'neutralPose': 'PRESERVED',
         'shellRoute': {
@@ -115,7 +115,7 @@ def main():
             'm1ShellClassification': 'M2_STATIC_MATERIAL_INTEGRATION_CONCERN'
         },
         'sourceNormalization': 'M1.4_DE_SHELLED_SOURCE_FROZEN',
-        'readyForM2': False
+        'readyForM2': True
     }
     (ROOT / 'material-only-gate.json').write_text(json.dumps(metrics, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 

@@ -1,12 +1,12 @@
 {
-  "evidenceStatus": "CURRENT_M1_5_MATERIAL_ONLY_FINAL_GATE",
-  "milestone": "M1.5",
-  "milestoneName": "Material-Only Final Gate & Shell Integration Handoff",
-  "baseCommit": "1a48de5",
-  "scope": "review-only material gate and non-authoritative shell route preview",
+  "evidenceStatus": "CURRENT_M1_SOURCE_PACKAGE_BOUNDARY_CORRECTED",
+  "milestone": "M1",
+  "milestoneName": "Neutral Water Material Source Package",
+  "baseCommit": "74ffdb1",
+  "scope": "pose-neutral, provenance-clean, deformation-ready source package; final optical family deferred to M2",
   "forbidden": [
     "production",
-    "M2 implementation",
+    "M3 implementation",
     "push",
     "material source modification",
     "thickness redesign",
@@ -23,13 +23,15 @@
   "materialOnlyGate": {
     "comparisonDomain": "material-only-comparison-mask.png",
     "sourcesFrozen": true,
-    "internalMaterialFamily": "READY_FOR_HUMAN_REVIEW",
-    "sameWaterFamily": true,
-    "notFogFlatCyanGenericCloud": true,
-    "cloudyMass": "natural nonuniform authored mass",
-    "depthThicknessInput": "present and frozen",
-    "sparseDetail": "sparse feature structures without patch topology",
-    "materialRepresentationDefect": false
+    "sourcePackage": "PASS / FROZEN",
+    "closureScope": "MATERIAL SOURCE PACKAGE ONLY",
+    "visualFamilyGate": "DEFERRED_TO_M2_HUMAN_REVIEW",
+    "materialFamily": "NOT_EVALUATED_AT_RAW_SOURCE_LEVEL",
+    "sameWaterFamily": "NOT_EVALUATED_AT_RAW_SOURCE_LEVEL",
+    "cloudyMass": "authored nonuniform volume present",
+    "depthThicknessInput": "meaningful depth source present and frozen",
+    "sparseDetail": "organic sparse structure present and frozen",
+    "materialRepresentationDefect": "NOT_EVALUATED_AT_RAW_SOURCE_LEVEL"
   },
   "neutralPose": "PRESERVED",
   "shellRoute": {
@@ -46,8 +48,10 @@
   "result": {
     "m13": "CLOSED_AS_EXPERIMENT",
     "m14": "SOURCE_NORMALIZATION_PRESERVED",
-    "m1MaterialPackage": "READY_FOR_HUMAN_REVIEW",
-    "readyForM2": false,
+    "m1MaterialPackage": "PASS / FROZEN",
+    "m1ClosureScope": "MATERIAL SOURCE PACKAGE ONLY",
+    "readyForM2": true,
+    "finalVisualFamilyGate": "DEFERRED_TO_M2_HUMAN_REVIEW",
     "materialSourceModified": false,
     "threeJS": "NOT_JUSTIFIED"
   },
