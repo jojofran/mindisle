@@ -20,8 +20,9 @@ material and a human visual review. The M2 static GPU page is the first place
 to evaluate transmission, absorption, refraction, front/internal/rear depth,
 and formal-shell integration.
 
-The existing M1.5 JSON remains preserved as historical evidence. This document
-records the correction without silently rewriting that authority file.
+The existing M1.5 artifacts remain preserved for provenance; the current M1
+authority now records the source-package closure and defers raw visual-family
+claims to M2.
 
 ## Scope handoff
 

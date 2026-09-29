@@ -13,6 +13,6 @@ The following fields remain intentionally deferred to the M2 static GPU review:
 - transmission, absorption, refraction, and front/internal/rear depth;
 - formal shell integration and edge language.
 
-The existing `m1-current-evidence.json` is retained unchanged as historical
-M1.5 evidence until the required human-gated authority transition is accepted.
-This file is a boundary correction record, not a milestone-closing authority.
+The prior M1.5 artifacts remain preserved for provenance. The current
+`m1-current-evidence.json` now records the source-package closure while
+deferring raw visual-family claims to M2.

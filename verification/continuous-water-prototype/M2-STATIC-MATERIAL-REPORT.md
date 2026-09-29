@@ -37,7 +37,7 @@ in final pixel output. It does not claim `sameWaterFamily` or `materialLooksGood
 
 ## Final state
 
-- M1 source package: structural criteria documented; authority transition is recorded separately because the existing M1.5 authority file is preserved.
+- M1 source package: `PASS / FROZEN`, with closure limited to the source package; raw visual-family claims remain deferred to M2 human review.
 - M2: active experimental work.
 - M2 static GPU material: `BLOCKED`.
 - M2 blocker type: `OPTICAL_MODEL`.

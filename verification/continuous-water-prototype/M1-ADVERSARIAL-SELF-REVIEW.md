@@ -1,6 +1,10 @@
 # MindIsle WaterBall M1 Evidence Package
 ## Corrected Final Art Authority and Clean Branch Consistency Review
 
+> **SUPERSEDED STATUS (boundary correction):** this review predates the M1 →
+> M2 boundary correction. Its raw visual-family conclusions and `READY_FOR_M2`
+> line are historical. Current authority is `m1-current-evidence.json`.
+
 审计范围：M1 current reference authority、provenance、Review 页面、roadmap identity、carrier semantics 和历史错误映射隔离。本文不审查 Web、Unity、Blender 或 production 实现，也不重新制作 Neutral Material。
 
 ## 1. Correction result
@@ -43,13 +47,14 @@ WRONG_M1_REFERENCE_MAPPING = true
 
 ## 4. Current Neutral Material state
 
-现有 `m1-neutral-hero.png` 与 `m1-neutral-source.png` 没有删除或修改，当前状态明确为：
+现有 `m1-neutral-hero.png` 与 `m1-neutral-source.png` 没有删除或修改；按当前边界，它们只证明 source-package inputs，不证明最终 optical family：
 
 ```text
-CURRENT_NEUTRAL_MATERIAL = EXISTING_EXPERIMENTAL_OUTPUT
-MATERIAL FAMILY = AWAITING HUMAN REVIEW AGAINST CORRECTED FINAL-ART REFERENCES
-NEUTRAL POSE = AWAITING HUMAN REVIEW
-READY_FOR_M2 = NO
+M1 SOURCE PACKAGE = PASS / FROZEN
+M1 CLOSURE SCOPE = MATERIAL SOURCE PACKAGE ONLY
+RAW MATERIAL FAMILY = NOT_EVALUATED_AT_RAW_SOURCE_LEVEL
+FINAL OPTICAL FAMILY = DEFERRED_TO_M2_HUMAN_REVIEW
+READY_FOR_M2 = YES
 ```
 
 本轮只修正 visual authority、provenance、review package 和 roadmap identity，不 retune Neutral Material，不进入 M2。
@@ -66,7 +71,7 @@ Final Art / K2 reference 不会成为 carrier raw source。`material-source-clas
 
 ## 6. Roadmap and document audit
 
-- `docs/tasks/waterball-continuous-roadmap.md`：已做一处最小 reference identity clarification；M1 仍 ACTIVE，M2 仍 BLOCKED，Acceptance Gate 和 frozen constraints 未改。
+- `docs/tasks/waterball-continuous-roadmap.md`：已完成 M1 source-package boundary correction；M1 source package PASS/FROZEN，M2 ACTIVE，M3 BLOCKED。
 - `AGENTS.md`：NO_CHANGE。
 - `docs/analysis/CURRENT_RUNTIME_FACTS.md`：NO_CHANGE；视觉 reference 修正不改变 runtime facts。
 - `docs/analysis/WATERBALL_M0_AUTHORITY_FREEZE.md`：NO_CHANGE；implementation authority 不涉及本次 reference identity。
@@ -106,10 +111,10 @@ HISTORICAL WRONG MAPPING = NON_AUTHORITATIVE
 BROKEN IMAGES = 0
 git diff --check = PASS
 
-M1 REVIEW PACKAGE = READY_FOR_HUMAN_REVIEW
-MATERIAL FAMILY = AWAITING HUMAN REVIEW
-NEUTRAL POSE = AWAITING HUMAN REVIEW
-READY_FOR_M2 = NO
+M1 SOURCE PACKAGE = PASS / FROZEN
+M1 = CLOSED / FROZEN — MATERIAL SOURCE PACKAGE ONLY
+RAW MATERIAL FAMILY = DEFERRED_TO_M2_HUMAN_REVIEW
+READY_FOR_M2 = YES
 ```
 
 本报告不替代人工 Material Family 或 Neutral Pose 裁决，也不授权进入 M2。
