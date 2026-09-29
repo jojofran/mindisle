@@ -1,67 +1,79 @@
 {
-  "evidenceStatus": "CURRENT_M1_3_CARRIER_SANITATION",
-  "milestone": "M1.3",
-  "milestoneName": "Carrier Sanitation",
-  "baseCommit": "d0b2e27",
-  "scope": "verification-only donor carrier sanitation and review evidence",
+  "evidenceStatus": "CURRENT_M1_4_DONOR_INTERIOR_NORMALIZATION",
+  "milestone": "M1.4",
+  "milestoneName": "Donor Interior De-shelling & Source-Space Normalization",
+  "baseCommit": "0408776",
+  "scope": "verification-only donor interior normalization",
   "forbidden": [
     "production",
     "M2",
     "push",
-    "material redesign",
+    "fixed-box final authority",
+    "thickness redesign",
     "formation",
     "deformation system",
     "moving",
-    "thickness redesign",
     "ProductState",
     "interaction",
     "timing"
   ],
+  "baseline": "M1.3_CLOSED_AS_EXPERIMENT",
   "routeCheck": {
-    "currentPrimaryDefect": "neutral volume donor seam / sparse detail rectangular islands / shell continuous white rim",
-    "rootCauseType": "local carrier reconstruction masks and final source-over coverage",
-    "donorRouteCanSolve": true,
-    "proposedBakingChange": "irregular local continuity repair; fragmented feathered detail masks; shell overlap subtraction with thinner source-over film alpha",
-    "improvement": "CLEAR"
+    "rootCause": "donor sphere geometry memory and fixed support topology remained after seam sanitation",
+    "method": "safe interior donor selection plus whole-interior material coordinate field and connected feature extraction",
+    "improvement": "CLEAR for source topology; shell ownership remains blocker"
   },
   "result": {
-    "neutralVolumeSanitation": "PASS",
-    "deformationStress": "PASS",
-    "sparseDetailSanitation": "PASS",
-    "formalShellFinalCompositing": "PASS",
+    "donorDeshelling": "PASS",
+    "sourceTopologyMemory": "REMOVED",
+    "sparseDetailFeatureExtraction": "PASS",
+    "formalShellOwnership": "BLOCKED",
     "materialRichness": "PRESERVED",
     "neutralPose": "PRESERVED",
-    "carrierSanitation": "READY_FOR_HUMAN_REVIEW",
+    "sourceNormalization": "BLOCKED",
     "readyForM2": false,
-    "donorCyclesUsed": "1 / 2",
+    "cyclesUsed": "1 / 2",
     "threeJS": "NOT_JUSTIFIED"
   },
   "outputs": {
+    "source": [
+      "safe-interior-mask.png",
+      "neutral-water-volume-unclipped-rgb.png",
+      "interior-body-mask.png"
+    ],
     "volume": [
-      "neutral-water-volume-raw.png",
       "neutral-water-volume.png",
-      "neutral-water-volume-warp-stress.png"
+      "neutral-water-volume-warp-stress-m14.png",
+      "neutral-water-volume-warp-stress-m14-alpha.png"
     ],
     "detail": [
       "sparse-detail-alpha-raw.png",
       "sparse-detail-alpha.png",
-      "neutral-water-detail.png"
+      "feature-support-view.png"
     ],
     "shell": [
-      "shell-current-hero.png",
+      "shell-m1.3-composite.png",
+      "shell-m1.4-composite.png",
+      "shell-m1.3-m1.4-edge-crop.png",
+      "shell-m1.3-alpha.png",
+      "shell-m1.4-alpha.png"
+    ],
+    "comparison": [
+      "m1.3-current-hero.png",
       "m1-neutral-hero.png",
-      "shell-edge-ab-crop.png",
-      "shell-edge-alpha-current.png",
-      "shell-edge-alpha-sanitized.png"
+      "m1.4-final-art-comparison.png"
     ],
     "metrics": "carrier-sanity-metrics.json"
   },
+  "fixedBoxAuthority": "REMOVED_FROM_FINAL_CONSTRUCTION",
+  "thickness": "FROZEN_FOR_M1.4",
   "formalShell": {
     "source": "assets/waterball-still-v1/layers/01_outer_film.png",
     "runtimeDirectSample": false,
     "sourcePixelsModified": false,
-    "compositingOnly": true,
-    "silhouetteMask": "alpha >= 6 row extent fill, same as production buildSilhouetteMask"
+    "m13AttenuatedAlpha": true,
+    "m14FullSourceAlpha": true,
+    "ownershipResult": "BLOCKED"
   },
   "provenance": {
     "primaryDonor": "FINAL_ART_025",

@@ -189,5 +189,14 @@
       "shell-edge-ab-crop.png"
     ],
     "formalShellSourceUnchanged": true
+  },
+  "sourceNormalization": {
+    "milestone": "M1.4",
+    "safeInteriorMask": "safe-interior-mask.png",
+    "donorInterior": "neutral-water-volume-unclipped-rgb.png",
+    "fixedBoxAuthority": "REMOVED_FROM_FINAL_CONSTRUCTION",
+    "formalShellOwnership": "BLOCKED",
+    "runtimeDirectSample": false,
+    "productionDependency": false
   }
 }

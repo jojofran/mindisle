@@ -30,20 +30,27 @@
   "materialParametersChanged": false,
   "sourcePixelChanges": "local RGB correction and carrier sanitation outputs; formal shell source pixels unchanged",
   "carrierSanitation": {
-    "volume": "local irregular continuity repair; raw and warped review outputs recorded",
-    "detail": "irregular feathered extraction masks with fragmented alpha",
-    "shell": "compositing-only source-over overlap and edge-alpha audit; source pixels unchanged"
+    "volume": "M1.3 closed as experiment; superseded by M1.4 whole-interior coordinate field",
+    "detail": "M1.3 fixed support closed as experiment; superseded by whole-safe-interior feature extraction",
+    "shell": "M1.4 interior-body ownership with full formal film alpha; source pixels unchanged"
+  },
+  "sourceNormalization": {
+    "safeInteriorMask": "safe-interior-mask.png",
+    "unclippedRGB": "neutral-water-volume-unclipped-rgb.png",
+    "fixedBoxAuthority": "REMOVED_FROM_FINAL_CONSTRUCTION",
+    "topologyStress": "neutral-water-volume-warp-stress-m14.png"
   },
   "status": {
-    "neutralVolumeSanitation": "PASS",
-    "deformationStress": "PASS",
-    "sparseDetailSanitation": "PASS",
-    "formalShellFinalCompositing": "PASS",
+    "m13": "CLOSED_AS_EXPERIMENT",
+    "donorDeshelling": "PASS",
+    "sourceTopologyMemory": "REMOVED",
+    "sparseFeatureExtraction": "PASS",
+    "formalShellOwnership": "BLOCKED",
     "materialRichness": "PRESERVED",
     "neutralPose": "PRESERVED",
-    "carrierSanitation": "READY_FOR_HUMAN_REVIEW",
+    "sourceNormalization": "BLOCKED",
     "readyForM2": false,
-    "donorCyclesUsed": "1 / 2"
+    "cyclesUsed": "1 / 2"
   },
   "coreResidue": "NONE",
   "runtimeDirectSample": false,

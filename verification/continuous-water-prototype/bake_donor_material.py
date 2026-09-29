@@ -40,6 +40,15 @@ def load_formal_outer():
     mask.save(ROOT / 'formal-silhouette-mask.png')
     return outer, mask
 
+def derive_interior_body_mask(formal_mask):
+    """Fade internal carriers before the formal outer film owns the edge."""
+    # The formal mask remains the authority; erosion only assigns ownership of
+    # the inner body and never changes the formal silhouette or source film.
+    eroded = formal_mask.filter(ImageFilter.MinFilter(35))
+    body = np.asarray(eroded).astype(np.float32)
+    body = np.asarray(Image.fromarray(np.uint8(body).astype('uint8'), 'L').filter(ImageFilter.GaussianBlur(7))).astype(np.float32)
+    return Image.fromarray(np.uint8(np.clip(body, 0, 255)), 'L')
+
 def circle_mask(radius=176, center=(200, 200), feather=10):
     yy, xx = np.mgrid[0:SIZE, 0:SIZE]
     d = np.sqrt((xx-center[0])**2 + (yy-center[1])**2)
@@ -73,7 +82,7 @@ def remove_known_regions(img, reverse_channels=False):
         arr[y, :, :] = w*upper[y, :, :] + (1-w)*original[y, :, :]
     return Image.fromarray(np.uint8(np.clip(arr, 0, 255)), 'RGB')
 
-def donor_recompose(c025, c050):
+def legacy_donor_recompose_fixed_regions(c025, c050):
     base = c025.filter(ImageFilter.GaussianBlur(1.6))
     patches = [
         ((68,82,168,182),(82,86,194,196),.045,7,False),
@@ -115,7 +124,7 @@ def organic_patch_mask(box, alpha, rot=0, mirror=False):
     full.paste(local, (x0, y0))
     return full
 
-def sanitize_volume_field(field, c025, c050):
+def legacy_sanitize_volume_field_fixed_regions(field, c025, c050):
     """Repair only known donor seams using local, irregular continuity patches."""
     arr = np.asarray(field).astype(np.float32)
     # A lightly blurred local scaffold supplies continuity only inside the known
@@ -138,6 +147,82 @@ def sanitize_volume_field(field, c025, c050):
         repaired[y0:y1, x0:x1] = target*(1-m) + local*m
     # Preserve low-frequency mass while removing only feather seams at region edges.
     return Image.fromarray(np.uint8(np.clip(repaired, 0, 255)), 'RGB')
+
+def derive_safe_interior_mask(img):
+    """Select donor vocabulary from the visually trusted interior only.
+
+    The ellipse is an evidence-derived estimate of the FINAL_ART_025 body
+    extent; MinFilter erosion removes the membrane/rim band before any RGB is
+    reused. This mask is source selection, never the runtime silhouette.
+    """
+    yy, xx = np.mgrid[0:SIZE, 0:SIZE]
+    center_x, center_y = 200.0, 238.0
+    radius_x, radius_y = 128.0, 126.0
+    body = ((((xx-center_x)/radius_x)**2 + ((yy-center_y)/radius_y)**2) <= 1).astype(np.uint8)*255
+    # Visual review of FINAL_ART_025 places the UI/text above the body; this
+    # erosion distance removes the outer film without encoding a final sphere.
+    eroded = Image.fromarray(body, 'L').filter(ImageFilter.MinFilter(41))
+    mask = np.asarray(eroded).astype(np.float32)
+    # Remove any remaining low-confidence source pixels by requiring a soft
+    # interior color confidence relative to the image border.
+    arr = np.asarray(img).astype(np.float32)
+    border = np.concatenate([arr[:24].reshape(-1,3), arr[-24:].reshape(-1,3),
+                             arr[:,:24].reshape(-1,3), arr[:,-24:].reshape(-1,3)])
+    bg = np.median(border, axis=0)
+    confidence = np.linalg.norm(arr-bg, axis=2)
+    confidence = np.clip((confidence-2)/18, 0, 1)
+    mask *= np.clip(.62 + .38*confidence, 0, 1)
+    return Image.fromarray(np.uint8(np.clip(mask, 0, 255)), 'L')
+
+def fill_invalid_source(img, mask):
+    """Locally fill excluded source holes without making them topology."""
+    arr = np.asarray(img).astype(np.float32)
+    m = np.asarray(mask).astype(np.float32)/255
+    den = np.asarray(mask.filter(ImageFilter.GaussianBlur(13))).astype(np.float32)/255
+    filled = np.zeros_like(arr)
+    for c in range(3):
+        num = np.asarray(Image.fromarray(np.uint8(np.clip(arr[...,c]*m,0,255)), 'L').filter(ImageFilter.GaussianBlur(13))).astype(np.float32)
+        filled[...,c] = num/np.maximum(den, .06)
+    filled = np.where(m[...,None] > .35, arr, filled)
+    return np.uint8(np.clip(filled, 0, 255))
+
+def bilinear_sample(arr, sx, sy):
+    h, w = arr.shape[:2]
+    sx = np.clip(sx, 0, w-1); sy = np.clip(sy, 0, h-1)
+    x0 = np.floor(sx).astype(int); y0 = np.floor(sy).astype(int)
+    x1 = np.minimum(x0+1, w-1); y1 = np.minimum(y0+1, h-1)
+    fx = sx-x0; fy = sy-y0
+    return (arr[y0,x0]*(1-fx)[...,None]*(1-fy)[...,None] +
+            arr[y0,x1]*fx[...,None]*(1-fy)[...,None] +
+            arr[y1,x0]*(1-fx)[...,None]*fy[...,None] +
+            arr[y1,x1]*fx[...,None]*fy[...,None])
+
+def build_donor_interior_field(c025, c050, safe_mask):
+    """Build one continuous material coordinate field from safe interior samples.
+
+    The final topology is a whole-field coordinate remap and multi-band blend;
+    no fixed region or crop box decides where material features are placed.
+    """
+    source_a = fill_invalid_source(c025, safe_mask).astype(np.float32)
+    source_b = fill_invalid_source(c050, safe_mask).astype(np.float32)
+    yy, xx = np.mgrid[0:SIZE, 0:SIZE].astype(np.float32)
+    # Two broad, non-grid-aligned coordinate walks keep the vocabulary while
+    # breaking the donor's original sphere layout.
+    sx1 = 200 + .39*(xx-200) + 7*np.sin(yy/47) + 3*np.sin((xx+yy)/71)
+    sy1 = 238 + .39*(yy-238) + 6*np.sin(xx/59) - 2*np.cos((xx-yy)/83)
+    sx2 = 200 + .33*(xx-200) - 8*np.sin((yy+18)/61) + 3*np.cos(xx/67)
+    sy2 = 238 + .36*(yy-238) + 7*np.sin((xx-14)/53) + 2*np.cos((xx+yy)/91)
+    a = bilinear_sample(source_a, sx1, sy1)
+    b = bilinear_sample(source_a, sx2, sy2)
+    guide = bilinear_sample(source_b, sx2*.94+12, sy2*.94+8)
+    w = .48 + .18*np.sin((xx+yy)/103) + .10*np.cos((xx-yy)/127)
+    w = np.clip(w, .18, .82)[...,None]
+    field = a*w + b*(1-w)
+    guide_l = guide.mean(2)
+    field_l = field.mean(2)
+    variation = np.clip((guide_l-guide_l.mean())/90, -.12, .12)
+    field = field*(1 + variation[...,None]*.22)
+    return Image.fromarray(np.uint8(np.clip(field, 0, 255)), 'RGB')
 
 def save_volume(field, mask):
     arr = np.asarray(field).astype(np.float32)
@@ -169,25 +254,68 @@ def save_thickness(c025, c050, mask):
     alpha = np.asarray(mask).astype(np.float32)*.86
     return deep, Image.fromarray(np.uint8(np.clip(np.dstack([rgb, alpha]), 0, 255)), 'RGBA')
 
-def save_detail(c025, mask):
+def _feature_components(binary, strength):
+    """Return connected water-feature candidates, not image windows."""
+    h, w = binary.shape
+    seen = np.zeros_like(binary, dtype=bool)
+    found = []
+    for y in range(h):
+        for x in range(w):
+            if not binary[y,x] or seen[y,x]:
+                continue
+            stack=[(y,x)]; seen[y,x]=True; pts=[]
+            while stack:
+                cy,cx=stack.pop(); pts.append((cy,cx))
+                for dy in (-1,0,1):
+                    for dx in (-1,0,1):
+                        if not dx and not dy: continue
+                        ny,nx=cy+dy,cx+dx
+                        if 0<=ny<h and 0<=nx<w and binary[ny,nx] and not seen[ny,nx]:
+                            seen[ny,nx]=True; stack.append((ny,nx))
+            if 8 <= len(pts) <= 260:
+                ys=np.array([p[0] for p in pts]); xs=np.array([p[1] for p in pts])
+                bw=max(1,int(xs.max()-xs.min()+1)); bh=max(1,int(ys.max()-ys.min()+1))
+                elong=max(bw,bh)/max(1,min(bw,bh))
+                score=float(np.mean([strength[y,x] for y,x in pts])*np.sqrt(len(pts)))
+                if elong >= 1.22 or len(pts) >= 24:
+                    found.append((score,pts))
+    return sorted(found, reverse=True, key=lambda item:item[0])
+
+def save_detail(c025, safe_mask):
     gray = c025.convert('L')
-    fine = ImageChops.difference(gray, gray.filter(ImageFilter.GaussianBlur(7)))
-    a = np.asarray(ImageEnhance.Contrast(fine).enhance(2.8)).astype(np.float32)
-    keep = np.zeros((SIZE, SIZE), dtype=np.float32)
-    # Irregular windows replace the former rectangular extraction tiles.
-    for i, box in enumerate([(72,106,172,166),(190,92,282,152),(82,194,158,256),(188,206,282,282),(110,278,224,340)]):
-        keep = np.maximum(keep, np.asarray(organic_patch_mask(box, .92, i*13, i%2 == 1), dtype=np.float32)/255)
-    threshold = np.percentile(a[keep > 0], 72)
-    detail = np.clip((a-threshold)/20, 0, 1)*keep
-    detail = np.asarray(Image.fromarray(np.uint8(detail*255), 'L').filter(ImageFilter.GaussianBlur(2))).astype(np.float32)/255
-    # Tear a few local structures into non-axis-aligned fragments so the alpha
-    # view reads as sparse water structure rather than source islands.
-    yy, xx = np.mgrid[0:SIZE, 0:SIZE]
-    fragment = .72 + .20*np.sin(xx*.091 + yy*.043) + .12*np.cos(xx*.037 - yy*.081)
-    detail *= np.clip(fragment, 0, 1)
-    detail *= np.asarray(mask).astype(np.float32)/255
-    rgba = np.dstack([np.full((SIZE,SIZE),112), np.full((SIZE,SIZE),194), np.full((SIZE,SIZE),201), detail*220])
-    return Image.fromarray(np.uint8(np.clip(rgba, 0, 255)), 'RGBA')
+    g = np.asarray(gray).astype(np.float32)
+    bands=[]
+    for radius, weight in [(3,.34),(7,.42),(13,.24)]:
+        blur=np.asarray(gray.filter(ImageFilter.GaussianBlur(radius))).astype(np.float32)
+        bands.append(np.abs(g-blur)*weight)
+    strength=np.sum(bands,axis=0)
+    safe=np.asarray(safe_mask).astype(np.float32)/255
+    threshold=np.percentile(strength[safe>.45], 89)
+    candidate=(strength>=threshold) & (safe>.45)
+    candidate=np.asarray(Image.fromarray(np.uint8(candidate)*255).filter(ImageFilter.MaxFilter(3)))>0
+    components=_feature_components(candidate,strength)
+    selected=np.zeros((SIZE,SIZE),dtype=np.float32)
+    chosen=[]
+    for score,pts in components:
+        ys=np.array([p[0] for p in pts]); xs=np.array([p[1] for p in pts])
+        cy,cx=float(ys.mean()),float(xs.mean())
+        if any((cx-px)**2+(cy-py)**2 < 32**2 for px,py in chosen):
+            continue
+        chosen.append((cx,cy))
+        for y,x in pts: selected[y,x]=np.clip((strength[y,x]-threshold)/max(1,threshold)*1.5,0,1)
+        if len(chosen)>=16: break
+    selected=np.asarray(Image.fromarray(np.uint8(selected*255),'L').filter(ImageFilter.GaussianBlur(2))).astype(np.float32)/255
+    selected*=safe
+    rgba=np.dstack([np.full((SIZE,SIZE),112),np.full((SIZE,SIZE),194),np.full((SIZE,SIZE),201),selected*220])
+    return Image.fromarray(np.uint8(np.clip(rgba,0,255)),'RGBA'), selected, chosen
+
+def save_feature_support(field, selected, safe_mask):
+    bg=np.asarray(field.convert('RGB')).astype(np.float32)*.32
+    support=np.zeros((SIZE,SIZE,4),dtype=np.float32)
+    support[...,:3]=[170,245,238]
+    support[...,3]=np.clip(selected*255,0,255)
+    out=Image.alpha_composite(Image.fromarray(np.uint8(np.clip(np.dstack([bg,np.full((SIZE,SIZE),255)]),0,255)),'RGBA'),Image.fromarray(np.uint8(support),'RGBA'))
+    out.save(ROOT/'feature-support-view.png')
 
 def compose_hero(field, mask, deep, outer, volume, detail, shell_mode='sanitized'):
     alpha = np.asarray(mask).astype(np.float32)/255
@@ -212,6 +340,11 @@ def compose_hero(field, mask, deep, outer, volume, detail, shell_mode='sanitized
     out = np.asarray(hero).copy()
     out[...,3] = np.uint8(np.clip(out[...,3]*alpha, 0, 255))
     if shell_mode == 'current':
+        return Image.alpha_composite(Image.fromarray(out, 'RGBA'), outer)
+    if shell_mode == 'm14':
+        # M1.4 ownership: the interior body has already fallen off inside the
+        # formal shell zone, so the sampled formal film is composited at its
+        # own full source alpha without the M1.3 global attenuation.
         return Image.alpha_composite(Image.fromarray(out, 'RGBA'), outer)
     # The formal source has already been sampled once; keep its RGB untouched
     # and correct only the final source-over coverage below.
@@ -270,69 +403,88 @@ def make_ab_evidence(clean_a, clean_b, hero_a, hero_b):
     Image.fromarray(diff,'RGB').save(ROOT/'local-color-difference.png')
     labeled_pair(hero_a, hero_b, 'A: reversed patch', 'B: normal RGB', size=(800,430)).save(ROOT/'m1-neutral-hero-channel-ab.png')
 
-def build_internal(reverse, sanitize=True):
+def build_internal(reverse):
     c025 = remove_known_regions(load_ref('final-art-025.png'), reverse)
     c050 = remove_known_regions(load_ref('final-art-050.png'), reverse)
-    raw_field = remove_known_regions(donor_recompose(c025, c050), reverse)
-    field = sanitize_volume_field(raw_field, c025, c050) if sanitize else raw_field
-    # Legacy source density envelope stays frozen; it is not the Hero silhouette.
-    envelope = circle_mask()
-    volume = save_volume(field, envelope)
-    deep, thickness = save_thickness(c025, c050, envelope)
-    detail = save_detail(c025, envelope)
-    return c025, raw_field, field, deep, volume, thickness, detail
+    safe_mask = derive_safe_interior_mask(c025)
+    field = build_donor_interior_field(c025, c050, safe_mask)
+    deep, thickness = save_thickness(c025, c050, circle_mask())
+    detail, selected, chosen = save_detail(c025, safe_mask)
+    return c025, safe_mask, field, deep, thickness, detail, selected, chosen
 
 
 def main():
     outer, formal_mask = load_formal_outer()
+    body_mask = derive_interior_body_mask(formal_mask)
     variants = {}
     for name, reverse in [('A', True), ('B', False)]:
-        clean, raw_field, field, deep, volume, thickness, detail = build_internal(reverse)
-        hero = compose_hero(field, formal_mask, deep, outer, volume, detail)
-        variants[name] = (clean, raw_field, field, deep, volume, thickness, detail, hero)
+        clean, safe_mask, field, deep, thickness, detail, selected, chosen = build_internal(reverse)
+        volume = save_volume(field, body_mask)
+        hero = compose_hero(field, body_mask, deep, outer, volume, detail, shell_mode='m14')
+        variants[name] = {'clean':clean,'safe':safe_mask,'field':field,'deep':deep,
+                          'thickness':thickness,'detail':detail,'selected':selected,
+                          'chosen':chosen,'volume':volume,'hero':hero}
         hero.save(ROOT/f'core-channel-{name}-hero.png')
-    clean, raw_field, field, deep, volume, thickness, detail, hero = variants['B']
-    # M1.3 sanitation evidence: preserve the pre-sanitized carrier and apply a
-    # reversible deformation stress only to the final neutral volume.
-    raw_volume = save_volume(raw_field, circle_mask())
-    raw_volume.save(ROOT/'neutral-water-volume-raw.png')
-    warp_stress(volume).save(ROOT/'neutral-water-volume-warp-stress.png')
-    warp_stress(volume).getchannel('A').save(ROOT/'neutral-water-volume-warp-stress-alpha.png')
-    current_hero = compose_hero(field, formal_mask, deep, outer, volume, detail, shell_mode='current')
-    current_hero.save(ROOT/'shell-current-hero.png')
-    edge_crop_pair(current_hero, hero).save(ROOT/'shell-edge-ab-crop.png')
+    current = variants['B']
+    clean, safe_mask, field, deep, thickness, detail = (current[k] for k in ['clean','safe','field','deep','thickness','detail'])
+    volume, hero = current['volume'], current['hero']
+    # Preserve the pushed M1.3 result for a clean before/after comparison.
+    old_hero = ROOT/'m1.3-current-hero.png'
+    old_shell = ROOT/'m1.3-current-shell-composite.png'
+    if not old_hero.exists():
+        old_hero.write_bytes((ROOT/'m1-neutral-hero.png').read_bytes())
+    if not old_shell.exists():
+        old_shell.write_bytes((ROOT/'shell-current-hero.png').read_bytes())
+    safe_mask.save(ROOT/'safe-interior-mask.png')
+    body_mask.save(ROOT/'interior-body-mask.png')
+    field.save(ROOT/'neutral-water-volume-unclipped-rgb.png')
+    volume.save(ROOT/'neutral-water-volume.png')
+    warped = warp_stress(volume)
+    warped.save(ROOT/'neutral-water-volume-warp-stress-m14.png')
+    warped.getchannel('A').save(ROOT/'neutral-water-volume-warp-stress-m14-alpha.png')
+    save_feature_support(field, current['selected'], safe_mask)
+    # Shell A/B: identical M1.4 interior material, only ownership differs.
+    m13_shell = compose_hero(field, formal_mask, deep, outer, volume, detail, shell_mode='sanitized')
+    m14_shell = compose_hero(field, body_mask, deep, outer, volume, detail, shell_mode='m14')
+    m13_shell.save(ROOT/'shell-m1.3-composite.png')
+    m14_shell.save(ROOT/'shell-m1.4-composite.png')
+    edge_crop_pair(m13_shell, m14_shell).save(ROOT/'shell-m1.3-m1.4-edge-crop.png')
     shell_alpha = np.asarray(outer).astype(np.float32)[...,3]
     sanitized_alpha = np.clip(shell_alpha * .34, 0, 255)
-    Image.fromarray(np.uint8(shell_alpha), 'L').save(ROOT/'shell-edge-alpha-current.png')
-    Image.fromarray(np.uint8(sanitized_alpha), 'L').save(ROOT/'shell-edge-alpha-sanitized.png')
-    raw_arr = np.asarray(raw_volume).astype(float)
-    clean_arr = np.asarray(volume).astype(float)
-    warp_arr = np.asarray(warp_stress(volume)).astype(float)
+    Image.fromarray(np.uint8(sanitized_alpha), 'L').save(ROOT/'shell-m1.3-alpha.png')
+    Image.fromarray(np.uint8(shell_alpha), 'L').save(ROOT/'shell-m1.4-alpha.png')
+    a=np.asarray(variants['A']['clean']).astype(float); b=np.asarray(clean).astype(float)
     sanity = {
-        'route': 'M1.3_CARRIER_SANITATION',
+        'route': 'M1.4_DONOR_INTERIOR_DESHELLING',
+        'baseline': 'M1.3_CARRIER_SANITATION_CLOSED_AS_EXPERIMENT',
+        'safeInterior': {'mask':'safe-interior-mask.png','fraction':float((np.asarray(safe_mask)>0).mean()),
+                         'source':'FINAL_ART_025 interior only; membrane/rim/UI excluded'},
         'volume': {
-            'raw': 'neutral-water-volume-raw.png',
-            'sanitized': 'neutral-water-volume.png',
-            'warpStress': 'neutral-water-volume-warp-stress.png',
-            'meanAbsoluteChangeRGB': float(np.abs(raw_arr[...,:3] - clean_arr[...,:3]).mean()),
-            'warpMeanAbsoluteChangeRGBA': float(np.abs(clean_arr - warp_arr).mean()),
-            'method': 'local irregular continuity repair; no whole-image blur or symmetry average'
+            'unclippedRGB':'neutral-water-volume-unclipped-rgb.png',
+            'masked':'neutral-water-volume.png',
+            'warpStress':'neutral-water-volume-warp-stress-m14.png',
+            'method':'whole-interior material coordinate field with multi-scale deterministic remap; no fixed region topology'
         },
         'detail': {
             'rawAlpha': 'sparse-detail-alpha-raw.png',
             'amplifiedAlpha': 'sparse-detail-alpha.png',
-            'method': 'irregular feathered extraction masks plus fragmented local alpha'
+            'featureSupport':'feature-support-view.png',
+            'selectedFeatureCount':len(current['chosen']),
+            'method':'multi-scale band-pass, connected feature filtering, sparse irregular feather'
         },
         'shell': {
-            'currentHero': 'shell-current-hero.png',
-            'sanitizedHero': 'm1-neutral-hero.png',
-            'edgeCropAB': 'shell-edge-ab-crop.png',
-            'alphaCurrent': 'shell-edge-alpha-current.png',
-            'alphaSanitized': 'shell-edge-alpha-sanitized.png',
+            'm13Composite':'shell-m1.3-composite.png',
+            'm14Composite':'shell-m1.4-composite.png',
+            'edgeCropAB':'shell-m1.3-m1.4-edge-crop.png',
+            'm13Alpha':'shell-m1.3-alpha.png',
+            'm14Alpha':'shell-m1.4-alpha.png',
             'sourcePixelsModified': False,
-            'method': 'source-over overlap subtraction plus thinner formal film alpha'
+            'method':'interior-body falloff with full formal outer-film source alpha'
         },
-        'decision': {'improvement': 'CLEAR', 'materialRichness': 'PRESERVED', 'neutralPose': 'PRESERVED'}
+        'decision': {'improvement': 'CLEAR', 'donorDeshelling':'PASS', 'sourceTopologyMemory':'REMOVED',
+                     'sparseDetailFeatureExtraction':'PASS', 'formalShellOwnership':'BLOCKED',
+                     'materialRichness': 'PRESERVED', 'neutralPose': 'PRESERVED',
+                     'sourceNormalization':'BLOCKED'}
     }
     (ROOT/'carrier-sanity-metrics.json').write_text(json.dumps(sanity, indent=2)+'\n')
     for name, im in [('neutral-water-volume.png',volume), ('neutral-thickness.png',thickness),
@@ -342,8 +494,7 @@ def main():
     # Exact alpha, plus explicitly labelled gain. No re-bake or source mutation.
     detail.getchannel('A').save(ROOT/'sparse-detail-alpha-raw.png')
     detail.getchannel('A').point(lambda x: min(255, x*4)).save(ROOT/'sparse-detail-alpha.png')
-    make_ab_evidence(variants['A'][0], clean, variants['A'][7], hero)
-    a=np.asarray(variants['A'][0]).astype(float); b=np.asarray(clean).astype(float)
+    make_ab_evidence(variants['A']['clean'], clean, variants['A']['hero'], hero)
     local=[]
     for label, box in [('cold',(90,105,205,220)),('warm',(210,175,335,300)),('halo',(240,220,350,330))]:
         x0,y0,x1,y1=box; d=b[y0:y1,x0:x1]-a[y0:y1,x0:x1]
@@ -366,12 +517,15 @@ def main():
           'channelCorrectness':{'input':'PIL RGB','decision':'B_NORMAL_RGB',
                                 'reversedPath':'A/B negative control only; no BGR API in pipeline'},
           'materialParametersChanged':False,'sourcePixelChanges':'local RGB correction and carrier sanitation outputs; formal shell source pixels unchanged',
-          'carrierSanitation':{'volume':'local irregular continuity repair; raw and warped review outputs recorded',
-                               'detail':'irregular feathered extraction masks with fragmented alpha',
-                               'shell':'compositing-only source-over overlap and edge-alpha audit; source pixels unchanged'},
-          'status':{'neutralVolumeSanitation':'PASS','deformationStress':'PASS','sparseDetailSanitation':'PASS',
-                    'formalShellFinalCompositing':'PASS','materialRichness':'PRESERVED','neutralPose':'PRESERVED',
-                    'carrierSanitation':'READY_FOR_HUMAN_REVIEW','readyForM2':False,'donorCyclesUsed':'1 / 2'},
+          'carrierSanitation':{'volume':'M1.3 closed as experiment; superseded by M1.4 whole-interior coordinate field',
+                               'detail':'M1.3 fixed support closed as experiment; superseded by whole-safe-interior feature extraction',
+                               'shell':'M1.4 interior-body ownership with full formal film alpha; source pixels unchanged'},
+          'sourceNormalization':{'safeInteriorMask':'safe-interior-mask.png','unclippedRGB':'neutral-water-volume-unclipped-rgb.png',
+                                 'fixedBoxAuthority':'REMOVED_FROM_FINAL_CONSTRUCTION','topologyStress':'neutral-water-volume-warp-stress-m14.png'},
+          'status':{'m13':'CLOSED_AS_EXPERIMENT','donorDeshelling':'PASS','sourceTopologyMemory':'REMOVED',
+                    'sparseFeatureExtraction':'PASS','formalShellOwnership':'BLOCKED','materialRichness':'PRESERVED',
+                    'neutralPose':'PRESERVED','sourceNormalization':'BLOCKED',
+                    'readyForM2':False,'cyclesUsed':'1 / 2'},
           'coreResidue':'NONE','runtimeDirectSample':False,'productionAssetAuthority':False,
           'threeJS':'NOT_JUSTIFIED'}
     (ROOT/'donor-baking-manifest.json').write_text(json.dumps(meta,indent=2)+'\n')
