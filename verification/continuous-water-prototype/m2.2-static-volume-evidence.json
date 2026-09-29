@@ -53,7 +53,9 @@
     "m2.2-z-slice-montage.png",
     "m2.2-browser-hero.png",
     "m2.2-g2-geometry-spike.png",
-    "m2.2-g2-layer-montage.png"
+    "m2.2-g2-layer-montage.png",
+    "m2.2-g3-geometry-spike.png",
+    "m2.2-g3-layer-montage.png"
   ],
   "ablationEvidence": {
     "depthOffOn": [
@@ -219,6 +221,19 @@
     "geometryG2Evidence": "m2.2-g2-layer-montage.png",
     "geometryG2Metrics": "m2.2-g2-geometry-evidence.json",
     "result": "PROMISING_NOT_ACCEPTED",
-    "reason": "G2 exposes opposed mass bands, ordered sheets and compact cool/warm roles more clearly than the smooth volume and G1 routes, but its luminance and gradient gates remain below threshold; this is still VOLUME_CONSTRUCTION, not a source or renderer blocker."
+    "reason": "G3 removes the dual-core abstraction and makes continuous flow readable, but it remains below the contrast and occlusion gate; this is still VOLUME_CONSTRUCTION, not a source or renderer blocker.",
+    "geometryG3": "m2.2-g3-geometry-spike.png",
+    "geometryG3Page": "m2.2-geometry-g3.html",
+    "geometryG3Metrics": "m2.2-g3-geometry-evidence.json"
+  },
+  "postCycleCorrection": {
+    "name": "continuous-flow-g3",
+    "page": "m2.2-geometry-g3.html",
+    "hero": "m2.2-g3-geometry-spike.png",
+    "evidence": "m2.2-g3-geometry-evidence.json",
+    "discreteCoreCount": 0,
+    "carrier": "continuous body field + 2 opposed curved arcs + 3 ordered flow sheets + anisotropic film rim + optical accents",
+    "result": "BLOCKED / VOLUME_CONSTRUCTION",
+    "reason": "removes dual-core abstraction but remains below contrast and occlusion gate"
   }
 }

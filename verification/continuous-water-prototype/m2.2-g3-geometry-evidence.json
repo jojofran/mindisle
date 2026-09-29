@@ -1,0 +1,14 @@
+{
+  "representation": "geometry-alternative-spike-g3",
+  "carrier": "continuous body field + 2 opposed curved arcs + 3 ordered flow sheets + anisotropic film rim + optical accents",
+  "discreteCoreCount": 0,
+  "sourcePalette": "derived from neutral-water-volume.rgb",
+  "layers": 9,
+  "luminanceStdInside": 0.07522414230518479,
+  "p95Gradient": 0.009455304093211466,
+  "warmRBMax": 0.1643135027060738,
+  "coolBRMax": 0.2265177969093326,
+  "m1SourcesModified": false,
+  "productionDependency": false,
+  "visualStatus": "AWAITING_HUMAN_REVIEW"
+}
