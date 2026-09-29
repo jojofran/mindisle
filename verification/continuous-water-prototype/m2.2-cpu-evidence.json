@@ -1,0 +1,64 @@
+{
+  "representation": "derived-8-slice-density-atlas",
+  "sourceFiles": [
+    "neutral-water-volume.png",
+    "neutral-thickness.png",
+    "neutral-water-detail.png",
+    "formal-silhouette-mask.png",
+    "formal-outer-film-crop.png"
+  ],
+  "sliceCount": 8,
+  "sliceAtlas": "m2.2-volume-slice-atlas.png",
+  "sliceMontage": "m2.2-z-slice-montage.png",
+  "ray": {
+    "analyticSphere": true,
+    "entryExit": true,
+    "rayLength": "2*sqrt(1-r2)"
+  },
+  "accumulation": "front-to-back Beer-Lambert-style source-over",
+  "cpuMirrorOnly": true,
+  "sampleAblation": {
+    "s08_vs_s12": {
+      "maeRgb": 0.0262,
+      "maxRgb": 1,
+      "changedPixels": 12000
+    },
+    "s12_vs_s16": {
+      "maeRgb": 0.0049,
+      "maxRgb": 1,
+      "changedPixels": 2336
+    }
+  },
+  "ablations": {
+    "depthOffOn": {
+      "maeRgb": 2.5259,
+      "maxRgb": 19,
+      "changedPixels": 85897
+    },
+    "densityOffOn": {
+      "maeRgb": 9.3605,
+      "maxRgb": 41,
+      "changedPixels": 104626
+    },
+    "thicknessOffOn": {
+      "maeRgb": 1.2096,
+      "maxRgb": 8,
+      "changedPixels": 82332
+    },
+    "detailOffOn": {
+      "maeRgb": 0.0063,
+      "maxRgb": 7,
+      "changedPixels": 1108
+    }
+  },
+  "runtime": {
+    "renderer": "experimental-webgl",
+    "gpuCapture": "NOT_REPRODUCED",
+    "passes": 1,
+    "framebuffers": 0,
+    "shaderErrors": "NOT_REPRODUCED"
+  },
+  "shell": "alpha-aware-frozen",
+  "productionDependency": false,
+  "m1SourcesModified": false
+}

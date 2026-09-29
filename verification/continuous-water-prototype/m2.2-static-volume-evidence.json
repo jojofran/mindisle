@@ -1,0 +1,192 @@
+{
+  "milestone": "M2.2",
+  "title": "Static Volumetric Representation Spike",
+  "authority": {
+    "m1Sources": "PASS / FROZEN / UNCHANGED",
+    "m2": "ACTIVE",
+    "m3": "BLOCKED"
+  },
+  "scope": {
+    "productionModified": false,
+    "productionMigration": false,
+    "fluidSimulation": false,
+    "animation": false,
+    "formation": false,
+    "core": false,
+    "threeJs": "NOT_JUSTIFIED",
+    "m2_1Model": "EXHAUSTED / BASELINE_ONLY"
+  },
+  "baseline": {
+    "hero": "m2.2-baseline-m2.1-hero.png",
+    "finalArt025": "m2.2-baseline-final-art-025.png",
+    "finalArt050": "m2.2-baseline-final-art-050.png",
+    "frozenK2": "m2.2-baseline-frozen-k2.png",
+    "viewport": "same 512x512 comparison family; source files unchanged"
+  },
+  "representation": {
+    "type": "derived-8-slice-density-atlas",
+    "atlas": "m2.2-volume-slice-atlas.png",
+    "sliceMontage": "m2.2-z-slice-montage.png",
+    "sliceCount": 8,
+    "construction": "authored volume alpha mass + thickness-independent depth envelope; thickness controls ray extent; detail is shader perturbation",
+    "sourceFiles": [
+      "neutral-water-volume.png",
+      "neutral-thickness.png",
+      "neutral-water-detail.png",
+      "formal-silhouette-mask.png",
+      "formal-outer-film-crop.png"
+    ],
+    "m1SourcePixelsModified": false
+  },
+  "raySemantics": {
+    "analyticSphere": true,
+    "entry": "-sqrt(1-r2)",
+    "exit": "sqrt(1-r2)",
+    "rayLength": "2*sqrt(1-r2)",
+    "accumulation": "front-to-back Beer-Lambert-style source-over"
+  },
+  "debugViews": [
+    "m2.2-ray-length.png",
+    "m2.2-accumulated-density.png",
+    "m2.2-final-transmittance.png",
+    "m2.2-depth-slice-view.png",
+    "m2.2-z-slice-montage.png"
+  ],
+  "ablationEvidence": {
+    "depthOffOn": [
+      "m2.2-cpu-depth-off.png",
+      "m2.2-cpu-hero-s12.png"
+    ],
+    "densityOffOn": [
+      "m2.2-cpu-density-off.png",
+      "m2.2-cpu-density-on.png"
+    ],
+    "thicknessOffOn": [
+      "m2.2-cpu-thickness-off.png",
+      "m2.2-cpu-thickness-on.png"
+    ],
+    "detailOffOn": [
+      "m2.2-cpu-detail-off.png",
+      "m2.2-cpu-detail-on.png"
+    ],
+    "sampleCount": [
+      "m2.2-cpu-hero-s08.png",
+      "m2.2-cpu-hero-s12.png",
+      "m2.2-cpu-hero-s16.png"
+    ]
+  },
+  "metrics": {
+    "representation": "derived-8-slice-density-atlas",
+    "sourceFiles": [
+      "neutral-water-volume.png",
+      "neutral-thickness.png",
+      "neutral-water-detail.png",
+      "formal-silhouette-mask.png",
+      "formal-outer-film-crop.png"
+    ],
+    "sliceCount": 8,
+    "sliceAtlas": "m2.2-volume-slice-atlas.png",
+    "sliceMontage": "m2.2-z-slice-montage.png",
+    "ray": {
+      "analyticSphere": true,
+      "entryExit": true,
+      "rayLength": "2*sqrt(1-r2)"
+    },
+    "accumulation": "front-to-back Beer-Lambert-style source-over",
+    "cpuMirrorOnly": true,
+    "sampleAblation": {
+      "s08_vs_s12": {
+        "maeRgb": 0.0262,
+        "maxRgb": 1,
+        "changedPixels": 12000
+      },
+      "s12_vs_s16": {
+        "maeRgb": 0.0049,
+        "maxRgb": 1,
+        "changedPixels": 2336
+      }
+    },
+    "ablations": {
+      "depthOffOn": {
+        "maeRgb": 2.5259,
+        "maxRgb": 19,
+        "changedPixels": 85897
+      },
+      "densityOffOn": {
+        "maeRgb": 9.3605,
+        "maxRgb": 41,
+        "changedPixels": 104626
+      },
+      "thicknessOffOn": {
+        "maeRgb": 1.2096,
+        "maxRgb": 8,
+        "changedPixels": 82332
+      },
+      "detailOffOn": {
+        "maeRgb": 0.0063,
+        "maxRgb": 7,
+        "changedPixels": 1108
+      }
+    },
+    "runtime": {
+      "renderer": "experimental-webgl",
+      "gpuCapture": "NOT_REPRODUCED",
+      "passes": 1,
+      "framebuffers": 0,
+      "shaderErrors": "NOT_REPRODUCED"
+    },
+    "shell": "alpha-aware-frozen",
+    "productionDependency": false,
+    "m1SourcesModified": false
+  },
+  "freshCritic": {
+    "frontBackWater": "NOT_CLEAR",
+    "flatFog": "STILL_PRESENT",
+    "glassLens": "REDUCED_BUT_NOT_CLEARED",
+    "cloudyOcclusion": "NOT_CLEAR",
+    "deepOrganization": "NOT_PRESENT",
+    "detailIntegration": "NOT_VISIBLE",
+    "largestDefect": "source-derived density lacks authored internal spatial masses; current source detail is too sparse"
+  },
+  "performanceSmoke": {
+    "sampleCounts": [
+      8,
+      12,
+      16
+    ],
+    "sampleCountChoice": "12 for review; 12→16 CPU mirror MAE 0.0049, so more samples are not the solution",
+    "gpuBenchmark": false
+  },
+  "runtime": {
+    "renderer": "experimental-webgl",
+    "gpuCapture": "NOT_REPRODUCED",
+    "passes": 1,
+    "framebuffers": 0,
+    "shaderErrors": "NOT_REPRODUCED",
+    "cpuMirror": "deterministic evidence only"
+  },
+  "status": {
+    "m1": "FROZEN / UNCHANGED",
+    "m2_1": "EXHAUSTED / BASELINE_ONLY",
+    "m2_2": "BLOCKED",
+    "blockerType": "SOURCE",
+    "threeJs": "NOT_JUSTIFIED",
+    "readyForM3": false
+  },
+  "cyclesUsed": 1,
+  "stopReason": "A volumetric depth carrier was established, but Fresh Critic still sees flat/fog and missing internal masses; do not add samples or enter another volume tuning cycle.",
+  "sourceStats": {
+    "neutral-water-volume-alpha": {
+      "mean": 0.434508,
+      "std": 0.406869,
+      "nonzeroFraction": 0.618131,
+      "max": 0.858824
+    },
+    "neutral-water-detail-alpha": {
+      "mean": 0.000501,
+      "std": 0.007889,
+      "nonzeroFraction": 0.011588,
+      "max": 0.431373
+    }
+  }
+}
