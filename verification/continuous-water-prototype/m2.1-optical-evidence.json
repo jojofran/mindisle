@@ -1,0 +1,122 @@
+{
+  "milestone": "M2.1",
+  "title": "Optical Semantics Correction",
+  "authority": {
+    "m1Sources": "PASS / FROZEN",
+    "m2": "ACTIVE",
+    "m3": "BLOCKED"
+  },
+  "scope": {
+    "productionModified": false,
+    "m1SourcesModified": false,
+    "threeJs": "NOT_JUSTIFIED"
+  },
+  "baseline": {
+    "viewport": "512x512 canvas, fixed page background, DPR-independent capture",
+    "hero": "m2.1-baseline-m2-hero.png",
+    "finalArt025": "m2.1-baseline-final-art-025.png",
+    "finalArt050": "m2.1-baseline-final-art-050.png",
+    "frozenK2": "m2.1-baseline-frozen-k2.png",
+    "debug": {
+      "volumeRgb": "m2.1-baseline-volume-rgb.png",
+      "volumeAlphaDensity": "m2.1-baseline-volume-alpha.png",
+      "thickness": "m2.1-baseline-thickness.png",
+      "detailAlpha": "m2.1-baseline-detail-alpha.png",
+      "shellContribution": "m2.1-baseline-shell-contribution.png"
+    }
+  },
+  "after": {
+    "hero": "m2.1-after-m2-hero.png",
+    "debug": [
+      "m2.1-after-volume-rgb.png",
+      "m2.1-after-volume-alpha-density.png",
+      "m2.1-after-thickness.png",
+      "m2.1-after-detail-alpha.png",
+      "m2.1-after-density-contribution.png",
+      "m2.1-after-transmission-absorption.png",
+      "m2.1-after-local-refraction-contribution.png",
+      "m2.1-after-shell-contribution.png"
+    ]
+  },
+  "ablations": {
+    "density": [
+      "m2.1-ablation-density-off.png",
+      "m2.1-ablation-density-on.png"
+    ],
+    "refraction": [
+      "m2.1-ablation-radial-refraction.png",
+      "m2.1-ablation-local-refraction.png"
+    ],
+    "detail": [
+      "m2.1-ablation-detail-off.png",
+      "m2.1-ablation-detail-on.png"
+    ],
+    "thickness": [
+      "m2.1-ablation-thickness-off.png",
+      "m2.1-ablation-thickness-on.png"
+    ],
+    "colorSpace": [
+      "m2.1-ablation-gamma-math.png",
+      "m2.1-ablation-linear-optical-math.png"
+    ]
+  },
+  "priorRuntimeMetrics": {
+    "renderer": "experimental-webgl",
+    "webglErrors": 0,
+    "textureCount": 5,
+    "textureSize": "400x400",
+    "passes": 1,
+    "framebuffers": 0,
+    "reviewUpdateDrawInvocations": 2,
+    "animation": false,
+    "deterministic": true,
+    "shellModel": "alpha-aware-frozen",
+    "runtimeCapture": "before final bounded correction; current browser policy blocked reload after correction"
+  },
+  "pairwiseRgbMae": {
+    "densityOffOn": {
+      "mae": 2.2198,
+      "max": 14
+    },
+    "radialLocal": {
+      "mae": 0.0575,
+      "max": 5
+    },
+    "detailOffOn": {
+      "mae": 0.0192,
+      "max": 13
+    },
+    "thicknessOffOn": {
+      "mae": 1.669,
+      "max": 10
+    },
+    "gammaLinear": {
+      "mae": 3.3902,
+      "max": 20
+    },
+    "baselineAfter": {
+      "mae": 10.0317,
+      "max": 47
+    }
+  },
+  "semanticChecks": {
+    "volumeAlphaDensity": "PASS",
+    "localOpticalNormal": "FAIL_VISUAL_DIFFERENCE_TOO_WEAK",
+    "globalPaleMix": "PASS_REMOVED",
+    "depthComposition": "PASS_SOURCE_OVER_ORDER",
+    "detailIntegration": "FAIL_VISUAL_DIFFERENCE_TOO_WEAK",
+    "shell": "FROZEN_ALPHA_AWARE",
+    "machineEvidence": "PASS_STATIC_CHECKS"
+  },
+  "cyclesUsed": 1,
+  "status": "BLOCKED",
+  "blocker": "OPTICAL_MODEL",
+  "readyForM3": false,
+  "visualGate": "AWAITING_HUMAN_REVIEW",
+  "notes": [
+    "The shader now samples volume alpha as density for optical depth, transmission, scattering, and layer weights.",
+    "Local direction uses uResolution-sized finite differences over thickness plus weak detail gradient; radial remains an explicit ablation only.",
+    "Rear/internal/front composition is sequential source-over style; formal alpha-aware shell remains frozen.",
+    "A final bounded amplification pass was applied after the last captured runtime evidence. Browser auto-review blocked reopening the local page, so no post-pass visual claim is made."
+  ]
+}
