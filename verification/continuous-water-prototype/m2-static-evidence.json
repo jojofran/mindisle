@@ -1,0 +1,79 @@
+{
+  "evidenceStatus": "M2_STATIC_GPU_EXPERIMENTAL",
+  "milestone": "M2",
+  "scope": "static GPU material only",
+  "productionChanged": false,
+  "inputs": {
+    "volume": "neutral-water-volume.png",
+    "thickness": "neutral-thickness.png",
+    "detail": "neutral-water-detail.png",
+    "silhouette": "formal-silhouette-mask.png",
+    "outerFilm": "formal-outer-film-crop.png",
+    "textureSize": "400x400",
+    "sourceHashesRecorded": true
+  },
+  "renderer": {
+    "path": "independent experimental WebGL",
+    "passes": 1,
+    "framebuffers": 0,
+    "drawCalls": 3,
+    "webglErrors": 0,
+    "animation": false,
+    "formation": false,
+    "deformation": false,
+    "core": false
+  },
+  "thickness": {
+    "enabled": true,
+    "pixelOutput": true,
+    "controls": [
+      "transmittedBrightness",
+      "absorption",
+      "localRefractiveOffset",
+      "frontInternalRearContribution"
+    ],
+    "debugViews": ["Thickness", "Thickness contribution", "Transmission / absorption", "Refraction contribution"]
+  },
+  "shell": {
+    "models": ["top-overlay", "original-order", "alpha-aware"],
+    "selected": "alpha-aware",
+    "sourcePixelsModified": false,
+    "sourceAlphaModified": false
+  },
+  "freshCritic": {
+    "cycles": 3,
+    "cycle1": {
+      "primaryDefect": "overexposed white fog-ball",
+      "rootCauseType": "OPTICAL_MODEL",
+      "currentRouteCanSolve": "YES",
+      "change": "reduce body and shell contribution weights",
+      "expectedEffect": "retain cloudy cyan body without white takeover",
+      "failureSignal": "uniform white body or ring"
+    },
+    "cycle2": {
+      "primaryDefect": "flat saturated cyan / weak front-rear read",
+      "rootCauseType": "THICKNESS_OPTICAL_MODEL",
+      "currentRouteCanSolve": "YES",
+      "change": "thickness-dependent absorption, rim response, and refractive sampling",
+      "expectedEffect": "visible depth gradient without glass-ball outline",
+      "failureSignal": "plastic sphere or flat cyan"
+    },
+    "cycle3Extension": {
+      "primaryDefect": "source color remained too saturated and detail was too quiet",
+      "rootCauseType": "OPTICAL_MODEL",
+      "currentRouteCanSolve": "PARTIAL",
+      "change": "desaturate authored source through shader luminance while retaining thickness modulation",
+      "expectedEffect": "paler water family closer to Final Art reference",
+      "failureSignal": "remaining material-family mismatch or missing membrane language"
+    },
+    "result": "remaining obvious flatness / sparse detail means optical-model blocker"
+  },
+  "visualGate": "AWAITING_HUMAN_REVIEW",
+  "result": "BLOCKED",
+  "blockerType": "OPTICAL_MODEL",
+  "threeJS": "NOT_JUSTIFIED",
+  "readyForM3": false,
+  "hero": "m2-static-material.html",
+  "rawVsGpu": "same page: M1 raw preview beside M2 GPU Hero",
+  "deterministic": true
+}
