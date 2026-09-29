@@ -106,7 +106,8 @@
     "depthComposition": "PASS_SOURCE_OVER_ORDER",
     "detailIntegration": "FAIL_VISUAL_DIFFERENCE_TOO_WEAK",
     "shell": "FROZEN_ALPHA_AWARE",
-    "machineEvidence": "PASS_STATIC_CHECKS"
+    "machineEvidence": "PASS_STATIC_CHECKS",
+    "colorSpace": "PASS_GAMMA_SELECTED"
   },
   "cyclesUsed": 1,
   "status": "BLOCKED",
@@ -117,6 +118,11 @@
     "The shader now samples volume alpha as density for optical depth, transmission, scattering, and layer weights.",
     "Local direction uses uResolution-sized finite differences over thickness plus weak detail gradient; radial remains an explicit ablation only.",
     "Rear/internal/front composition is sequential source-over style; formal alpha-aware shell remains frozen.",
-    "A final bounded amplification pass was applied after the last captured runtime evidence. Browser auto-review blocked reopening the local page, so no post-pass visual claim is made."
-  ]
+    "A final bounded amplification pass was applied after the last captured runtime evidence. Browser auto-review blocked reopening the local page, so no post-pass visual claim is made.",
+    "Gamma-space optical math is now the default after the captured A/B showed clearer source variation; linear remains an explicit ablation."
+  ],
+  "colorSpaceDecision": {
+    "selected": "gamma",
+    "reason": "Captured gamma A/B retains more authored cloudy variation and is less foggy than linear; linear remains available for comparison."
+  }
 }
