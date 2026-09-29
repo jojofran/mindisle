@@ -1,0 +1,10 @@
+{
+  "representation": "geometry-alternative-spike",
+  "carrier": "analytic sphere domain + two derived mass anchors + four translucent internal sheets",
+  "sourcePalette": "derived from neutral-water-volume.rgb",
+  "shell": "formal-outer-film alpha-aware frozen",
+  "productionDependency": false,
+  "m1SourcesModified": false,
+  "layers": 6,
+  "visualStatus": "AWAITING_HUMAN_REVIEW"
+}

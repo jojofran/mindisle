@@ -19,36 +19,36 @@
   "cpuMirrorOnly": true,
   "sampleAblation": {
     "s08_vs_s12": {
-      "maeRgb": 0.0262,
+      "maeRgb": 0.0575,
       "maxRgb": 1,
-      "changedPixels": 12000
+      "changedPixels": 24539
     },
     "s12_vs_s16": {
-      "maeRgb": 0.0049,
+      "maeRgb": 0.0298,
       "maxRgb": 1,
-      "changedPixels": 2336
+      "changedPixels": 13260
     }
   },
   "ablations": {
     "depthOffOn": {
-      "maeRgb": 2.5259,
-      "maxRgb": 19,
-      "changedPixels": 85897
+      "maeRgb": 3.2986,
+      "maxRgb": 23,
+      "changedPixels": 86327
     },
     "densityOffOn": {
-      "maeRgb": 9.3605,
-      "maxRgb": 41,
-      "changedPixels": 104626
+      "maeRgb": 5.0186,
+      "maxRgb": 42,
+      "changedPixels": 105143
     },
     "thicknessOffOn": {
-      "maeRgb": 1.2096,
-      "maxRgb": 8,
-      "changedPixels": 82332
+      "maeRgb": 1.3034,
+      "maxRgb": 7,
+      "changedPixels": 80524
     },
     "detailOffOn": {
-      "maeRgb": 0.0063,
-      "maxRgb": 7,
-      "changedPixels": 1108
+      "maeRgb": 0.0067,
+      "maxRgb": 8,
+      "changedPixels": 1157
     }
   },
   "runtime": {

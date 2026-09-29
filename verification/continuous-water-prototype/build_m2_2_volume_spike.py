@@ -35,19 +35,40 @@ detail_a = detail[..., 3]
 # Same semantic conversion used by the M2.1 shader, kept as derived data only.
 th = np.clip(0.48 + 0.62 * (thickness_rgb[..., 0] - thickness_rgb[..., 2]) + 0.12 * (thickness_rgb[..., 1] - 0.5), 0.06, 0.94)
 
-# Build a deterministic 8-slice atlas. Alpha is derived from authored mass and a
-# depth envelope; thickness is intentionally applied later as a ray extent control.
+# Build a deterministic 8-slice atlas. This is a derived representation, not a
+# replacement source: local mass, luminance and thickness gradients determine two
+# depth-separated internal bands. The two bands have different depth centres and
+# scattering colors, so Z is not represented by alpha-only copies.
+luma = np.dot(base_rgb, np.array([0.22, 0.68, 0.10], dtype=np.float32))
+gty, gtx = np.gradient(th)
+gly, glx = np.gradient(luma)
+grad_mag = np.sqrt(gtx * gtx + gty * gty + glx * glx + gly * gly)
+grad_norm = np.clip(grad_mag / (np.percentile(grad_mag, 92) + 1e-5), 0, 1)
+# Deterministic local coordinate field derived from source gradients and authored mass.
+flow_field = np.tanh(1.8 * (0.68 * (luma - 0.5) + 0.32 * (th - 0.5)) + 0.9 * (gtx - gly))
+mass = np.clip(base_density * mask, 0, 1)
+front_weight = np.clip(0.50 + 0.30 * flow_field + 0.10 * (luma - 0.5), 0.12, 0.88)
+rear_weight = 1.0 - front_weight
+center_shift = 0.10 * flow_field + 0.06 * (th - 0.5) + 0.035 * (luma - 0.5)
+front_center = np.clip(0.34 + center_shift, 0.12, 0.56)
+rear_center = np.clip(0.66 + center_shift, 0.44, 0.88)
+front_spread = 0.075 + 0.095 * (1.0 - th) + 0.025 * grad_norm
+rear_spread = 0.085 + 0.085 * (1.0 - th) + 0.020 * grad_norm
 slices = []
 for i in range(SLICES):
     z = (i + 0.5) / SLICES
-    centered = np.abs((z - 0.5) * 2.0)
-    envelope = np.clip(1.0 - centered, 0.0, 1.0) ** 0.62
-    veil = 0.20 + 0.80 * envelope
-    # Weak deterministic depth-band decomposition, derived from the source alpha.
-    band = 0.90 + 0.10 * np.cos(math.pi * (z - 0.5))
-    alpha = np.clip(base_density * mask * veil * band, 0.0, 1.0)
-    save_rgba(OUT / f'm2.2-volume-slice-{i:02d}.png', base_rgb, alpha)
-    slices.append(np.concatenate([base_rgb, alpha[..., None]], axis=2))
+    front_band = np.exp(-((z - front_center) / np.maximum(front_spread, 0.025)) ** 2 * 2.2)
+    rear_band = np.exp(-((z - rear_center) / np.maximum(rear_spread, 0.025)) ** 2 * 2.2)
+    edge_veil = 0.12 + 0.20 * (1.0 - np.abs(2.0 * z - 1.0))
+    alpha = mass * np.clip(edge_veil + 0.82 * (front_weight * front_band + rear_weight * rear_band), 0, 1)
+    alpha = np.clip(alpha * (0.78 + 0.22 * (0.65 + 0.35 * th)), 0, 1)
+    lobe = np.clip(front_weight * front_band + rear_weight * rear_band, 0, 1)
+    # Depth-dependent scattering keeps the source RGB identity but lets internal
+    # bands read as different material layers without adding a cyan overlay.
+    depth_tint = 0.90 + 0.16 * lobe + 0.045 * (z - 0.5)
+    rgb = np.clip(base_rgb * depth_tint[..., None] + np.array([0.006, 0.018, 0.020], dtype=np.float32) * lobe[..., None], 0, 1)
+    save_rgba(OUT / f'm2.2-volume-slice-{i:02d}.png', rgb, alpha)
+    slices.append(np.concatenate([rgb, alpha[..., None]], axis=2))
 
 atlas = np.concatenate(slices, axis=1)
 Image.fromarray(np.round(np.clip(atlas, 0, 1) * 255).astype(np.uint8), 'RGBA').save(OUT / 'm2.2-volume-slice-atlas.png')
