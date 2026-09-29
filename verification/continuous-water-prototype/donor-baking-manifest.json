@@ -42,18 +42,34 @@
   },
   "status": {
     "m13": "CLOSED_AS_EXPERIMENT",
-    "donorDeshelling": "PASS",
-    "sourceTopologyMemory": "REMOVED",
-    "sparseFeatureExtraction": "PASS",
-    "formalShellOwnership": "BLOCKED",
-    "materialRichness": "PRESERVED",
-    "neutralPose": "PRESERVED",
-    "sourceNormalization": "BLOCKED",
-    "readyForM2": false,
-    "cyclesUsed": "1 / 2"
+    "m14": "SOURCE_NORMALIZATION_PRESERVED",
+    "m1MaterialPackage": "READY_FOR_HUMAN_REVIEW",
+    "formalShellOwnership": "DEFERRED_TO_M2",
+    "m2ShellStartingPoint": "UNRESOLVED",
+    "readyForM2": false
   },
   "coreResidue": "NONE",
   "runtimeDirectSample": false,
   "productionAssetAuthority": false,
-  "threeJS": "NOT_JUSTIFIED"
+  "threeJS": "NOT_JUSTIFIED",
+  "materialOnlyGate": {
+    "milestone": "M1.5",
+    "sourcesFrozen": true,
+    "comparisonDomain": "material-only-comparison-mask.png",
+    "internalMaterialFamily": "READY_FOR_HUMAN_REVIEW",
+    "neutralPose": "PRESERVED",
+    "materialSourceModified": false
+  },
+  "shellIntegrationHandoff": {
+    "formalShellOwnership": "DEFERRED_TO_M2",
+    "m2ShellStartingPoint": "UNRESOLVED",
+    "previewAuthoritative": false,
+    "tests": [
+      "A_TOP_OVERLAY",
+      "B_ORIGINAL_ORDER",
+      "C_ALPHA_AWARE_ORIGINAL_ORDER"
+    ],
+    "sourcePixelsModified": false,
+    "sourceAlphaModified": false
+  }
 }

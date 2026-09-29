@@ -198,5 +198,20 @@
     "formalShellOwnership": "BLOCKED",
     "runtimeDirectSample": false,
     "productionDependency": false
+  },
+  "materialOnlyGate": {
+    "milestone": "M1.5",
+    "materialSourcesFrozen": true,
+    "comparisonDomain": "material-only-comparison-mask.png",
+    "internalMaterialFamily": "READY_FOR_HUMAN_REVIEW",
+    "runtimeDirectSample": false,
+    "productionDependency": false
+  },
+  "shellIntegrationHandoff": {
+    "formalShellOwnership": "DEFERRED_TO_M2",
+    "m2ShellStartingPoint": "UNRESOLVED",
+    "previewAuthoritative": false,
+    "sourcePixelsModified": false,
+    "sourceAlphaModified": false
   }
 }

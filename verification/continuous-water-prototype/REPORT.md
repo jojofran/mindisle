@@ -1,98 +1,95 @@
-# M1.4 — Donor Interior De-shelling & Source-Space Normalization
+# M1.5 — Material-Only Final Gate & Shell Integration Handoff
 
 ## Final state
 
 - **M1.3 = CLOSED / EVIDENCE PRESERVED**
-- **DONOR DE-SHELLING = PASS**
-- **SOURCE TOPOLOGY MEMORY = REMOVED**
-- **SPARSE DETAIL FEATURE EXTRACTION = PASS**
-- **FORMAL SHELL OWNERSHIP = BLOCKED**
-- **MATERIAL RICHNESS = PRESERVED**
+- **M1.4 DE-SHELLING = PASS**
+- **M1.4 SOURCE TOPOLOGY MEMORY = REMOVED**
+- **M1 INTERNAL MATERIAL FAMILY = READY FOR HUMAN REVIEW**
 - **NEUTRAL POSE = PRESERVED**
-- **M1.4 SOURCE NORMALIZATION = BLOCKED**
+- **FORMAL SHELL OWNERSHIP = DEFERRED_TO_M2**
+- **M2 SHELL STARTING POINT = UNRESOLVED**
+- **M1 MATERIAL PACKAGE = READY FOR HUMAN REVIEW**
 - **READY_FOR_M2 = NO**
-- **DONOR CYCLES USED = 1 / 2**
 
-本轮没有重做 M1.3 sanitation，没有改 thickness、production、ProductState、interaction、formation、deformation system、core、timing、moving，也没有进入 M2 或 Three.js。
+本轮没有重烘焙、修改或替换任何 M1 carrier；没有修改 production、formal source、Final Art references、ProductState、formation、deformation、core、timing、moving 或 roadmap，也没有进入 M2 或 push。
 
-## 1. M1.3 保留项
+## 1. M1.4 继续有效的结果
 
-M1.3 的 irregular local blending、RGB/BGR correctness、core residue removal、formal outer source 接入和 Neutral Pose 证据全部保留。M1.3 仅作为实验关闭，不回滚。
+M1.4 的 safe interior、de-shelled donor interior、unclipped RGB、whole-interior coordinate field、topology stress 和 whole-safe-interior sparse feature extraction 全部保留。M1.4 的 shell blocker 被重新分类为 integration concern，不再阻塞 M1 internal material gate。
 
-## 2. M1.3 自验收的修正
+## 2. Material-Only comparison domain
 
-M1.3 的 hard seam 检查通过，但本轮复审确认它仍保留 donor sphere / circular geometry memory；固定 6 个 volume region 和 5 个 detail support box 也仍是隐藏的 topology authority。M1.3 的 0.34 outer-film attenuation 只能算实验性 compositing，不能当作 frozen optical fidelity。
+建立 material-only-comparison-mask.png，基于现有 SAFE_INTERIOR，统一应用到 FINAL_ART_025 interior、FINAL_ART_050 interior 和 current material。它只限制观察区域，不修改任何 reference RGB；outer shell、core、UI、formation 和 directional pose 都被排除。
 
-## 3. Donor de-shell 方法
+## 3. Fresh Critic A — Internal Material Only
 
-从 FINAL_ART_025 先建立 safe interior，再用 whole-interior material coordinate field 做两组大尺度坐标 remap，并以 multi-band deterministic blend 重新组织 cloudy material。最终构造路径不再调用固定 6-region donor_recompose 或 fixed-region sanitize。
+只看 FINAL_ART_025 interior、FINAL_ART_050 interior 和 CURRENT combined neutral interior：
 
-## 4. SAFE INTERIOR 定义
+1. **是否属于同一种水体材质？** 是。当前保留 white/cyan cloudy water vocabulary 和 authored density variation。
+2. **是否是 fog、flat cyan、generic cloud 或 shader blob？** 不是。虽然 current interior 更简化，但仍有连续 cloudy mass、局部密度变化和 sparse internal structures。
+3. **cloudy mass 是否自然聚散？** 是。没有回到 radial gradient 或 generic fog。
+4. **depth / thickness 是否足以成为后续输入？** 是。neutral-thickness 保持冻结并单独展示。
+5. **sparse detail 是否自然、稀疏、无 patch topology？** 是。detail 使用冻结的 M1.4 whole-interior feature extraction 结果。
+6. **是否存在普通用户一眼可见的 material representation defect？** 未发现。
 
-SAFE_INTERIOR_MASK 基于 FINAL_ART_025 的视觉 body extent，经内缩去除 membrane/rim band，并排除 UI/text 与低置信边缘。它只决定 donor vocabulary 的取样资格，不成为 runtime silhouette，也不进入 production authority。
+因此：
 
-## 5. Unclipped RGB evidence
+**M1 INTERNAL MATERIAL FAMILY = READY FOR HUMAN REVIEW**。
 
-neutral-water-volume-unclipped-rgb.png 在没有 silhouette alpha 时仍是连续 cloudy water material；没有完整圆环、第二颗球、shell arc、stacked sphere 或 circular donor boundary。这个 gate 通过。
+## 4. Neutral Pose Gate
 
-## 6. Fixed-box authority
+当前没有 cavity、swirl、强 directional organization 或 core；整体保持 calm / balanced。
 
-固定 6 个 volume box 和固定 5 个 detail box 保留在脚本中作为 historical negative evidence，但不再参与 M1.4 final construction。最终 topology authority 已切换到 whole-interior coordinate field 和 actual connected feature selection。
+**NEUTRAL POSE = PRESERVED**。这仍需 Human Confirmation，不由本轮自行宣告 Human PASS。
 
-## 7. Sparse feature extraction
+## 5. Shell Route Validation
 
-Detail 从整个 SAFE_INTERIOR 做 3/7/13 尺度 band-pass，按 connected / elongated feature 的面积、形态和对比度筛选，再做 irregular feather。输出 raw alpha、amplified alpha 和 feature-support-view。Alpha 中不再能读出 5 个 box 或固定 patch island。
+只做一次明确的 A/B/C preview，内部 material 完全相同，formal source pixels 和 source alpha 均未修改：
 
-## 8. Warp topology stress
+- **A — M1.4 current top-overlay**：保留 membrane identity，但仍有偏强的 uniform white ring。
+- **B — ORIGINAL-ORDER SEMANTICS**：formal outer film 先合成，internal body 后合成；uniform ring 下降，但 shell identity 被 internal body 大幅覆盖。
+- **C — ALPHA-AWARE ORIGINAL ORDER**：formal film 仍在 body 下方，body 根据 formal alpha 做轻微 coverage response；比 B 稍有 edge response，但仍不足以确认 Final Art edge language。
 
-对 de-shelled material field 做 horizontal bend、vertical bend、diagonal shear 和 local stretch。stress 后未出现 hidden sphere、source sphere edge、repeated donor topology 或 patch cluster。SOURCE TOPOLOGY MEMORY = REMOVED。
+Fresh Critic：
 
-## 9. Shell ownership 修正
+1. 最不像 uniform white ring：B / C。
+2. 最保留 formal membrane identity：A。
+3. 最接近 FINAL_ART_025 edge language：当前没有一个明确胜出；A 的 identity 较好但 ring 偏强，B/C 的 ring 较弱但 optical membrane 不足。
+4. blocker 是否属于 compositor / integration？是。M1 internal material gate 已通过，问题发生在 layer order / body ownership 的静态整合。
 
-M1.4 A/B 保持内部 water material 完全相同：
+因此：
 
-- A：M1.3 body coverage + attenuated formal film；
-- B：interior-body falloff + full formal outer-film source alpha。
+- **FORMAL SHELL OWNERSHIP = DEFERRED_TO_M2**
+- **M2 SHELL STARTING POINT = UNRESOLVED**
 
-B 没有全局乘 0.34，但 full formal source 仍形成接近连续的高亮环，和 FINAL_ART_025 的 optical context 不能确认一致。因此 FORMAL SHELL OWNERSHIP = BLOCKED。不能用再次削弱 formal film 的方式掩盖这个 blocker。
+M2 preview 是 NON-AUTHORITATIVE，不关闭 M2。
 
-## 10. Material richness
+## 6. Authority correction
 
-cloudy mass、white/cyan balance、local density 和 authored spatial complexity 保留，没有退化成 radial gradient、fog 或 generic noise。
+本轮不再把 01_outer_film full source alpha 作为必须 top-most overlay 的 frozen authority。冻结的是 formal source asset、silhouette 和 visual identity；原始 manifest 的 layer order 仍需在 M2 static integration 中验证。
 
-## 11. Neutral Pose
+## 7. Material source changes
 
-Neutral Pose 保持，没有新增 cavity、swirl、强方向组织或 state-specific composition。
+没有修改：
 
-## 12. Before / After Hero
+- neutral-water-volume
+- neutral-thickness
+- neutral-water-detail
+- safe interior
+- current donor de-shell result
+- Final Art references
+- formal assets
 
-M1.3 Hero 与 M1.4 Hero 已在 review 页面并列。M1.4 的内部 material 已完成 de-shelling 和 source-space normalization；当前阻塞仅是正式 outer-film full-alpha optical ownership。
-
-## 13. Fresh Critic / cycle
-
-第 1 轮 Route Check → Build → Render → Stress → Fresh Critic：
-
-- volume de-shelling：CLEAR；
-- topology stress：CLEAR；
-- sparse feature extraction：CLEAR；
-- shell ownership：REGRESSION relative to accepted Final Art context。
-
-由于 shell 问题属于 formal source/compositing authority 边界，继续重复同一 sanitation strategy 没有依据，未机械消耗第 2 轮，进入 blocker 结论。
-
-## 14. Provenance
-
-FINAL_ART_025 仍为 offline derivation donor；FINAL_ART_050 仍只作 depth/thickness guide；FROZEN_K2 authority 未改。runtime direct sample、canonical final-frame texture 和 production dependency 均为 false。Thickness 在 M1.4 冻结。
+新增内容全部是 material-only review 和非权威 shell route preview。
 
 ## Final boundary
 
-DONOR DE-SHELLING = PASS
-SOURCE TOPOLOGY MEMORY = REMOVED
-SPARSE DETAIL FEATURE EXTRACTION = PASS
-FORMAL SHELL OWNERSHIP = BLOCKED
-MATERIAL RICHNESS = PRESERVED
+M1 INTERNAL MATERIAL FAMILY = READY FOR HUMAN REVIEW
 NEUTRAL POSE = PRESERVED
-M1.4 SOURCE NORMALIZATION = BLOCKED
+FORMAL SHELL OWNERSHIP = DEFERRED_TO_M2
+M2 SHELL STARTING POINT = UNRESOLVED
+M1 MATERIAL PACKAGE = READY FOR HUMAN REVIEW
 READY_FOR_M2 = NO
-THREE.JS = NOT JUSTIFIED
 
 Commit hash：本轮提交后记录于最终报告。

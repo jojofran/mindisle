@@ -1,84 +1,76 @@
 {
-  "evidenceStatus": "CURRENT_M1_4_DONOR_INTERIOR_NORMALIZATION",
-  "milestone": "M1.4",
-  "milestoneName": "Donor Interior De-shelling & Source-Space Normalization",
-  "baseCommit": "0408776",
-  "scope": "verification-only donor interior normalization",
+  "evidenceStatus": "CURRENT_M1_5_MATERIAL_ONLY_FINAL_GATE",
+  "milestone": "M1.5",
+  "milestoneName": "Material-Only Final Gate & Shell Integration Handoff",
+  "baseCommit": "1a48de5",
+  "scope": "review-only material gate and non-authoritative shell route preview",
   "forbidden": [
     "production",
-    "M2",
+    "M2 implementation",
     "push",
-    "fixed-box final authority",
+    "material source modification",
     "thickness redesign",
-    "formation",
-    "deformation system",
-    "moving",
+    "detail redesign",
+    "donor change",
     "ProductState",
-    "interaction",
-    "timing"
+    "formation",
+    "deformation",
+    "core",
+    "timing",
+    "moving"
   ],
-  "baseline": "M1.3_CLOSED_AS_EXPERIMENT",
-  "routeCheck": {
-    "rootCause": "donor sphere geometry memory and fixed support topology remained after seam sanitation",
-    "method": "safe interior donor selection plus whole-interior material coordinate field and connected feature extraction",
-    "improvement": "CLEAR for source topology; shell ownership remains blocker"
+  "baseline": "M1.4_DE_SHELLED_SOURCE_FROZEN",
+  "materialOnlyGate": {
+    "comparisonDomain": "material-only-comparison-mask.png",
+    "sourcesFrozen": true,
+    "internalMaterialFamily": "READY_FOR_HUMAN_REVIEW",
+    "sameWaterFamily": true,
+    "notFogFlatCyanGenericCloud": true,
+    "cloudyMass": "natural nonuniform authored mass",
+    "depthThicknessInput": "present and frozen",
+    "sparseDetail": "sparse feature structures without patch topology",
+    "materialRepresentationDefect": false
+  },
+  "neutralPose": "PRESERVED",
+  "shellRoute": {
+    "A": "M1.4 current top-overlay",
+    "B": "ORIGINAL_ORDER",
+    "C": "ALPHA_AWARE_ORIGINAL_ORDER",
+    "formalSourcePixelsModified": false,
+    "formalSourceAlphaModified": false,
+    "formalShellOwnership": "DEFERRED_TO_M2",
+    "m2ShellStartingPoint": "UNRESOLVED",
+    "previewAuthoritative": false,
+    "classification": "M2_STATIC_MATERIAL_INTEGRATION_CONCERN"
   },
   "result": {
-    "donorDeshelling": "PASS",
-    "sourceTopologyMemory": "REMOVED",
-    "sparseDetailFeatureExtraction": "PASS",
-    "formalShellOwnership": "BLOCKED",
-    "materialRichness": "PRESERVED",
-    "neutralPose": "PRESERVED",
-    "sourceNormalization": "BLOCKED",
+    "m13": "CLOSED_AS_EXPERIMENT",
+    "m14": "SOURCE_NORMALIZATION_PRESERVED",
+    "m1MaterialPackage": "READY_FOR_HUMAN_REVIEW",
     "readyForM2": false,
-    "cyclesUsed": "1 / 2",
+    "materialSourceModified": false,
     "threeJS": "NOT_JUSTIFIED"
   },
   "outputs": {
-    "source": [
-      "safe-interior-mask.png",
-      "neutral-water-volume-unclipped-rgb.png",
-      "interior-body-mask.png"
+    "materialGate": [
+      "material-only-comparison-mask.png",
+      "material-only-final-art-025-interior.png",
+      "material-only-final-art-050-interior.png",
+      "material-only-combined-neutral-interior.png",
+      "material-only-family-triad.png"
     ],
-    "volume": [
-      "neutral-water-volume.png",
-      "neutral-water-volume-warp-stress-m14.png",
-      "neutral-water-volume-warp-stress-m14-alpha.png"
+    "frozenSources": [
+      "material-only-neutral-volume.png",
+      "material-only-neutral-thickness.png",
+      "material-only-neutral-detail.png"
     ],
-    "detail": [
-      "sparse-detail-alpha-raw.png",
-      "sparse-detail-alpha.png",
-      "feature-support-view.png"
+    "shellPreview": [
+      "m2-shell-test-a-top-overlay.png",
+      "m2-shell-test-b-original-order.png",
+      "m2-shell-test-c-alpha-aware-original-order.png",
+      "m2-shell-route-edge-crop.png",
+      "m2-shell-route-triad.png"
     ],
-    "shell": [
-      "shell-m1.3-composite.png",
-      "shell-m1.4-composite.png",
-      "shell-m1.3-m1.4-edge-crop.png",
-      "shell-m1.3-alpha.png",
-      "shell-m1.4-alpha.png"
-    ],
-    "comparison": [
-      "m1.3-current-hero.png",
-      "m1-neutral-hero.png",
-      "m1.4-final-art-comparison.png"
-    ],
-    "metrics": "carrier-sanity-metrics.json"
-  },
-  "fixedBoxAuthority": "REMOVED_FROM_FINAL_CONSTRUCTION",
-  "thickness": "FROZEN_FOR_M1.4",
-  "formalShell": {
-    "source": "assets/waterball-still-v1/layers/01_outer_film.png",
-    "runtimeDirectSample": false,
-    "sourcePixelsModified": false,
-    "m13AttenuatedAlpha": true,
-    "m14FullSourceAlpha": true,
-    "ownershipResult": "BLOCKED"
-  },
-  "provenance": {
-    "primaryDonor": "FINAL_ART_025",
-    "secondaryGuide": "FINAL_ART_050",
-    "runtimeDirectSample": false,
-    "productionDependency": false
+    "metrics": "material-only-gate.json"
   }
 }
