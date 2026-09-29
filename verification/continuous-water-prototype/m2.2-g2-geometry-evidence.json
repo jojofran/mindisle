@@ -1,0 +1,36 @@
+{
+  "representation": "geometry-alternative-spike-g2",
+  "carrier": "analytic sphere + 2 opposed curved mass bands + 4 ordered sheets + compact warm/cool points",
+  "sourcePalette": "derived from neutral-water-volume.rgb",
+  "layers": 9,
+  "luminanceStdInside": 0.07628213831912736,
+  "meanGradient": 0.0015964639935609438,
+  "p95Gradient": 0.00875200834465148,
+  "massACoverageInside": 0.07445717959261683,
+  "massBCoverageInside": 0.06422337153877786,
+  "warmRBMax": 0.1090099102745189,
+  "coolBRMax": 0.2511594752810884,
+  "warmPointCenter": [
+    0.34,
+    0.31
+  ],
+  "coolPointCenter": [
+    -0.38,
+    -0.3
+  ],
+  "m1SourcesModified": false,
+  "productionDependency": false,
+  "visualStatus": "AWAITING_HUMAN_REVIEW",
+  "gate": {
+    "luminanceStdMin": 0.08,
+    "p95GradientMin": 0.01,
+    "warmRBMin": 0.08,
+    "coolBRMin": 0.08,
+    "passed": false,
+    "failed": [
+      "luminanceStdInside",
+      "p95Gradient"
+    ],
+    "blocker": "VOLUME_CONSTRUCTION"
+  }
+}

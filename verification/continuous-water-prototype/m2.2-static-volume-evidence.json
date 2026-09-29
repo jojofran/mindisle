@@ -51,7 +51,9 @@
     "m2.2-final-transmittance.png",
     "m2.2-depth-slice-view.png",
     "m2.2-z-slice-montage.png",
-    "m2.2-browser-hero.png"
+    "m2.2-browser-hero.png",
+    "m2.2-g2-geometry-spike.png",
+    "m2.2-g2-layer-montage.png"
   ],
   "ablationEvidence": {
     "depthOffOn": [
@@ -148,7 +150,14 @@
     "cloudyOcclusion": "NOT_CLEAR",
     "deepOrganization": "NOT_PRESENT",
     "detailIntegration": "NOT_VISIBLE",
-    "largestDefect": "tested 8-slice construction lacks readable internal spatial mass organization; this is a volume-construction defect, not yet a proven source blocker"
+    "largestDefect": "tested 8-slice construction lacks readable internal spatial mass organization; this is a volume-construction defect, not yet a proven source blocker",
+    "g2": {
+      "directionalMasses": "READABLE_BUT_SOFT",
+      "coolWarmRoles": "READABLE",
+      "shellHighlightHierarchy": "INCOMPLETE",
+      "contrastGate": "FAILED",
+      "occlusionOrder": "NOT_PROVEN"
+    }
   },
   "performanceSmoke": {
     "sampleCounts": [
@@ -170,7 +179,10 @@
     "sampleCount": 12,
     "deterministic": true,
     "browserHero": "m2.2-browser-hero.png",
-    "cpuMirror": "deterministic evidence only"
+    "cpuMirror": "deterministic evidence only",
+    "alphaSemantics": "fragment alpha uses computed volume coverage (1-trans) plus film contribution; fixed mask*.90 defect corrected in verification route",
+    "fragmentAlpha": "computed volume coverage (1-trans) + film contribution",
+    "fixedAlphaDefect": true
   },
   "status": {
     "m1": "FROZEN / UNCHANGED",
@@ -179,10 +191,11 @@
     "blockerType": "VOLUME_CONSTRUCTION",
     "threeJs": "NOT_JUSTIFIED",
     "readyForM3": false,
-    "sourceConclusion": "NOT_PROVEN_AS_BLOCKER"
+    "sourceConclusion": "NOT_PROVEN_AS_BLOCKER",
+    "opticalModelDefect": "FIXED_IN_VERIFICATION_SHADER; visual acceptance still blocked by volume construction"
   },
-  "cyclesUsed": 1,
-  "stopReason": "The first volume construction failed to expose internal masses; a geometry alternative now shows a more promising carrier. Stop here for human route selection rather than adding samples or claiming acceptance.",
+  "cyclesUsed": 2,
+  "stopReason": "Second structural carrier cycle improves directional masses and cool/warm roles, but luminanceStdInside and p95Gradient remain below the review gate; stop with M2.2 BLOCKED rather than claiming a material PASS.",
   "sourceStats": {
     "neutral-water-volume-alpha": {
       "mean": 0.434508,
@@ -201,7 +214,11 @@
     "geometryAlternative": "m2.2-g-geometry-spike.png",
     "geometryPage": "m2.2-geometry-spike.html",
     "geometryEvidence": "m2.2-g-geometry-layer-montage.png",
+    "geometryG2": "m2.2-g2-geometry-spike.png",
+    "geometryG2Page": "m2.2-geometry-g2.html",
+    "geometryG2Evidence": "m2.2-g2-layer-montage.png",
+    "geometryG2Metrics": "m2.2-g2-geometry-evidence.json",
     "result": "PROMISING_NOT_ACCEPTED",
-    "reason": "Explicit internal mass anchors and flow sheets are visibly more legible than the smooth 8-slice fog, but this is a route-review spike and has not passed human material-family gate."
+    "reason": "G2 exposes opposed mass bands, ordered sheets and compact cool/warm roles more clearly than the smooth volume and G1 routes, but its luminance and gradient gates remain below threshold; this is still VOLUME_CONSTRUCTION, not a source or renderer blocker."
   }
 }
