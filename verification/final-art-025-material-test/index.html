@@ -22,21 +22,24 @@ main{max-width:1220px;margin:0 auto;padding:34px 28px 60px}h1{margin:0 0 8px;fon
 
   <h2>主候选与参考</h2>
   <section class="hero">
-    <div class="card"><h3>主候选 · optical field study</h3><img src="candidate-optical-light.png" alt="光学字段静态材质候选"><div class="caption">新候选：从正式基线拆出厚度、透射、反射和局部折射，浅色背景为主观看域。</div></div>
+    <div class="card"><h3>主候选 · 内部提亮偏冷</h3><img src="candidate-optical-light-cooler.png" alt="内部提亮偏冷的光学字段候选"><div class="caption">只对球体内部深色体积做提亮和冷青偏移；外膜、边缘、球径和点位保持不变。</div></div>
     <div class="decision"><strong>本轮的明确目的</strong><p>判断新候选是否已经进入 Final Art 025 的视觉邻域，然后再决定是否值得继续拆分成可运行的 GPU 材质。主结构不依赖双核；点光只作为参考中很小的细节。</p><ul><li>025：主要材质目标。</li><li>050：只看厚度、深度和内部云层。</li><li>K2：只看冻结端点，不用来定义本轮材质。</li><li>M1 neutral：输入证据，不是成品。</li></ul></div>
   </section>
 
   <h2>同尺度对比</h2>
   <section class="grid">
     <div class="card"><h3>Final Art 025</h3><img src="target-final-art-025.png" alt="Final Art 025"><div class="caption">主参考，保留界面上下文。</div></div>
-    <div class="card"><h3>新候选</h3><img src="candidate-optical-light.png" alt="新候选"><div class="caption">吸收 / 透射 / 反射 / 厚度字段。</div></div>
+    <div class="card"><h3>新候选（内部提亮）</h3><img src="candidate-optical-light-cooler.png" alt="内部提亮的新候选"><div class="caption">这张是当前主候选。</div></div>\n    <div class="card"><h3>修订前</h3><img src="candidate-optical-light.png" alt="修订前候选"><div class="caption">同一字段合成，未做内部色调修订。</div></div>
     <div class="card"><h3>旧正式基线（已对齐）</h3><img src="baseline-aligned.png" alt="已对齐旧正式基线"><div class="caption">与新候选统一球径和画布，用于判断拆分是否损失身份。</div></div>
     <div class="card"><h3>Final Art 050</h3><img src="target-final-art-050.png" alt="Final Art 050"><div class="caption">只辅助观察深度与厚度。</div></div>
   </section>
 
+  <h2>这次只改了一件事</h2>
+  <div class="decision"><strong>保留外壳，只调整内部暗部</strong><p>主候选没有加新结构，没有移动外膜，也没有重新模拟双核。内部暗部被提亮，并向冷青色偏移；这对应你给出的视觉方向。</p></div>
+
   <h2>新候选的背景与字段检查</h2>
   <section class="grid">
-    <div class="card"><h3>浅色主观看域</h3><img src="candidate-optical-light.png" alt="浅色背景候选"><div class="caption">主候选。最接近 025 的阅读环境。</div></div>
+    <div class="card"><h3>浅色主观看域</h3><img src="candidate-optical-light.png" alt="浅色背景候选"><div class="caption">基础字段候选，最接近 025 的阅读环境。</div></div>
     <div class="card"><h3>深色背景</h3><img src="candidate-optical-dark.png" alt="深色背景候选"><div class="caption">检查透射和边缘膜是否真实参与。</div></div>
     <div class="card"><h3>冷暖分屏</h3><img src="candidate-optical-split.png" alt="冷暖分屏候选"><div class="caption">检查材质是否只依赖单一底色。</div></div>
     <div class="card"><h3>棋盘背景</h3><img src="candidate-optical-checker.png" alt="棋盘背景候选"><div class="caption">检查厚度、局部折射和透明度。</div></div>

@@ -120,7 +120,7 @@ def read_disk_fields():
         'depth_mean':float(depth[...,0][silhouette>.5].mean()),
     }
 
-def render(maps, kind='light', thickness_mode='spatial', reflection=True, refraction=True, film=True, detail=True):
+def render(maps, kind='light', thickness_mode='spatial', reflection=True, refraction=True, film=True, detail=True, interior_lift=0.0, interior_cool=(0.0,0.0,0.0)):
     yy,xx=np.mgrid[:VIEW,:VIEW]
     fx=(xx+.5-VIEW/2)*FIELD_RADIUS/RADIUS+N/2-.5
     fy=(yy+.5-VIEW/2)*FIELD_RADIUS/RADIUS+N/2-.5
@@ -150,9 +150,17 @@ def render(maps, kind='light', thickness_mode='spatial', reflection=True, refrac
         film_field=sample(maps['film'],fx,fy)
         film_rgb=srgb_to_linear(film_field[...,:3])
         film_alpha=film_field[...,3]
-        color += film_rgb*film_alpha[...,None]*.24
+    color += film_rgb*film_alpha[...,None]*.24
     out=srgb_to_linear(bg)*(1-alpha[...,None])+np.clip(color,0,1)*alpha[...,None]
-    return np.clip(linear_to_srgb(out),0,1)
+    out=np.clip(linear_to_srgb(out),0,1)
+    if interior_lift or any(interior_cool):
+        view_radius=np.sqrt((xx+.5-VIEW/2)**2+(yy+.5-VIEW/2)**2)/145.0
+        weight=np.clip((.84-view_radius)/.25,0,1)*alpha
+        # Art-directed material correction: preserve cloud structure while
+        # lifting only the interior dark mass toward a pale cool cyan.
+        out=np.clip(out+weight[...,None]*interior_lift*(1-out),0,1)
+        out=np.clip(out+weight[...,None]*np.asarray(interior_cool)[None,None,:],0,1)
+    return out
 
 def main():
     donor, removed=clean_donor()
@@ -208,6 +216,9 @@ def main():
         candidate=render(disk_maps,kind)
         save_rgb('candidate-optical-'+kind+'.png',candidate)
         save_rgb('candidate-optical-'+kind+'-detail.png',crop_detail(candidate))
+        cooler=render(disk_maps,kind,interior_lift=.22,interior_cool=(-.028,.018,.055))
+        save_rgb('candidate-optical-'+kind+'-cooler.png',cooler)
+        save_rgb('candidate-optical-'+kind+'-cooler-detail.png',crop_detail(cooler))
         matched=render(disk_maps,kind,thickness_mode='mean_match')
         save_rgb('ablation-'+kind+'-thickness-mean-match.png',matched)
         save_rgb('ablation-'+kind+'-thickness-mean-match-detail.png',crop_detail(matched))
@@ -240,7 +251,8 @@ def main():
       'runtime_final_frame_sampling':False,'gpu_material_renderer':False,
       'actual_primary_donor':{'file':'candidate-formal-static-baseline.png','role':'primary offline donor','used_for_primary':True},
       'final_art_025_diagnostic':{'file':'target-final-art-025.png','role':'visual target and donor-cleaning diagnostic only','used_for_primary':False,'removed_ui_and_point_pixels_diagnostic':removed},
-      'primary_candidate':'candidate-optical-light.png',
+      'primary_candidate':'candidate-optical-light-cooler.png',
+      'interior_tone_adjustment':{'interior_lift':0.22,'interior_cool_rgb':[-0.028,0.018,0.055],'scope':'interior mass only; outer film, silhouette and point positions unchanged'},
       'frozen_inputs_sampled':['neutral-water-volume.png (offline microtexture)','neutral-thickness.png (offline thickness mixture)','formal-silhouette-mask.png (coverage)','neutral-water-detail.png (detail modulation in render)','formal-outer-film-crop.png (film contribution in render)'],
       'field_usage':{'formal_film_used_in_current_render':True,'m1_detail_used_in_current_render':True,'future_gpu_input_only':True},
       'reference_hash':digest(REF),
@@ -248,7 +260,7 @@ def main():
       'thickness_ablation':{'constant_004_mean_rgb_delta_255':round(float(level_delta[inside].mean()),3),'spatial_vs_mean_matched_rgb_delta_255':round(float(spatial_delta[inside].mean()),3),'depth_mean':maps['depth_mean']},
       'limitations':['单视角、固定形态','未实现动效、双核迁移或生产接入','不同光照下仍需要独立验证','人工材质身份判断未通过'],
       'corrections':['旧正式静态合成只作为基线，不能冒充本轮新材质','00 背景板含烘焙主体，全层叠加为负例','本候选使用离线派生字段，未把 025 原图作为候选 shader 纹理'],
-      'files':{name:digest(OUT/name) for name in ['field-optical-depth.png','field-reflected-light.png','field-thickness.png','field-refraction.png','field-silhouette.png','field-formal-film.png','field-m1-detail.png','candidate-optical-light.png','candidate-optical-light-detail.png','ablation-light-thickness-mean-match.png']}}
+      'files':{name:digest(OUT/name) for name in ['field-optical-depth.png','field-reflected-light.png','field-thickness.png','field-refraction.png','field-silhouette.png','field-formal-film.png','field-m1-detail.png','candidate-optical-light.png','candidate-optical-light-cooler.png','candidate-optical-light-cooler-detail.png','ablation-light-thickness-mean-match.png']}}
     (OUT/'optical-evidence.json').write_text(json.dumps(doc,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({'status':doc['status'],'diagnostic_removed_pixels':removed,'thickness_ablation':doc['thickness_ablation'],'field_png_roundtrip':doc['field_png_roundtrip']},ensure_ascii=False))
 

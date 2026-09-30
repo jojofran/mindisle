@@ -23,7 +23,16 @@
     "used_for_primary": false,
     "removed_ui_and_point_pixels_diagnostic": 38255
   },
-  "primary_candidate": "candidate-optical-light.png",
+  "primary_candidate": "candidate-optical-light-cooler.png",
+  "interior_tone_adjustment": {
+    "interior_lift": 0.22,
+    "interior_cool_rgb": [
+      -0.028,
+      0.018,
+      0.055
+    ],
+    "scope": "interior mass only; outer film, silhouette and point positions unchanged"
+  },
   "frozen_inputs_sampled": [
     "neutral-water-volume.png (offline microtexture)",
     "neutral-thickness.png (offline thickness mixture)",
@@ -67,7 +76,8 @@
     "field-formal-film.png": "1b1dcd77fda72157e39ea5910b75c2c1439ac899edfe694b5c9409c5883d3802",
     "field-m1-detail.png": "42b9db840518f94109b7ccf8afb1bcb257a0c6798a40fbaa0dacb10523f503fe",
     "candidate-optical-light.png": "fcad65503469fad9bddc784cb93a96411363c0c7cb52308e9b5385f3ea88b28d",
-    "candidate-optical-light-detail.png": "654b832a685d677b040431ba191363d73ffe78fcf7a68ee4b0c138890f0cf51f",
+    "candidate-optical-light-cooler.png": "1818b93fae029615686dcf6950b7b95e7e447d96fc94ae311b7b710495d42e29",
+    "candidate-optical-light-cooler-detail.png": "1813ad1291f20dd99256be344ecb973edee7c1fce464f12329c8d8c831c997fe",
     "ablation-light-thickness-mean-match.png": "52c9e3679da28ef74983df2aa483d9dafb1cdb4efe6f12e434d0a4b78c38aac5"
   }
 }

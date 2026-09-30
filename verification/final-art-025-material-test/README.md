@@ -20,7 +20,7 @@ Final Art 050 只作为深度和厚度的辅助参照，冻结 K2 只作为端�
 
 实际主 donor 是 candidate-formal-static-baseline.png。它来自正式 2.5D 包中的 static_composite.png，按球体边界裁切后作为离线 donor。它不是最终候选，也不是 Final Art 025 原图。
 
-当前主候选是 optical-evidence.json 中的 candidate-optical-light.png。它从导出的 optical、reflected、thickness、refraction、silhouette、formal film 和 M1 detail PNG 回读后重建；当前仍是静态验证，不是 GPU 运行时。
+当前主候选是 optical-evidence.json 中的 candidate-optical-light-cooler.png。它从导出的 optical、reflected、thickness、refraction、silhouette、formal film 和 M1 detail PNG 回读后重建，并只对内部深色体积做提亮和冷青偏移；当前仍是静态验证，不是 GPU 运行时。
 
 candidate-final-art-025-no-points.png、candidate-final-art-025-with-points.png 是诊断图，不是主候选。自查发现正式背景板已经包含完成后的材质，直接再把 01–11 层 alpha-over 会重复叠加，产生非目标亮纹和黑带，因此已明确标为无效主路线。
 
