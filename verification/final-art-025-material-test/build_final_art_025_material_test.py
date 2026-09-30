@@ -108,8 +108,8 @@ def main() -> None:
 
     manifest = {
         "test_id": "final-art-025-material-test-v1",
-        "status": "AWAITING_HUMAN_REVIEW",
-        "scope": "static material verification only",
+        "status": "DIAGNOSTIC_ONLY",
+        "scope": "static layer diagnostic only; see optical-evidence.json for current candidate",
         "production_dependency": False,
         "target": "FINAL_ART_025",
         "secondary_reference": "FINAL_ART_050_DEPTH_ONLY",
@@ -117,9 +117,10 @@ def main() -> None:
         "representation": "formal-static-baseline-plus-layer-diagnostics",
         "crop": {"source_size": [853, 1844], "box_xyxy": list(CROP), "output_size": list(SIZE)},
         "primary_candidate": {
-            "file": "candidate-formal-static-baseline.png",
+            "file": "optical-evidence.json -> candidate-optical-light.png",
             "source": "test/water-orb-still/2p5d-composite-v1/static_composite.png",
-            "reason": "形式层包当前已提供烘焙完成的静态材质；先以它作为 Final Art 025 材质基线，不重复叠加已烘焙层。",
+            "role": "diagnostic donor baseline; not the current optical candidate",
+            "reason": "形式层包当前已提供烘焙完成的静态材质；它只作为离线 donor 基线，不重复叠加已烘焙层。",
             "core_simulation": "not added by this test",
         },
         "raw_layer_diagnostic": {

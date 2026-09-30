@@ -98,7 +98,29 @@ def sample(a, x, y):
     if a.ndim==2:a=a[...,None]
     return (1-fy)*((1-fx)*a[iy,ix]+fx*a[iy,jx])+fy*((1-fx)*a[jy,ix]+fx*a[jy,jx])
 
-def render(maps, kind='light', thickness=True, reflection=True, refraction=True):
+def crop_detail(rgb):
+    return np.asarray(Image.fromarray(np.uint8(np.clip(rgb,0,1)*255+.5)).crop((60,60,300,300)).resize((360,360),Image.Resampling.LANCZOS),dtype=np.float64)/255
+
+def read_disk_fields():
+    optical_rgba=np.asarray(Image.open(OUT/'field-optical-depth.png').convert('RGBA'),dtype=np.float64)/255
+    reflected=np.asarray(Image.open(OUT/'field-reflected-light.png').convert('RGB'),dtype=np.float64)/255
+    depth=np.asarray(Image.open(OUT/'field-thickness.png').convert('RGB'),dtype=np.float64)/255
+    refraction=np.asarray(Image.open(OUT/'field-refraction.png').convert('RGB'),dtype=np.float64)/255
+    silhouette=np.asarray(Image.open(OUT/'field-silhouette.png').convert('L'),dtype=np.float64)/255
+    film=np.asarray(Image.open(OUT/'field-formal-film.png').convert('RGBA'),dtype=np.float64)/255
+    detail=np.asarray(Image.open(OUT/'field-m1-detail.png').convert('RGBA'),dtype=np.float64)/255
+    return {
+        'optical':optical_rgba[...,:3],
+        'depth':depth[...,0],
+        'alpha':np.minimum(optical_rgba[...,3],silhouette),
+        'reflected':reflected,
+        'offset':refraction[...,:2]*2-1,
+        'film':film,
+        'detail':detail,
+        'depth_mean':float(depth[...,0][silhouette>.5].mean()),
+    }
+
+def render(maps, kind='light', thickness_mode='spatial', reflection=True, refraction=True, film=True, detail=True):
     yy,xx=np.mgrid[:VIEW,:VIEW]
     fx=(xx+.5-VIEW/2)*FIELD_RADIUS/RADIUS+N/2-.5
     fy=(yy+.5-VIEW/2)*FIELD_RADIUS/RADIUS+N/2-.5
@@ -107,12 +129,28 @@ def render(maps, kind='light', thickness=True, reflection=True, refraction=True)
     alpha=sample(maps['alpha'],fx,fy)[...,0]
     reflected=sample(maps['reflected'],fx,fy)
     offsets=sample(maps['offset'],fx,fy)*6 if refraction else np.zeros((VIEW,VIEW,2))
-    if thickness: path=depth
-    else: path=np.full_like(depth,.04)
+    if thickness_mode == 'spatial':
+        path=depth
+    elif thickness_mode == 'constant':
+        path=np.full_like(depth,.04)
+    elif thickness_mode == 'mean_match':
+        path=np.full_like(depth,maps['depth_mean'])
+    else:
+        raise ValueError(f'unknown thickness_mode: {thickness_mode}')
+    if detail:
+        detail_field=sample(maps['detail'],fx,fy)
+        detail_luma=np.mean(detail_field[...,:3],axis=2)
+        detail_alpha=detail_field[...,3]
+        optical=optical*(1+.08*detail_alpha*(detail_luma-.5)*2)[...,None]
     bg=background(kind)
     back=srgb_to_linear(sample(bg,xx+offsets[...,0],yy+offsets[...,1]))
     transmit=np.exp(-optical*2*path[...,None])
     color=back*transmit+(srgb_to_linear(reflected) if reflection else 0)
+    if film:
+        film_field=sample(maps['film'],fx,fy)
+        film_rgb=srgb_to_linear(film_field[...,:3])
+        film_alpha=film_field[...,3]
+        color += film_rgb*film_alpha[...,None]*.24
     out=srgb_to_linear(bg)*(1-alpha[...,None])+np.clip(color,0,1)*alpha[...,None]
     return np.clip(linear_to_srgb(out),0,1)
 
@@ -156,35 +194,62 @@ def main():
     save_rgb('field-reflected-light.png',reflection_rgb)
     save_rgb('field-thickness.png',np.repeat(depth[...,None],3,axis=2))
     save_rgb('field-refraction.png',np.dstack([(offsets+1)*.5,depth]))
-    # Copy frozen inputs for real GPU sampling and independent ablations.
+    # Copy frozen inputs for future GPU sampling and independent ablations.
     for source,name in [('formal-silhouette-mask.png','field-silhouette.png'),('formal-outer-film-crop.png','field-formal-film.png'),('neutral-water-detail.png','field-m1-detail.png')]:
         Image.open(M1/source).save(OUT/name)
-    maps={'optical':optical,'depth':depth,'alpha':alpha,'reflected':reflection_rgb,'offset':offsets}
+    detail_field=np.asarray(Image.open(OUT/'field-m1-detail.png').convert('RGBA'),dtype=np.float64)/255
+    film_field=np.asarray(Image.open(OUT/'field-formal-film.png').convert('RGBA'),dtype=np.float64)/255
+    maps={'optical':optical,'depth':depth,'alpha':alpha,'reflected':reflection_rgb,'offset':offsets,'film':film_field,'detail':detail_field,'depth_mean':float(depth[alpha>.5].mean())}
+    memory_maps=maps.copy()
+    # The primary candidate is rendered from the exported PNG fields, not from
+    # the in-memory arrays that created them.
+    disk_maps=read_disk_fields()
     for kind in ['light','dark','split','checker']:
-        save_rgb('candidate-optical-'+kind+'.png',render(maps,kind))
-    for name,kwargs in [('thickness-off',{'thickness':False}),('reflection-off',{'reflection':False}),('refraction-off',{'refraction':False,'kind':'checker'})]:
-        save_rgb('ablation-'+name+'.png',render(maps,**kwargs))
+        candidate=render(disk_maps,kind)
+        save_rgb('candidate-optical-'+kind+'.png',candidate)
+        save_rgb('candidate-optical-'+kind+'-detail.png',crop_detail(candidate))
+        matched=render(disk_maps,kind,thickness_mode='mean_match')
+        save_rgb('ablation-'+kind+'-thickness-mean-match.png',matched)
+        save_rgb('ablation-'+kind+'-thickness-mean-match-detail.png',crop_detail(matched))
+    save_rgb('ablation-thickness-off.png',render(disk_maps,'light',thickness_mode='constant'))
+    save_rgb('ablation-thickness-mean-match.png',render(disk_maps,'light',thickness_mode='mean_match'))
+    save_rgb('ablation-reflection-off.png',render(disk_maps,'light',reflection=False))
+    save_rgb('ablation-refraction-off.png',render(disk_maps,'checker',refraction=False))
     # Reference and old baseline are shown at the same diameter, with no UI crop claim.
     old=Image.open(OUT/'candidate-formal-static-baseline.png').convert('RGB').resize((300,300),Image.Resampling.LANCZOS)
     aligned=Image.new('RGB',(360,360),tuple((BG*255).astype(int)))
     aligned.paste(old,(30,30));aligned.save(OUT/'baseline-aligned.png')
-    diff=np.abs(render(maps)-render(maps,thickness=False))*255
+    view_y,view_x=np.mgrid[:VIEW,:VIEW]
+    view_fx=(view_x+.5-VIEW/2)*FIELD_RADIUS/RADIUS+N/2-.5
+    view_fy=(view_y+.5-VIEW/2)*FIELD_RADIUS/RADIUS+N/2-.5
+    inside=sample(disk_maps['alpha'],view_fx,view_fy)[...,0]>.5
+    memory_render=render(memory_maps,'light')
+    disk_render=render(disk_maps,'light')
+    old_constant=render(disk_maps,'light',thickness_mode='constant')
+    mean_match=render(disk_maps,'light',thickness_mode='mean_match')
+    roundtrip_delta=np.abs(memory_render-disk_render)*255
+    level_delta=np.abs(disk_render-old_constant)*255
+    spatial_delta=np.abs(disk_render-mean_match)*255
     doc={
       'experiment':'FINAL_ART_025_REFERENCE_DIRECTED_OPTICAL_STUDY',
       'status':'READY_FOR_HUMAN_REVIEW','m2_closed':False,'m1_modified':False,
       'production_dependency':False,'product_state':'still','animation_loop':False,
       'target':'FINAL_ART_025','goal':'在单视角静态画面中重建 025 的材质外观，并验证不同背景下的透射和厚度贡献。',
-      'method':'offline donor cleaning and inferred absorption/reflection split; separate GPU optical fields',
+      'method':'formal static baseline donor; inferred absorption/reflection split; PNG field export and disk roundtrip reconstruction',
       'inference':'单张参考无法唯一求解真实材质；本字段是画面定向的近似，不是测得的物理参数。',
-      'runtime_final_frame_sampling':False,'removed_ui_and_point_pixels':removed,
+      'runtime_final_frame_sampling':False,'gpu_material_renderer':False,
+      'actual_primary_donor':{'file':'candidate-formal-static-baseline.png','role':'primary offline donor','used_for_primary':True},
+      'final_art_025_diagnostic':{'file':'target-final-art-025.png','role':'visual target and donor-cleaning diagnostic only','used_for_primary':False,'removed_ui_and_point_pixels_diagnostic':removed},
       'primary_candidate':'candidate-optical-light.png',
-      'frozen_inputs_sampled':['neutral-water-volume.png (offline microtexture)','neutral-thickness.png (offline thickness mixture)','formal-silhouette-mask.png (GPU coverage)','neutral-water-detail.png (GPU sparse detail)','formal-outer-film-crop.png (GPU restrained film)'],
+      'frozen_inputs_sampled':['neutral-water-volume.png (offline microtexture)','neutral-thickness.png (offline thickness mixture)','formal-silhouette-mask.png (coverage)','neutral-water-detail.png (detail modulation in render)','formal-outer-film-crop.png (film contribution in render)'],
+      'field_usage':{'formal_film_used_in_current_render':True,'m1_detail_used_in_current_render':True,'future_gpu_input_only':True},
       'reference_hash':digest(REF),
-      'thickness_ablation_mean_rgb_delta_255':round(float(diff[alpha[((np.arange(VIEW)[:,None]+.5-180)*FIELD_RADIUS/RADIUS+200-.5).astype(int).clip(0,399),((np.arange(VIEW)[None,:]+.5-180)*FIELD_RADIUS/RADIUS+200-.5).astype(int).clip(0,399)]>.5].mean()),3),
+      'field_png_roundtrip':{'max_rgb_delta_255':round(float(roundtrip_delta[inside].max()),4),'mean_rgb_delta_255':round(float(roundtrip_delta[inside].mean()),4),'status':'RECONSTRUCTED_FROM_DISK_FIELDS'},
+      'thickness_ablation':{'constant_004_mean_rgb_delta_255':round(float(level_delta[inside].mean()),3),'spatial_vs_mean_matched_rgb_delta_255':round(float(spatial_delta[inside].mean()),3),'depth_mean':maps['depth_mean']},
       'limitations':['单视角、固定形态','未实现动效、双核迁移或生产接入','不同光照下仍需要独立验证','人工材质身份判断未通过'],
       'corrections':['旧正式静态合成只作为基线，不能冒充本轮新材质','00 背景板含烘焙主体，全层叠加为负例','本候选使用离线派生字段，未把 025 原图作为候选 shader 纹理'],
-      'files':{name:digest(OUT/name) for name in ['field-optical-depth.png','field-reflected-light.png','field-thickness.png','field-refraction.png','field-silhouette.png','field-formal-film.png','field-m1-detail.png','candidate-optical-light.png']}}
+      'files':{name:digest(OUT/name) for name in ['field-optical-depth.png','field-reflected-light.png','field-thickness.png','field-refraction.png','field-silhouette.png','field-formal-film.png','field-m1-detail.png','candidate-optical-light.png','candidate-optical-light-detail.png','ablation-light-thickness-mean-match.png']}}
     (OUT/'optical-evidence.json').write_text(json.dumps(doc,ensure_ascii=False,indent=2)+'\n')
-    print(json.dumps({'status':doc['status'],'removed_pixels':removed,'thickness_delta':doc['thickness_ablation_mean_rgb_delta_255']},ensure_ascii=False))
+    print(json.dumps({'status':doc['status'],'diagnostic_removed_pixels':removed,'thickness_ablation':doc['thickness_ablation'],'field_png_roundtrip':doc['field_png_roundtrip']},ensure_ascii=False))
 
 if __name__=='__main__':main()

@@ -30,7 +30,7 @@ main{max-width:1220px;margin:0 auto;padding:34px 28px 60px}h1{margin:0 0 8px;fon
   <section class="grid">
     <div class="card"><h3>Final Art 025</h3><img src="target-final-art-025.png" alt="Final Art 025"><div class="caption">主参考，保留界面上下文。</div></div>
     <div class="card"><h3>新候选</h3><img src="candidate-optical-light.png" alt="新候选"><div class="caption">吸收 / 透射 / 反射 / 厚度字段。</div></div>
-    <div class="card"><h3>旧正式基线</h3><img src="candidate-formal-static-baseline.png" alt="旧正式基线"><div class="caption">材质起点，用于判断新拆分是否损失身份。</div></div>
+    <div class="card"><h3>旧正式基线（已对齐）</h3><img src="baseline-aligned.png" alt="已对齐旧正式基线"><div class="caption">与新候选统一球径和画布，用于判断拆分是否损失身份。</div></div>
     <div class="card"><h3>Final Art 050</h3><img src="target-final-art-050.png" alt="Final Art 050"><div class="caption">只辅助观察深度与厚度。</div></div>
   </section>
 
@@ -46,6 +46,20 @@ main{max-width:1220px;margin:0 auto;padding:34px 28px 60px}h1{margin:0 0 8px;fon
     <div class="card"><h3>反射光</h3><img src="field-reflected-light.png" alt="反射字段"><div class="caption">把外膜亮度与内部体积分开。</div></div>
     <div class="card"><h3>厚度</h3><img src="field-thickness.png" alt="厚度字段"><div class="caption">厚度真正参与最终像素输出。</div></div>
     <div class="card"><h3>局部折射</h3><img src="field-refraction.png" alt="局部折射字段"><div class="caption">由局部密度梯度产生小幅偏移。</div></div>
+  </section>
+  <h2>四背景厚度均值匹配对照</h2>
+  <section class="grid">
+    <div class="card"><h3>浅色 · 均值厚度</h3><img src="ablation-light-thickness-mean-match.png" alt="浅色均值厚度对照"><div class="caption">保留平均吸收量，移除空间厚度分布。</div></div>
+    <div class="card"><h3>深色 · 均值厚度</h3><img src="ablation-dark-thickness-mean-match.png" alt="深色均值厚度对照"><div class="caption">检查厚度空间分布是否仍然可见。</div></div>
+    <div class="card"><h3>冷暖分屏 · 均值厚度</h3><img src="ablation-split-thickness-mean-match.png" alt="冷暖分屏均值厚度对照"><div class="caption">排除单纯背景亮度造成的差异。</div></div>
+    <div class="card"><h3>棋盘 · 均值厚度</h3><img src="ablation-checker-thickness-mean-match.png" alt="棋盘均值厚度对照"><div class="caption">检查透明度和局部折射的稳定性。</div></div>
+  </section>
+  <h2>四背景局部近景</h2>
+  <section class="grid">
+    <div class="card"><h3>浅色近景</h3><img src="candidate-optical-light-detail.png" alt="浅色局部近景"><div class="caption">观察内部云层、边缘和点位。</div></div>
+    <div class="card"><h3>深色近景</h3><img src="candidate-optical-dark-detail.png" alt="深色局部近景"><div class="caption">观察反射是否盖过体积。</div></div>
+    <div class="card"><h3>冷暖分屏近景</h3><img src="candidate-optical-split-detail.png" alt="冷暖分屏局部近景"><div class="caption">观察底色变化下的连续性。</div></div>
+    <div class="card"><h3>棋盘近景</h3><img src="candidate-optical-checker-detail.png" alt="棋盘局部近景"><div class="caption">观察折射偏移和厚度边界。</div></div>
   </section>
 
   <h2>层诊断：为什么不能直接全层相加</h2>
@@ -80,7 +94,7 @@ main{max-width:1220px;margin:0 auto;padding:34px 28px 60px}h1{margin:0 0 8px;fon
         <label><input type="checkbox" data-toggle="09">09 暖点核（诊断）</label>
         <label><input type="checkbox" data-toggle="10">10 暖点光晕（诊断）</label>
       </div>
-      <p class="note">自查结论：把 00 与 01–11 直接叠加会重复计算已烘焙材质，出现过亮噪纹和黑色带状结构。因此本轮主候选沿用正式静态基线，层叠图只用于定位下一步拆分工作。</p>
+      <p class="note">自查结论：把 00 与 01–11 直接叠加会重复计算已烘焙材质，出现过亮噪纹和黑色带状结构。当前主候选已经从导出的 optical / reflected / thickness / refraction / silhouette / film / detail PNG 回读重建；层叠图仍只用于解释错误路线。</p>
     </div>
   </section>
 
