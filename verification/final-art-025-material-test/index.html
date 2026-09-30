@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Final Art 025 · 静态材质测试</title>
+<style>
+:root{color-scheme:light;--ink:#183b45;--muted:#5f7b82;--line:#d7e7e9;--paper:#f7fbfb;--accent:#277b88}
+*{box-sizing:border-box}body{margin:0;background:#eef6f7;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif}
+main{max-width:1220px;margin:0 auto;padding:34px 28px 60px}h1{margin:0 0 8px;font-size:28px;font-weight:650;letter-spacing:.01em}h2{font-size:17px;margin:28px 0 10px}p{line-height:1.65;margin:8px 0;color:var(--muted)}.lead{max-width:850px}.status{display:inline-flex;align-items:center;gap:8px;border:1px solid #e2c98c;background:#fff8e7;color:#75530e;border-radius:999px;padding:6px 12px;font-size:13px;margin:16px 0 4px}.dot{width:7px;height:7px;background:#c7921d;border-radius:50%}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:rgba(255,255,255,.74);border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:0 6px 22px rgba(38,92,102,.05)}.card h3{font-size:14px;margin:0 0 10px;font-weight:600}.card img{width:100%;aspect-ratio:1;display:block;object-fit:cover;border-radius:10px;background:#e9f1f2}.caption{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+.hero{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);gap:20px;align-items:start}.hero .card{padding:16px}.hero img{width:100%;max-width:360px;display:block;border-radius:12px}.decision{background:#eaf5f4;border:1px solid #cbe4e1;border-radius:14px;padding:16px 18px}.decision strong{color:#155c65}.decision ul{margin:10px 0 0 20px;color:var(--muted);line-height:1.65}
+.inspector{display:grid;grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:20px}.stage{position:relative;width:100%;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#081522}.stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;align-content:start}.controls label{display:flex;gap:8px;align-items:flex-start;color:var(--muted);font-size:13px;line-height:1.35}.controls input{accent-color:var(--accent);margin-top:2px}.note{font-size:12px;color:var(--muted);margin-top:12px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero,.inspector{grid-template-columns:1fr}}@media(max-width:520px){main{padding:24px 16px}.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Final Art 025 · 静态材质测试</h1>
+  <p class="lead">这一轮先固定材质身份：透明外膜、青绿色内部体积、柔和连续层次和边缘厚度。候选已拆成吸收、透射、反射、厚度和局部折射字段；没有运动、实时物理或生产迁移。</p>
+  <div class="status"><span class="dot"></span>READY FOR HUMAN REVIEW · 只做静态材质判断</div>
+
+  <h2>主候选与参考</h2>
+  <section class="hero">
+    <div class="card"><h3>主候选 · optical field study</h3><img src="candidate-optical-light.png" alt="光学字段静态材质候选"><div class="caption">新候选：从正式基线拆出厚度、透射、反射和局部折射，浅色背景为主观看域。</div></div>
+    <div class="decision"><strong>本轮的明确目的</strong><p>判断新候选是否已经进入 Final Art 025 的视觉邻域，然后再决定是否值得继续拆分成可运行的 GPU 材质。主结构不依赖双核；点光只作为参考中很小的细节。</p><ul><li>025：主要材质目标。</li><li>050：只看厚度、深度和内部云层。</li><li>K2：只看冻结端点，不用来定义本轮材质。</li><li>M1 neutral：输入证据，不是成品。</li></ul></div>
+  </section>
+
+  <h2>同尺度对比</h2>
+  <section class="grid">
+    <div class="card"><h3>Final Art 025</h3><img src="target-final-art-025.png" alt="Final Art 025"><div class="caption">主参考，保留界面上下文。</div></div>
+    <div class="card"><h3>新候选</h3><img src="candidate-optical-light.png" alt="新候选"><div class="caption">吸收 / 透射 / 反射 / 厚度字段。</div></div>
+    <div class="card"><h3>旧正式基线</h3><img src="candidate-formal-static-baseline.png" alt="旧正式基线"><div class="caption">材质起点，用于判断新拆分是否损失身份。</div></div>
+    <div class="card"><h3>Final Art 050</h3><img src="target-final-art-050.png" alt="Final Art 050"><div class="caption">只辅助观察深度与厚度。</div></div>
+  </section>
+
+  <h2>新候选的背景与字段检查</h2>
+  <section class="grid">
+    <div class="card"><h3>浅色主观看域</h3><img src="candidate-optical-light.png" alt="浅色背景候选"><div class="caption">主候选。最接近 025 的阅读环境。</div></div>
+    <div class="card"><h3>深色背景</h3><img src="candidate-optical-dark.png" alt="深色背景候选"><div class="caption">检查透射和边缘膜是否真实参与。</div></div>
+    <div class="card"><h3>冷暖分屏</h3><img src="candidate-optical-split.png" alt="冷暖分屏候选"><div class="caption">检查材质是否只依赖单一底色。</div></div>
+    <div class="card"><h3>棋盘背景</h3><img src="candidate-optical-checker.png" alt="棋盘背景候选"><div class="caption">检查厚度、局部折射和透明度。</div></div>
+  </section>
+  <section class="grid" style="margin-top:14px">
+    <div class="card"><h3>吸收 / 光学深度</h3><img src="field-optical-depth.png" alt="光学深度字段"><div class="caption">内部颜色随厚度衰减。</div></div>
+    <div class="card"><h3>反射光</h3><img src="field-reflected-light.png" alt="反射字段"><div class="caption">把外膜亮度与内部体积分开。</div></div>
+    <div class="card"><h3>厚度</h3><img src="field-thickness.png" alt="厚度字段"><div class="caption">厚度真正参与最终像素输出。</div></div>
+    <div class="card"><h3>局部折射</h3><img src="field-refraction.png" alt="局部折射字段"><div class="caption">由局部密度梯度产生小幅偏移。</div></div>
+  </section>
+
+  <h2>层诊断：为什么不能直接全层相加</h2>
+  <section class="inspector">
+    <div class="stage" id="stage">
+      <img src="layer-00-background-plate.png" data-layer="00" alt="">
+      <img src="layer-01-outer-film.png" data-layer="01" alt="">
+      <img src="layer-02-internal-cyan-volume.png" data-layer="02" alt="">
+      <img src="layer-03-boundary-mask.png" data-layer="03" alt="">
+      <img src="layer-04-flow-layer.png" data-layer="04" alt="">
+      <img src="layer-05-flow-layer.png" data-layer="05" alt="">
+      <img src="layer-06-fine-ink-wash.png" data-layer="06" alt="">
+      <img src="layer-07-cool-point-core.png" data-layer="07" alt="">
+      <img src="layer-08-cool-point-glow.png" data-layer="08" alt="">
+      <img src="layer-09-warm-point-core.png" data-layer="09" alt="">
+      <img src="layer-10-warm-point-glow.png" data-layer="10" alt="">
+      <img src="layer-11-curvature-highlights.png" data-layer="11" alt="">
+    </div>
+    <div>
+      <p>下面是素材层的贡献查看器。它不是主候选，也不宣称是正确的生产合成。默认只显示背景板，因为背景板已经包含了正式静态材质。</p>
+      <div class="controls">
+        <label><input type="checkbox" data-toggle="00" checked>00 背景板（已烘焙基线）</label>
+        <label><input type="checkbox" data-toggle="01">01 外膜</label>
+        <label><input type="checkbox" data-toggle="02">02 内部青绿色体积</label>
+        <label><input type="checkbox" data-toggle="03">03 边界</label>
+        <label><input type="checkbox" data-toggle="04">04 流层 A</label>
+        <label><input type="checkbox" data-toggle="05">05 流层 B</label>
+        <label><input type="checkbox" data-toggle="06">06 细墨层</label>
+        <label><input type="checkbox" data-toggle="11">11 曲率高光</label>
+        <label><input type="checkbox" data-toggle="07">07 冷点核（诊断）</label>
+        <label><input type="checkbox" data-toggle="08">08 冷点光晕（诊断）</label>
+        <label><input type="checkbox" data-toggle="09">09 暖点核（诊断）</label>
+        <label><input type="checkbox" data-toggle="10">10 暖点光晕（诊断）</label>
+      </div>
+      <p class="note">自查结论：把 00 与 01–11 直接叠加会重复计算已烘焙材质，出现过亮噪纹和黑色带状结构。因此本轮主候选沿用正式静态基线，层叠图只用于定位下一步拆分工作。</p>
+    </div>
+  </section>
+
+  <h2>人工裁决点</h2>
+  <div class="decision"><strong>请只判断材质身份，不判断动效。</strong><p>如果新候选已经接近 025，下一步再接入真实 GPU 静态 pass；如果仍然不接近，继续改参数没有意义，应重新制作材质字段，而不是继续堆噪声、弧线或体积步进。</p></div>
+</main>
+<script>
+const update=key=>{const checked=document.querySelector('[data-toggle="'+key+'"]').checked;document.querySelectorAll('[data-layer="'+key+'"]').forEach(img=>img.style.display=checked?'block':'none')};
+document.querySelectorAll('[data-toggle]').forEach(input=>{input.addEventListener('change',()=>update(input.dataset.toggle));update(input.dataset.toggle)});
+</script>
+</body>
+</html>

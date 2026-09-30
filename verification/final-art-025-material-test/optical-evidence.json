@@ -1,0 +1,46 @@
+{
+  "experiment": "FINAL_ART_025_REFERENCE_DIRECTED_OPTICAL_STUDY",
+  "status": "READY_FOR_HUMAN_REVIEW",
+  "m2_closed": false,
+  "m1_modified": false,
+  "production_dependency": false,
+  "product_state": "still",
+  "animation_loop": false,
+  "target": "FINAL_ART_025",
+  "goal": "在单视角静态画面中重建 025 的材质外观，并验证不同背景下的透射和厚度贡献。",
+  "method": "offline donor cleaning and inferred absorption/reflection split; separate GPU optical fields",
+  "inference": "单张参考无法唯一求解真实材质；本字段是画面定向的近似，不是测得的物理参数。",
+  "runtime_final_frame_sampling": false,
+  "removed_ui_and_point_pixels": 38255,
+  "primary_candidate": "candidate-optical-light.png",
+  "frozen_inputs_sampled": [
+    "neutral-water-volume.png (offline microtexture)",
+    "neutral-thickness.png (offline thickness mixture)",
+    "formal-silhouette-mask.png (GPU coverage)",
+    "neutral-water-detail.png (GPU sparse detail)",
+    "formal-outer-film-crop.png (GPU restrained film)"
+  ],
+  "reference_hash": "0a31489f0364a9a53401fc2931bc72b78c6086e41a3b195642b40aebf2929f04",
+  "thickness_ablation_mean_rgb_delta_255": 44.478,
+  "limitations": [
+    "单视角、固定形态",
+    "未实现动效、双核迁移或生产接入",
+    "不同光照下仍需要独立验证",
+    "人工材质身份判断未通过"
+  ],
+  "corrections": [
+    "旧正式静态合成只作为基线，不能冒充本轮新材质",
+    "00 背景板含烘焙主体，全层叠加为负例",
+    "本候选使用离线派生字段，未把 025 原图作为候选 shader 纹理"
+  ],
+  "files": {
+    "field-optical-depth.png": "a34ea3b3976b3d8541979d21728076f5a988535dab1bbee8acedaf4c2bffa18c",
+    "field-reflected-light.png": "41e52310be3aa41692ec2a3109239eecb73571bc84d262e3192955c0fc58edf0",
+    "field-thickness.png": "6a37a210118a7b2815f74d017c8ee02e42db26e3012c7beb2beebeb4fcee6720",
+    "field-refraction.png": "14eb13f94924eff721990b21416b67cdca32e2c7ad6ad7727291219fdf072dc8",
+    "field-silhouette.png": "90e9092858b4e1bce72454081eed7445a84d46ae1766ca169c6947bf5d74609c",
+    "field-formal-film.png": "1b1dcd77fda72157e39ea5910b75c2c1439ac899edfe694b5c9409c5883d3802",
+    "field-m1-detail.png": "42b9db840518f94109b7ccf8afb1bcb257a0c6798a40fbaa0dacb10523f503fe",
+    "candidate-optical-light.png": "9deb839b53c0ea3b4372b9b84d13739c35fabb25f1308e43a7ebca4ee8e72067"
+  }
+}

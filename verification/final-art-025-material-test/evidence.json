@@ -1,0 +1,107 @@
+{
+  "test_id": "final-art-025-material-test-v1",
+  "status": "AWAITING_HUMAN_REVIEW",
+  "scope": "static material verification only",
+  "production_dependency": false,
+  "target": "FINAL_ART_025",
+  "secondary_reference": "FINAL_ART_050_DEPTH_ONLY",
+  "frozen_endpoint_reference": "FROZEN_K2_ENDPOINT_ONLY",
+  "representation": "formal-static-baseline-plus-layer-diagnostics",
+  "crop": {
+    "source_size": [
+      853,
+      1844
+    ],
+    "box_xyxy": [
+      88,
+      587,
+      766,
+      1265
+    ],
+    "output_size": [
+      360,
+      360
+    ]
+  },
+  "primary_candidate": {
+    "file": "candidate-formal-static-baseline.png",
+    "source": "test/water-orb-still/2p5d-composite-v1/static_composite.png",
+    "reason": "形式层包当前已提供烘焙完成的静态材质；先以它作为 Final Art 025 材质基线，不重复叠加已烘焙层。",
+    "core_simulation": "not added by this test"
+  },
+  "raw_layer_diagnostic": {
+    "file": "candidate-final-art-025-no-points.png",
+    "included_layers": [
+      "00_background_plate.png",
+      "01_outer_film.png",
+      "02_internal_cyan_volume.png",
+      "03_boundary_mask.png",
+      "04_flow_layer.png",
+      "05_flow_layer.png",
+      "06_fine_ink_wash.png",
+      "11_curvature_highlights.png"
+    ],
+    "excluded_layers": [
+      "07_cool_point_core.png",
+      "08_cool_point_glow.png",
+      "09_warm_point_core.png",
+      "10_warm_point_glow.png"
+    ],
+    "result": "INVALID_AS_PRIMARY_DUE_TO_DOUBLE_COMPOSITING",
+    "reason": "背景板已含完成材质，直接 alpha-over 会重复叠加并制造非目标亮纹/黑带。"
+  },
+  "comparisons": [
+    "candidate-body-film-only.png",
+    "candidate-structure-film-without-volume.png",
+    "candidate-final-art-025-with-points.png",
+    "candidate-final-art-025-no-points.png"
+  ],
+  "sources": {
+    "final-art-025": {
+      "file": "verification/continuous-water-prototype/references/final-art-025.png",
+      "sha256": "0a31489f0364a9a53401fc2931bc72b78c6086e41a3b195642b40aebf2929f04"
+    },
+    "final-art-050": {
+      "file": "verification/continuous-water-prototype/references/final-art-050.png",
+      "sha256": "342191fef7d2e832ff0f785cc1bcbbe036bc01448c8415e95f61c16a432bffc8"
+    },
+    "frozen-k2": {
+      "file": "verification/continuous-water-prototype/references/frozen-k2-final-art.png",
+      "sha256": "7a5b136727acec919addd6a42855dac6d8dc901da54607dbacfcfb6b5fab7601"
+    },
+    "m1-neutral-water-volume": {
+      "file": "verification/continuous-water-prototype/neutral-water-volume.png",
+      "sha256": "98b3d1418c594da394d13255c7a670651734d73732ea0953bd30f4cf21ef6192"
+    },
+    "formal-layer-package": {
+      "file": "test/water-orb-still/2p5d-composite-v1",
+      "layer_order": [
+        "00_background_plate.png",
+        "01_outer_film.png",
+        "02_internal_cyan_volume.png",
+        "03_boundary_mask.png",
+        "04_flow_layer.png",
+        "05_flow_layer.png",
+        "06_fine_ink_wash.png",
+        "11_curvature_highlights.png",
+        "07_cool_point_core.png",
+        "08_cool_point_glow.png",
+        "09_warm_point_core.png",
+        "10_warm_point_glow.png"
+      ]
+    },
+    "static-composite": {
+      "file": "test/water-orb-still/2p5d-composite-v1/static_composite.png",
+      "sha256": "faebfc6bc17999cb165406179434c4095ed366934a25d783ab5be07de5135ff8"
+    }
+  },
+  "acceptance": {
+    "must_show": [
+      "透明外膜、内部青绿色体积、连续内部层次和边缘厚度能被分辨",
+      "主材质不依赖双核或外部固定弧线",
+      "候选图与 Final Art 025 能在同一页面直接对比",
+      "没有运动、实时物理或生产资源改动"
+    ],
+    "human_decision": "人工判断是否接近 Final Art 025 的材质身份；本测试不自动宣告通过。"
+  }
+}
