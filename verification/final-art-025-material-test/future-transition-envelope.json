@@ -1,0 +1,60 @@
+{
+  "status": "REFERENCE_ONLY_NO_INTERPOLATION",
+  "production_dependency": false,
+  "runtime_state": false,
+  "m3": false,
+  "purpose": "保存 025→050→075→K2 的视觉参数范围，不实现过渡。",
+  "static_frozen": {
+    "silhouette": "FROZEN",
+    "center": "FROZEN",
+    "radius": "FROZEN",
+    "hitRadius": "FROZEN",
+    "formalShellIdentity": "FROZEN"
+  },
+  "future_continuous_parameters": {
+    "025": {
+      "opticalDepth": "low",
+      "densityStrength": "low",
+      "cloudyMassOrganization": "subtle",
+      "localRefractionStrength": "very_low",
+      "sparseDetailVisibility": "low",
+      "transmissionBalance": "silver_white_dominant"
+    },
+    "050": {
+      "opticalDepth": "medium",
+      "densityStrength": "medium",
+      "cloudyMassOrganization": "medium",
+      "localRefractionStrength": "medium_low",
+      "sparseDetailVisibility": "medium",
+      "transmissionBalance": "cyan_more_present"
+    },
+    "075": {
+      "opticalDepth": "medium_high",
+      "densityStrength": "medium_high",
+      "cloudyMassOrganization": "stronger",
+      "localRefractionStrength": "medium",
+      "sparseDetailVisibility": "medium_high",
+      "transmissionBalance": "deeper_cloudy_material"
+    },
+    "K2": {
+      "authority": "FROZEN_FINAL_STATIC_ENDPOINT",
+      "opticalDepth": "endpoint_authority",
+      "densityStrength": "endpoint_authority",
+      "localRefractionStrength": "endpoint_authority",
+      "sparseDetailVisibility": "endpoint_authority"
+    }
+  },
+  "separate_future_authority": {
+    "coldWarmCorePosition": "FUTURE_CORE_AUTHORITY",
+    "coreOpticalAssets": "FUTURE_CORE_AUTHORITY"
+  },
+  "forbidden_this_milestone": [
+    "interpolation",
+    "formation",
+    "deformation",
+    "runtime_state",
+    "core_movement",
+    "moving",
+    "production_migration"
+  ]
+}

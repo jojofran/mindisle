@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Final Art 025 · 静态材质测试</title>
+<style>
+:root{color-scheme:light;--ink:#183b45;--muted:#5f7b82;--line:#d7e7e9;--paper:#f7fbfb;--accent:#277b88}
+*{box-sizing:border-box}body{margin:0;background:#eef6f7;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif}
+main{max-width:1220px;margin:0 auto;padding:34px 28px 60px}h1{margin:0 0 8px;font-size:28px;font-weight:650;letter-spacing:.01em}h2{font-size:17px;margin:28px 0 10px}p{line-height:1.65;margin:8px 0;color:var(--muted)}.lead{max-width:850px}.status{display:inline-flex;align-items:center;gap:8px;border:1px solid #e2c98c;background:#fff8e7;color:#75530e;border-radius:999px;padding:6px 12px;font-size:13px;margin:16px 0 4px}.dot{width:7px;height:7px;background:#c7921d;border-radius:50%}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:rgba(255,255,255,.74);border:1px solid var(--line);border-radius:16px;padding:13px;box-shadow:0 6px 22px rgba(38,92,102,.05)}.card h3{font-size:14px;margin:0 0 10px;font-weight:600}.card img{width:100%;aspect-ratio:1;display:block;object-fit:cover;border-radius:10px;background:#e9f1f2}.caption{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+.hero{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);gap:20px;align-items:start}.hero .card{padding:16px}.hero img{width:100%;max-width:360px;display:block;border-radius:12px}.decision{background:#eaf5f4;border:1px solid #cbe4e1;border-radius:14px;padding:16px 18px}.decision strong{color:#155c65}.decision ul{margin:10px 0 0 20px;color:var(--muted);line-height:1.65}
+.inspector{display:grid;grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:20px}.stage{position:relative;width:100%;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#081522}.stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;align-content:start}.controls label{display:flex;gap:8px;align-items:flex-start;color:var(--muted);font-size:13px;line-height:1.35}.controls input{accent-color:var(--accent);margin-top:2px}.note{font-size:12px;color:var(--muted);margin-top:12px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero,.inspector{grid-template-columns:1fr}}@media(max-width:520px){main{padding:24px 16px}.grid{grid-template-columns:1fr}.controls{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+  <h1>Final Art 025 · 静态材质测试</h1>
+  <p class="lead">这一轮先固定材质身份：透明外膜、银白主导的浅青内部体积、柔和连续层次和简单边缘。最新候选按参考图的浅色内部关系重新校准字段；没有运动、实时物理或生产迁移。</p>
+  <div class="status"><span class="dot"></span>025 STATIC MATERIAL LOCKED · 下一步只做静态 GPU 接入准备</div>
+
+  <h2>主候选与参考</h2>
+  <div class="decision"><strong>当前锁定基线：025_STATIC_MATERIAL_LOCKED</strong><p>锁定文件：<a href="static-material-lock.json">static-material-lock.json</a>。旧候选保留作历史对照，不再作为下一步入口；本页仍不代表 production、GPU runtime 或 M3 已完成。</p></div>
+  <section class="hero">
+    <div class="card"><h3>最新审查预览 · 中性灰 / 高光软化</h3><img src="candidate-optical-neutral-025-reference-left-shadow-highlight-soft.png" alt="Final Art 025 highlight-soft on neutral review background"><div class="caption">中性灰底只用于审查；额外收敛白色壳光，避免浅色内部和高光把边缘冲淡。材质字段、silhouette 和球径不变。</div></div>
+    <div class="decision"><strong>本轮的明确目的</strong><p>判断新候选是否已经进入 Final Art 025 的视觉邻域，然后再决定是否值得继续拆分成可运行的 GPU 材质。主结构不依赖双核；点光只作为参考中很小的细节。</p><ul><li>025：主要材质目标。</li><li>050：只看厚度、深度和内部云层。</li><li>K2：只看冻结端点，不用来定义本轮材质。</li><li>M1 neutral：输入证据，不是成品。</li></ul></div>
+  </section>
+
+  <h2>同尺度对比</h2>
+  <section class="grid">
+    <div class="card"><h3>Final Art 025</h3><img src="target-final-art-025.png" alt="Final Art 025"><div class="caption">主参考，保留界面上下文。</div></div>
+    <div class="card"><h3>025 highlight-soft · 浅色底</h3><img src="candidate-optical-light-025-reference-left-shadow-highlight-soft.png" alt="025 highlight-soft on light background"><div class="caption">当前候选：只收敛高光显示贡献；上一版 left-shadow-clean 仍保留作回退对照。</div></div>
+    <div class="card"><h3>上一版 left-shadow-clean</h3><img src="candidate-optical-light-025-reference-left-shadow-clean.png" alt="上一版 left shadow clean"><div class="caption">高光软化前的回退对照，用于判断边缘冲淡是否改善。</div></div>
+    <div class="card"><h3>025 side clean</h3><img src="candidate-optical-light-025-reference-side-clean.png" alt="025 side clean"><div class="caption">上一版：左右覆盖已去掉，但左上角 patch 仍在。</div></div>
+    <div class="card"><h3>025 reference soft</h3><img src="candidate-optical-light-025-reference-soft.png" alt="025 reference soft"><div class="caption">上一版：顶部已修正，但左右仍有覆盖。</div></div>
+    <div class="card"><h3>025 simple shell</h3><img src="candidate-optical-light-025-simple-shell.png" alt="025 simple shell"><div class="caption">上一版：只收敛 formal film，内部仍沿用旧字段。</div></div>
+    <div class="card"><h3>025 sphere relief</h3><img src="candidate-optical-light-025-sphere-relief.png" alt="025 sphere relief"><div class="caption">上一版：球体更完整，但边缘光影偏复杂。</div></div>
+    <div class="card"><h3>025 calibrated · Cycle 2</h3><img src="candidate-optical-light-025-calibrated.png" alt="025 calibrated Cycle 2"><div class="caption">上一版：已完成 optical depth 校准，保留作直接对照。</div></div>
+    <div class="card"><h3>Current cooler</h3><img src="candidate-optical-light-cooler.png" alt="Current cooler"><div class="caption">未来 mid-depth / transition reference，不是 025 authority。</div></div>
+    <div class="card"><h3>Previous original</h3><img src="candidate-optical-light.png" alt="Previous original"><div class="caption">较深的材料基线，保留作上限参考。</div></div>
+    <div class="card"><h3>旧正式基线（已对齐）</h3><img src="baseline-aligned.png" alt="已对齐旧正式基线"><div class="caption">与新候选统一球径和画布，用于判断拆分是否损失身份。</div></div>
+    <div class="card"><h3>Final Art 050</h3><img src="target-final-art-050.png" alt="Final Art 050"><div class="caption">只辅助观察深度与厚度。</div></div>
+  </section>
+
+  <h2>这次只改了一件事</h2>
+  <div class="decision"><strong>upper clean 只修左右上角多余膜</strong><p>最新跟进沿用 corner clean 的浅色内部和左上角修正，在左右上弧同步收敛 optical depth、scatter、formal film 和 shell reflection。顶部中央、silhouette、主体中心和其余轮廓不动。</p></div>
+
+  <h2>新候选的背景与字段检查</h2>
+  <section class="grid">
+    <div class="card"><h3>中性灰 · 高光软化</h3><img src="candidate-optical-neutral-025-reference-left-shadow-highlight-soft.png" alt="中性灰背景 highlight-soft 候选"><div class="caption">主审查预览：降低白色壳光干扰，只观察轮廓、内部体积和多余膜。</div></div>
+    <div class="card"><h3>浅色主观看域</h3><img src="candidate-optical-light-025-reference-left-shadow-clean.png" alt="浅色背景 left shadow clean 候选"><div class="caption">检查左上灰色阴影是否越过外弧。</div></div>
+    <div class="card"><h3>深色背景</h3><img src="candidate-optical-dark-025-reference-left-shadow-clean.png" alt="深色背景 left shadow clean"><div class="caption">检查外弧清理后轮廓仍在。</div></div>
+    <div class="card"><h3>冷暖分屏</h3><img src="candidate-optical-split-025-reference-left-shadow-clean.png" alt="冷暖分屏 left shadow clean"><div class="caption">检查局部修正是否依赖单一底色。</div></div>
+    <div class="card"><h3>棋盘背景</h3><img src="candidate-optical-checker-025-reference-left-shadow-clean.png" alt="棋盘背景 left shadow clean"><div class="caption">检查清理后的透明度和边缘连续性。</div></div>
+  </section>
+  <section class="grid" style="margin-top:14px">
+    <div class="card"><h3>吸收 / 光学深度</h3><img src="field-optical-depth.png" alt="光学深度字段"><div class="caption">内部颜色随厚度衰减。</div></div>
+    <div class="card"><h3>反射光</h3><img src="field-reflected-light.png" alt="反射字段"><div class="caption">把外膜亮度与内部体积分开。</div></div>
+    <div class="card"><h3>厚度</h3><img src="field-thickness.png" alt="厚度字段"><div class="caption">厚度真正参与最终像素输出。</div></div>
+    <div class="card"><h3>局部折射</h3><img src="field-refraction.png" alt="局部折射字段"><div class="caption">由局部密度梯度产生小幅偏移。</div></div>
+    <div class="card"><h3>Simple shell film</h3><img src="field-formal-film-025-simple-shell.png" alt="简化外膜字段"><div class="caption">只保留 formal film 的 25% alpha 贡献，边缘回到薄而柔和。</div></div>
+    <div class="card"><h3>Reference soft film</h3><img src="field-formal-film-025-reference-soft.png" alt="参考校准外膜字段"><div class="caption">参考校准候选只保留 15% film alpha，避免复杂环形高光。</div></div>
+    <div class="card"><h3>Reference top repair</h3><img src="field-025-reference-top-mask.png" alt="参考校准顶部修补 mask"><div class="caption">只柔化参考图文字遮挡造成的顶部修补带，主体其余区域不动。</div></div>
+    <div class="card"><h3>Reference side clean</h3><img src="field-025-reference-side-mask.png" alt="参考校准左右侧 mask"><div class="caption">只削弱左右外侧覆盖层，中央和顶部不动。</div></div>
+    <div class="card"><h3>Reference corner clean</h3><img src="field-025-reference-corner-mask.png" alt="参考校准左上角 mask"><div class="caption">只清除截图标出的左上角 patch，alpha 羽化后保持球体轮廓连续。</div></div>
+    <div class="card"><h3>Reference upper clean</h3><img src="field-025-reference-upper-mask.png" alt="参考校准左右上角 mask"><div class="caption">同步收敛左右上弧的膜状叠层，顶部中央不动。</div></div>
+    <div class="card"><h3>Left shadow clean</h3><img src="field-025-reference-left-shadow-mask.png" alt="参考校准左上外弧阴影 mask"><div class="caption">只覆盖左上外弧灰色阴影带，不改 alpha。</div></div>
+    <div class="card"><h3>Upper clean film</h3><img src="field-formal-film-025-reference-upper-clean.png" alt="左右上角清理后的 formal film"><div class="caption">左右上角 formal film 清零，保留主体和中央顶部。</div></div>
+  </section>
+  <h2>Reflection authority split</h2>
+  <section class="grid">
+    <div class="card"><h3>Internal reflection</h3><img src="field-internal-reflected-light.png" alt="内部反射字段"><div class="caption">留给未来可变形内部材质的反射部分。</div></div>
+    <div class="card"><h3>Shell reflection</h3><img src="field-shell-reflection.png" alt="外壳反射字段"><div class="caption">由 formal shell authority 负责，不塞进内部字段。</div></div>
+    <div class="card"><h3>Internal scatter</h3><img src="field-internal-scatter.png" alt="内部散射字段"><div class="caption">帮助深色背景仍读出淡青水体。</div></div>
+    <div class="card"><h3>025 depth mask</h3><img src="field-025-optical-calibration-mask.png" alt="025 optical depth 校准 mask"><div class="caption">只作用于高 optical depth、内部、非 shell 区域。</div></div>
+    <div class="card"><h3>Shadow relief mask</h3><img src="field-025-shadow-relief-mask.png" alt="局部阴影减凹陷 mask"><div class="caption">由浅色预览中的宽幅阴影 deficit 反投影到字段，再做 shell 排除和柔化。</div></div>
+  </section>
+  <h2>四背景厚度均值匹配对照</h2>
+  <section class="grid">
+    <div class="card"><h3>浅色 · 均值厚度</h3><img src="ablation-025-calibrated-light-thickness-mean-match.png" alt="浅色均值厚度对照"><div class="caption">保留平均吸收量，移除空间厚度分布。</div></div>
+    <div class="card"><h3>深色 · 均值厚度</h3><img src="ablation-025-calibrated-dark-thickness-mean-match.png" alt="深色均值厚度对照"><div class="caption">检查厚度空间分布是否仍然可见。</div></div>
+    <div class="card"><h3>冷暖分屏 · 均值厚度</h3><img src="ablation-025-calibrated-split-thickness-mean-match.png" alt="冷暖分屏均值厚度对照"><div class="caption">排除单纯背景亮度造成的差异。</div></div>
+    <div class="card"><h3>棋盘 · 均值厚度</h3><img src="ablation-025-calibrated-checker-thickness-mean-match.png" alt="棋盘均值厚度对照"><div class="caption">检查透明度和局部折射的稳定性。</div></div>
+  </section>
+  <h2>四背景局部近景 + 中性审查</h2>
+  <section class="grid">
+    <div class="card"><h3>中性灰 · 高光软化近景</h3><img src="candidate-optical-neutral-025-reference-left-shadow-highlight-soft-detail.png" alt="中性灰 highlight-soft 局部近景"><div class="caption">优先观察左右上角是否还有越界膜，以及高光是否仍冲淡球体边界。</div></div>
+    <div class="card"><h3>浅色近景</h3><img src="candidate-optical-light-025-reference-left-shadow-clean-detail.png" alt="浅色 left shadow clean 局部近景"><div class="caption">观察左上灰色阴影是否越界、主体是否连续。</div></div>
+    <div class="card"><h3>深色近景</h3><img src="candidate-optical-dark-025-reference-left-shadow-clean-detail.png" alt="深色 left shadow clean 局部近景"><div class="caption">观察局部清除后的透明轮廓。</div></div>
+    <div class="card"><h3>冷暖分屏近景</h3><img src="candidate-optical-split-025-reference-left-shadow-clean-detail.png" alt="冷暖分屏 left shadow clean 局部近景"><div class="caption">观察底色变化下局部边缘是否稳定。</div></div>
+    <div class="card"><h3>棋盘近景</h3><img src="candidate-optical-checker-025-reference-left-shadow-clean-detail.png" alt="棋盘 left shadow clean 局部近景"><div class="caption">观察局部清除后的透明度和厚度。</div></div>
+  </section>
+
+  <h2>Future transition reference</h2>
+  <section class="hero">
+    <div class="card"><h3>Current cooler · preserved</h3><img src="candidate-optical-light-cooler.png" alt="Current cooler future transition reference"><div class="caption">NOT 025 AUTHORITY。保留给 025 → 050 的未来视觉参数参考。</div></div>
+    <div class="decision"><strong>本轮不实现过渡</strong><p>future-transition-envelope.json 只记录 optical depth、density、refraction、detail visibility 的视觉范围。没有 interpolation、formation、runtime state 或 moving。</p></div>
+  </section>
+
+  <h2>层诊断：为什么不能直接全层相加</h2>
+  <section class="inspector">
+    <div class="stage" id="stage">
+      <img src="layer-00-background-plate.png" data-layer="00" alt="">
+      <img src="layer-01-outer-film.png" data-layer="01" alt="">
+      <img src="layer-02-internal-cyan-volume.png" data-layer="02" alt="">
+      <img src="layer-03-boundary-mask.png" data-layer="03" alt="">
+      <img src="layer-04-flow-layer.png" data-layer="04" alt="">
+      <img src="layer-05-flow-layer.png" data-layer="05" alt="">
+      <img src="layer-06-fine-ink-wash.png" data-layer="06" alt="">
+      <img src="layer-07-cool-point-core.png" data-layer="07" alt="">
+      <img src="layer-08-cool-point-glow.png" data-layer="08" alt="">
+      <img src="layer-09-warm-point-core.png" data-layer="09" alt="">
+      <img src="layer-10-warm-point-glow.png" data-layer="10" alt="">
+      <img src="layer-11-curvature-highlights.png" data-layer="11" alt="">
+    </div>
+    <div>
+      <p>下面是素材层的贡献查看器。它不是主候选，也不宣称是正确的生产合成。默认只显示背景板，因为背景板已经包含了正式静态材质。</p>
+      <div class="controls">
+        <label><input type="checkbox" data-toggle="00" checked>00 背景板（已烘焙基线）</label>
+        <label><input type="checkbox" data-toggle="01">01 外膜</label>
+        <label><input type="checkbox" data-toggle="02">02 内部青绿色体积</label>
+        <label><input type="checkbox" data-toggle="03">03 边界</label>
+        <label><input type="checkbox" data-toggle="04">04 流层 A</label>
+        <label><input type="checkbox" data-toggle="05">05 流层 B</label>
+        <label><input type="checkbox" data-toggle="06">06 细墨层</label>
+        <label><input type="checkbox" data-toggle="11">11 曲率高光</label>
+        <label><input type="checkbox" data-toggle="07">07 冷点核（诊断）</label>
+        <label><input type="checkbox" data-toggle="08">08 冷点光晕（诊断）</label>
+        <label><input type="checkbox" data-toggle="09">09 暖点核（诊断）</label>
+        <label><input type="checkbox" data-toggle="10">10 暖点光晕（诊断）</label>
+      </div>
+      <p class="note">自查结论：把 00 与 01–11 直接叠加会重复计算已烘焙材质，出现过亮噪纹和黑色带状结构。当前主候选已经从导出的 optical / reflected / thickness / refraction / silhouette / film / detail PNG 回读重建；层叠图仍只用于解释错误路线。</p>
+    </div>
+  </section>
+
+  <h2>人工裁决点</h2>
+  <div class="decision"><strong>请只判断材质身份，不判断动效。</strong><p>如果新候选已经接近 025，下一步再接入真实 GPU 静态 pass；如果仍然不接近，继续改参数没有意义，应重新制作材质字段，而不是继续堆噪声、弧线或体积步进。</p></div>
+</main>
+<script>
+const update=key=>{const checked=document.querySelector('[data-toggle="'+key+'"]').checked;document.querySelectorAll('[data-layer="'+key+'"]').forEach(img=>img.style.display=checked?'block':'none')};
+document.querySelectorAll('[data-toggle]').forEach(input=>{input.addEventListener('change',()=>update(input.dataset.toggle));update(input.dataset.toggle)});
+</script>
+</body>
+</html>

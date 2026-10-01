@@ -1,0 +1,60 @@
+{
+  "lock_id": "FINAL_ART_025_STATIC_HIGHLIGHT_SOFT_2026-10-01",
+  "status": "LOCKED_FOR_NEXT_STEP",
+  "target": "FINAL_ART_025",
+  "candidate": "candidate-optical-light-025-reference-left-shadow-highlight-soft.png",
+  "neutral_review_preview": "candidate-optical-neutral-025-reference-left-shadow-highlight-soft.png",
+  "candidate_role": "025_STATIC_MATERIAL_REVIEW_BASELINE",
+  "approval": {
+    "approved_by": "user",
+    "approved_on": "2026-10-01",
+    "decision": "可以了，先锁定这一版"
+  },
+  "frozen_material_authority": [
+    "optical depth field",
+    "internal scatter field",
+    "reflection separation",
+    "thickness input",
+    "refraction field",
+    "silhouette",
+    "formal outer film identity",
+    "center",
+    "radius",
+    "hitRadius"
+  ],
+  "display_calibration": {
+    "reflection_strength": 0.55,
+    "film_strength": 0.3,
+    "scatter_strength": 0.85,
+    "purpose": "减少浅色与中性背景上的白色壳光冲淡，不改变 frozen fields、alpha 或几何"
+  },
+  "preserved_history": {
+    "candidate-optical-light-025-calibrated.png": "SUPERSEDED_STATIC_CALIBRATION",
+    "candidate-optical-light-025-reference-corner-clean.png": "SUPERSEDED_CORNER_REPAIR",
+    "candidate-optical-light-025-reference-left-shadow-clean.png": "SUPERSEDED_PRE_HIGHLIGHT_SOFTENING",
+    "candidate-optical-light.png": "PRESERVED_DEEP_MATERIAL_HISTORY",
+    "candidate-optical-light-cooler.png": "PRESERVED_FUTURE_MID_DEPTH_TRANSITION_REFERENCE"
+  },
+  "next_step": {
+    "name": "STATIC_GPU_MATERIAL_INTEGRATION_PREP",
+    "allowed": [
+      "独立验证 pass 读取锁定字段",
+      "复现静态 025 画面",
+      "验证 thickness 参与最终像素",
+      "验证四背景和 PNG 回读一致性"
+    ],
+    "not_allowed": [
+      "修改 production",
+      "修改 ProductState",
+      "formation",
+      "deformation",
+      "core movement",
+      "moving",
+      "runtime interpolation",
+      "进入 M3",
+      "恢复 00–11 全层 alpha-over"
+    ]
+  },
+  "dynamic_implementation": "NOT_STARTED",
+  "ready_for_m3": "NO"
+}
