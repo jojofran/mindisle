@@ -63,3 +63,17 @@ build_optical_fields.py 生成当前主候选 candidate-optical-light.png。它�
 ## 锁定后的下一步
 
 下一步只做静态 GPU 材质接入准备：读取锁定候选对应的 optical depth、thickness、scatter/reflection、refraction、silhouette、formal film 和 detail 字段，并在独立验证 pass 中复现静态画面。不得修改 production、ProductState、formation、deformation、moving 或进入 M3；不得重新启用旧的 00–11 全层 alpha-over 路线。
+
+## M2 静态 GPU 材质验证
+
+入口：`m2-static-gpu-material.html`。页面用 WebGL2 片元着色器从磁盘重新读取 8 个锁定字段，复现 025 的静态画面；同一 pass 可切换浅色、中性灰、深色、分屏和棋盘背景，并比较空间厚度、均值匹配厚度和厚度关闭三种状态。对比区显示的是同一 GPU 帧的复制，避免第二个 WebGL 上下文造成假空白。
+
+由于浏览器会阻止 `file://` 页面把旁边的本地 PNG 上传为 WebGL 纹理，需要在仓库根目录启动本地静态服务器后打开：
+
+```text
+python3 -m http.server 8765 --bind 127.0.0.1 --directory verification/final-art-025-material-test
+```
+
+然后访问 `http://127.0.0.1:8765/m2-static-gpu-material.html`。
+
+本页的结论边界是“静态字段可被 GPU 读取并影响输出”，不是生产材质接入或动态材质成立。验证记录见 `m2-static-gpu-evidence.json`；它记录了浏览器加载状态、背景闸门、PNG 回读误差和厚度消融数值。当前 M2 仍保持实验态，生产 renderer、ProductState、formation、deformation、moving 和 M3 均未触碰。

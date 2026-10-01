@@ -1,0 +1,70 @@
+{
+  "schema": "mindisle.m2-static-gpu-evidence.v1",
+  "status": "READY_FOR_HUMAN_REVIEW",
+  "milestone": "M2_STATIC_GPU_MATERIAL_STUDY",
+  "scope": "静态 GPU 字段回读与复现；不代表 production migration 或动态材质成立。",
+  "lock_source": "static-material-lock.json",
+  "renderer": {
+    "api": "WebGL2",
+    "shader": "m2-static-gpu-material.html",
+    "locked_png_fields_sampled": 8,
+    "preserve_drawing_buffer": true,
+    "highlight_soft_strengths": {
+      "reflection": 0.55,
+      "formal_film": 0.3,
+      "internal_scatter": 0.85
+    }
+  },
+  "field_pngs": {
+    "field-optical-depth-025-reference-left-shadow-clean.png": "3dc08e9d7ad41feee7db6e32fb3f9334ffb221d0fcb10077a0c728fb39969c4f",
+    "field-reflected-light-025-reference-upper-clean.png": "23cc56eaf366013f4e589e852cdf4b4237fdbe80dd1dd9a6fb316cd1649ec7c2",
+    "field-internal-scatter-025-reference-left-shadow-clean.png": "822c770961ac672a0305f163f90ab8a582a8fa34104c980072fe4d6f5b1da09f",
+    "field-formal-film-025-reference-upper-clean.png": "0b03e2ebe390faf0ee615e81c22f22fcf5ebefbf3f6814c808c98f6acc463fc0",
+    "field-thickness.png": "6a37a210118a7b2815f74d017c8ee02e42db26e3012c7beb2beebeb4fcee6720",
+    "field-refraction-025-reference-soft.png": "a7927ae9924dca6121976869a656e33388501973e9cf1721f98cd9363012b43d",
+    "field-silhouette.png": "90e9092858b4e1bce72454081eed7445a84d46ae1766ca169c6947bf5d74609c",
+    "field-m1-detail.png": "42b9db840518f94109b7ccf8afb1bcb257a0c6798a40fbaa0dacb10523f503fe"
+  },
+  "background_gate": {
+    "modes": [
+      "light",
+      "neutral",
+      "dark",
+      "split",
+      "checker"
+    ],
+    "all_modes_rendered": true,
+    "reference_switches_with_mode": true,
+    "thickness_mode": "spatial"
+  },
+  "thickness_ablation": {
+    "spatial_vs_mean_matched_mean_abs_rgb_delta_255": 2.1024125514,
+    "spatial_vs_mean_matched_max_rgb_delta": 32,
+    "spatial_vs_mean_matched_changed_pixel_fraction": 0.4886265432,
+    "spatial_vs_off_mean_abs_rgb_delta_255": 9.0943312757,
+    "spatial_vs_off_max_rgb_delta": 55,
+    "spatial_vs_off_changed_pixel_fraction": 0.5130941358,
+    "mean_matched_path_inside_silhouette": 0.5208782686,
+    "interpretation": "空间厚度参与 transmission；与均值匹配仍有空间分布差异，关闭厚度的差异更大。"
+  },
+  "neutral_static_roundtrip": {
+    "mode": "spatial",
+    "mean_abs_rgb_delta_255": 0.0167824074,
+    "max_rgb_delta": 1,
+    "changed_pixel_fraction": 0.0493209877,
+    "comparison": "GPU canvas vs candidate-optical-neutral-025-reference-left-shadow-highlight-soft.png"
+  },
+  "boundaries": {
+    "production_dependency": false,
+    "product_state_touched": false,
+    "runtime_states_implemented": false,
+    "interpolation_implemented": false,
+    "m3_started": false,
+    "old_00_11_alpha_over_used": false,
+    "dynamic_implementation": "NOT_STARTED"
+  },
+  "notes": [
+    "GPU output and comparison preview share one rendered frame; no second WebGL context is used.",
+    "The page is an isolated verification artifact and must not be treated as a production renderer."
+  ]
+}
