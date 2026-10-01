@@ -1,0 +1,142 @@
+{
+  "schema": "mindisle.m3-continuous-field-evidence.v1",
+  "status": "READY_FOR_HUMAN_REVIEW",
+  "milestone": "M3_CONTINUOUS_FIELD_FIRST_SLICE",
+  "scope": "固定单视角 body domain 内的连续字段参数研究；不实现动态状态或生产迁移。",
+  "lock_source": "m2-static-gpu-lock.json",
+  "renderer": {
+    "api": "WebGL2",
+    "page": "m3-continuous-field-study.html",
+    "locked_png_fields_sampled": 8,
+    "preserve_drawing_buffer": true
+  },
+  "controls": {
+    "opticalDepth": "uDepthStrength",
+    "cloudyDensity": "uDensityStrength",
+    "localRefraction": "uRefractionStrength",
+    "sparseDetail": "uDetailStrength",
+    "frozen": [
+      "spatial thickness",
+      "silhouette",
+      "formal film",
+      "reflection",
+      "center",
+      "radius",
+      "hitRadius"
+    ],
+    "inspect": "window.__M3_FIELD_STUDY__.inspect()",
+    "reset": "window.__M3_FIELD_STUDY__.reset()"
+  },
+  "presets": {
+    "025_locked": {
+      "depth": 1.0,
+      "density": 1.0,
+      "refraction": 1.0,
+      "detail": 1.0
+    },
+    "mid_study": {
+      "depth": 1.17,
+      "density": 1.18,
+      "refraction": 0.83,
+      "detail": 1.08
+    },
+    "deep_study": {
+      "depth": 1.36,
+      "density": 1.36,
+      "refraction": 1.05,
+      "detail": 1.28
+    },
+    "authority_note": "mid/deep are study values only; not FINAL_ART_050/075/K2 authority"
+  },
+  "backgrounds": [
+    "light",
+    "neutral",
+    "dark",
+    "split",
+    "checker"
+  ],
+  "field_sha256": {
+    "m3-continuous-field-study.html": "8ea4798b144dcaffe9ce82b1d306aec37d6ff202531eae9b35b7a217c05a3fe6",
+    "m2-static-gpu-lock.json": "79076a9de046d6ddbd8bceff1b08a72b2cf916c132239629a2eaa04ef272ba3a",
+    "static-material-lock.json": "32797d091654799e11ee149ebd5ec4e0aef9d17e8dbe57a69b779898f37290e5",
+    "field-optical-depth-025-reference-left-shadow-clean.png": "3dc08e9d7ad41feee7db6e32fb3f9334ffb221d0fcb10077a0c728fb39969c4f",
+    "field-reflected-light-025-reference-upper-clean.png": "23cc56eaf366013f4e589e852cdf4b4237fdbe80dd1dd9a6fb316cd1649ec7c2",
+    "field-internal-scatter-025-reference-left-shadow-clean.png": "822c770961ac672a0305f163f90ab8a582a8fa34104c980072fe4d6f5b1da09f",
+    "field-formal-film-025-reference-upper-clean.png": "0b03e2ebe390faf0ee615e81c22f22fcf5ebefbf3f6814c808c98f6acc463fc0",
+    "field-thickness.png": "6a37a210118a7b2815f74d017c8ee02e42db26e3012c7beb2beebeb4fcee6720",
+    "field-refraction-025-reference-soft.png": "a7927ae9924dca6121976869a656e33388501973e9cf1721f98cd9363012b43d",
+    "field-silhouette.png": "90e9092858b4e1bce72454081eed7445a84d46ae1766ca169c6947bf5d74609c",
+    "field-m1-detail.png": "42b9db840518f94109b7ccf8afb1bcb257a0c6798a40fbaa0dacb10523f503fe"
+  },
+  "acceptance": {
+    "025_reset_regression": "PASS",
+    "four_uniforms_change_pixels": "PASS",
+    "background_gate": "PASS",
+    "no_runtime_state": "PASS_STATIC_PAGE_ONLY",
+    "m3_full_closed": false,
+    "k2_endpoint": "NOT_PROVEN"
+  },
+  "boundaries": [
+    "no ProductState changes",
+    "no formation/deformation",
+    "no core movement",
+    "no moving",
+    "no full-frame RGB crossfade",
+    "no production renderer/assets"
+  ],
+  "browser_verification": {
+    "method": "ego-browser through local HTTP server",
+    "page_loaded": "WebGL2 loaded · 8 locked PNG fields sampled · 4 continuous uniforms active · static only",
+    "locked_state_after_reset": {
+      "background": "neutral",
+      "depth": 1.0,
+      "density": 1.0,
+      "refraction": 1.0,
+      "detail": 1.0,
+      "thickness": "spatial-frozen",
+      "shell": "frozen",
+      "runtimeState": false
+    },
+    "default_vs_locked_neutral": {
+      "mean_abs_rgb_delta_255": 0.01771090535,
+      "max_rgb_delta": 1,
+      "changed_pixel_fraction": 0.0509645062
+    },
+    "uniform_ablation_neutral": {
+      "depth_1.35": {
+        "mean_abs_rgb_delta_255": 3.0474408436,
+        "max_rgb_delta": 15,
+        "changed_pixel_fraction": 0.5060108025
+      },
+      "density_1.40": {
+        "mean_abs_rgb_delta_255": 0.1083667695,
+        "max_rgb_delta": 2,
+        "changed_pixel_fraction": 0.1957638889
+      },
+      "refraction_0.45": {
+        "mean_abs_rgb_delta_255": 0.0289789095,
+        "max_rgb_delta": 4,
+        "changed_pixel_fraction": 0.0665046296
+      },
+      "detail_1.40": {
+        "mean_abs_rgb_delta_255": 0.0125951646,
+        "max_rgb_delta": 9,
+        "changed_pixel_fraction": 0.0044521605
+      }
+    },
+    "reset_after_dark_background": "PASS",
+    "visual_spot_check": "025 default remains a complete, soft, translucent sphere; deeper study increases internal density without changing silhouette.",
+    "background_gate": {
+      "modes": [
+        "light",
+        "neutral",
+        "dark",
+        "split",
+        "checker"
+      ],
+      "all_modes_rendered": true,
+      "output_data_urls_nonempty": true,
+      "state_background_matches_button": true
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "lock_id": "M2_STATIC_GPU_025_2026-10-02",
+  "status": "CLOSED_FROZEN",
+  "approved_source_commit": "cc9e59e3b80219f9f185696cf6d9f6312e5aaa40",
+  "approval": {
+    "approved_by": "user",
+    "approved_on": "2026-10-02",
+    "decision": "继续锁定 然后开始下一步",
+    "scope": "接受 cc9e59e 的静态 GPU 复现；允许 M3 首段隔离字段实验，不是 production migration。"
+  },
+  "frozen_files_sha256": {
+    "m2-static-gpu-material.html": "65d73ea3f2040556d2817d4e0dd9a8a0e278e15e9d2d966c64ffe76079296792",
+    "static-material-lock.json": "32797d091654799e11ee149ebd5ec4e0aef9d17e8dbe57a69b779898f37290e5",
+    "field-optical-depth-025-reference-left-shadow-clean.png": "3dc08e9d7ad41feee7db6e32fb3f9334ffb221d0fcb10077a0c728fb39969c4f",
+    "field-reflected-light-025-reference-upper-clean.png": "23cc56eaf366013f4e589e852cdf4b4237fdbe80dd1dd9a6fb316cd1649ec7c2",
+    "field-internal-scatter-025-reference-left-shadow-clean.png": "822c770961ac672a0305f163f90ab8a582a8fa34104c980072fe4d6f5b1da09f",
+    "field-formal-film-025-reference-upper-clean.png": "0b03e2ebe390faf0ee615e81c22f22fcf5ebefbf3f6814c808c98f6acc463fc0",
+    "field-thickness.png": "6a37a210118a7b2815f74d017c8ee02e42db26e3012c7beb2beebeb4fcee6720",
+    "field-refraction-025-reference-soft.png": "a7927ae9924dca6121976869a656e33388501973e9cf1721f98cd9363012b43d",
+    "field-silhouette.png": "90e9092858b4e1bce72454081eed7445a84d46ae1766ca169c6947bf5d74609c",
+    "field-m1-detail.png": "42b9db840518f94109b7ccf8afb1bcb257a0c6798a40fbaa0dacb10523f503fe"
+  },
+  "frozen_display": {
+    "reflection_strength": 0.55,
+    "film_strength": 0.3,
+    "scatter_strength": 0.85,
+    "field_scale": 1.1314,
+    "canvas": [
+      360,
+      360
+    ]
+  },
+  "scope_limit": "单视角静态光学外观；未恢复唯一物理材质，也未证明形变时固定高光可分离。",
+  "next_step": {
+    "milestone": "M3",
+    "slice": "CONTINUOUS_INTERNAL_FIELD_STUDY",
+    "allowed": [
+      "独立字段/参数滑杆实验",
+      "冻结轮廓、球壳、高光，025 起点像素回归",
+      "多背景和重置验证"
+    ],
+    "forbidden": [
+      "production migration",
+      "ProductState changes",
+      "formation",
+      "deformation",
+      "core movement",
+      "moving",
+      "full-frame RGB crossfade"
+    ],
+    "k2_endpoint": "NOT_PROVEN"
+  },
+  "production_authority": false,
+  "notes": [
+    "The post-approval change to m2-static-gpu-material.html is navigation-only; shader, uniforms, fields and display strengths remain unchanged."
+  ]
+}

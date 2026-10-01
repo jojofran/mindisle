@@ -1,6 +1,8 @@
 # WaterBall Continuous Water Roadmap
 
-Current active milestone: **M1 — Neutral Water Material**
+Current active milestone: **M3 — Continuous Field / first bounded study**
+
+2026-10-02 人工裁决：用户确认锁定已完成的 M2 静态 GPU 结果并开始下一步。当前实验起点以 `verification/final-art-025-material-test/static-material-lock.json` 和 `m2-static-gpu-lock.json` 为准。旧 M1 evidence 中的等待审查状态仅属于旧 neutral-source 路线，不再充当当前执行入口；这不补认旧路线的 pose-neutral 或生产验收。
 
 本文件是 Continuous Water 的唯一执行入口。它只记录 milestone 状态、边界和下一步；当前代码事实读取 [`docs/analysis/CURRENT_RUNTIME_FACTS.md`](../analysis/CURRENT_RUNTIME_FACTS.md)，产品冻结语义仍以正式 product authority 为准。
 
@@ -36,33 +38,33 @@ Current active milestone: **M1 — Neutral Water Material**
 
 ## M1 — Neutral Water Material
 
-- **Status:** ACTIVE
-- **Goal:** 建立 pose-neutral、静止时就属于 MindIsle 水体材质家族的 internal material。
+- **Status:** CLOSED / FROZEN — accepted single-view 025 baseline
+- **Goal:** 当前按人工裁决锁定浅、湿、软、完整的 Final Art 025 单视角外观。历史 pose-neutral 目标未被本轮补证。
 - **Frozen:** formal silhouette；center / radius / hitRadius；Frozen K2 endpoint；07–10 cold/warm optical identity；ProductState / interaction semantics；lifecycle / single-loop principles。
 - **Allowed:** `verification/` 或明确 `experimental/` 范围内的新 neutral material source、neutral volume、thickness / optical source、sparse water detail、material study、screenshots、diagnostics。Primary material reference = Candidate C；K0 restraint reference = Candidate D；final endpoint authority = Frozen K2。
 - **Forbidden:** 修改 production renderer；修改 frozen still v1 manifest；formation / deformation；core migration；timing；transitioning / moving；production migration。
-- **Acceptance:** Human Gate A — Material family PASS；Human Gate B — Neutral pose PASS。两个 gate 都通过后，`M1 = CLOSED/FROZEN`，`READY_FOR_M2 = YES`。
-- **Next:** 仅推进 Neutral Material 实验与两个人工 gate；不得提前进入 M2。
+- **Acceptance:** 人工已接受 highlight-soft 025 静态候选并允许进入 M2；具体锁定资产和范围见 `static-material-lock.json`。自由视角、形变下材质保持及 pose-neutral 原始命题未验证。
+- **Next:** 保持已接受 025 不动；旧 neutral-source 不再阻塞当前单视角实验。
 
 ## M2 — Static GPU Material
 
-- **Status:** BLOCKED
+- **Status:** CLOSED / FROZEN — human approved 2026-10-02
 - **Goal:** 将通过 M1 的 neutral material 建立为静态 GPU material study。
 - **Frozen:** M1 的 material identity、silhouette、K2 endpoint 和产品语义。
 - **Allowed:** 只在 M1 CLOSED 后验证静态 GPU pass、masking 和诊断。
 - **Forbidden:** formation、deformation、interaction timing、production migration。
-- **Acceptance:** 静态 GPU material 与 M1 authority 一致，并通过人工视觉 gate。
-- **Next:** 等待 M1 CLOSED。
+- **Acceptance:** 8 个锁定字段 GPU 回读、五背景切换和厚度消融；静态复现已人工确认。锁定 `cc9e59e` 中的 shader、字段哈希和显示参数，记录见 `m2-static-gpu-lock.json`。
+- **Next:** 开始 M3 首段隔离字段实验；不迁移 production。
 
 ## M3 — Continuous Field
 
-- **Status:** BLOCKED
+- **Status:** ACTIVE — first slice only
 - **Goal:** 在同一 body domain 内验证 continuous field / parameter interpolation。
 - **Frozen:** M1/M2 已通过的 material family、formal silhouette 和 K2 endpoint。
-- **Allowed:** D/R field、thickness、density、carrier 和参数插值的 experimental prototype。
+- **Allowed:** 首段只做同一固定 body domain 内的光学深度、cloudy density、局部折射与细节独立滑杆，以及这些参数的预设采样。025 起点必须回归 M2；球壳、轮廓和固定高光冻结。
 - **Forbidden:** full-frame state image crossfade、formation product semantics、production asset 替换。
-- **Acceptance:** continuous field 结构通过，且 K2 endpoint = PASS。
-- **Next:** 等待 M2 CLOSED。
+- **Acceptance:** 首段：真实滑杆输入、独立参数读取、重置回到锁定 025、多背景、壳区保持和连续性证据，之后等待人工视觉判断。完整 M3 仍要求 continuous field 与 K2 endpoint PASS；较厚试验值不得冒充 050/075/K2 authority。
+- **Next:** 首段审查通过后再裁决空间组织与 K2 接近路线；K2 当前 NOT_PROVEN，M4 继续 BLOCKED。
 
 ## M4 — Core Integration
 

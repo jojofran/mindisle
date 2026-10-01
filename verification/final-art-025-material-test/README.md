@@ -76,4 +76,10 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory verification/final-art-
 
 然后访问 `http://127.0.0.1:8765/m2-static-gpu-material.html`。
 
-本页的结论边界是“静态字段可被 GPU 读取并影响输出”，不是生产材质接入或动态材质成立。验证记录见 `m2-static-gpu-evidence.json`；它记录了浏览器加载状态、背景闸门、PNG 回读误差和厚度消融数值。当前 M2 仍保持实验态，生产 renderer、ProductState、formation、deformation、moving 和 M3 均未触碰。
+本页的结论边界是“静态字段可被 GPU 读取并影响输出”，不是生产材质接入或动态材质成立。验证记录见 `m2-static-gpu-evidence.json`；它记录了浏览器加载状态、背景闸门、PNG 回读误差和厚度消融数值。M2 已按 `m2-static-gpu-lock.json` 锁定，生产 renderer、ProductState、formation、deformation 和 moving 仍未触碰；M3 只从下面的首段隔离页面开始。
+
+## M3 首段连续字段研究
+
+入口：`m3-continuous-field-study.html`。这是 M2 之后的第一段连续字段实验，同一个固定球体使用同一组锁定 PNG，只开放四个真实 GPU uniform：`optical depth`、`cloudy density`、`local refraction`、`sparse detail`。`025 锁定` 和 `恢复 025` 都回到 M2 的默认值；`中段研究`、`深度研究` 只是 future transition study preset，不能当作 050、075 或 K2 authority。
+
+本页保持 spatial thickness、silhouette、formal film、reflection、center、radius 和 hitRadius 冻结，没有时间循环、状态变化、formation、deformation、core movement 或 production migration。`window.__M3_FIELD_STUDY__.inspect()` 可读取当前参数，`reset()` 可执行真实重置。证据见 `m3-continuous-field-evidence.json`。

@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.m2-static-gpu-evidence.v1",
-  "status": "READY_FOR_HUMAN_REVIEW",
+  "status": "LOCKED_BY_HUMAN_REVIEW",
   "milestone": "M2_STATIC_GPU_MATERIAL_STUDY",
   "scope": "静态 GPU 字段回读与复现；不代表 production migration 或动态材质成立。",
   "lock_source": "static-material-lock.json",
@@ -66,5 +66,12 @@
   "notes": [
     "GPU output and comparison preview share one rendered frame; no second WebGL context is used.",
     "The page is an isolated verification artifact and must not be treated as a production renderer."
-  ]
+  ],
+  "approval": {
+    "approved_by": "user",
+    "approved_on": "2026-10-02",
+    "decision": "继续锁定 然后开始下一步",
+    "scope": "接受 cc9e59e 的静态 GPU 复现；允许 M3 首段隔离字段实验，不是 production migration。"
+  },
+  "lock_record": "m2-static-gpu-lock.json"
 }
