@@ -1,6 +1,6 @@
 # WaterBall Continuous Water Roadmap
 
-Current active milestone: **M3 — Continuous Field / first bounded study**
+Current active milestone: **M3 — Continuous Field / bounded dynamic 2.5D study**
 
 2026-10-02 人工裁决：用户确认锁定已完成的 M2 静态 GPU 结果并开始下一步。当前实验起点以 `verification/final-art-025-material-test/static-material-lock.json` 和 `m2-static-gpu-lock.json` 为准。旧 M1 evidence 中的等待审查状态仅属于旧 neutral-source 路线，不再充当当前执行入口；这不补认旧路线的 pose-neutral 或生产验收。
 
@@ -61,10 +61,10 @@ Current active milestone: **M3 — Continuous Field / first bounded study**
 - **Status:** ACTIVE — first slice only
 - **Goal:** 在同一 body domain 内验证 continuous field / parameter interpolation。
 - **Frozen:** M1/M2 已通过的 material family、formal silhouette 和 K2 endpoint。
-- **Allowed:** 首段只做同一固定 body domain 内的光学深度、cloudy density、局部折射与细节独立滑杆，以及这些参数的预设采样。025 起点必须回归 M2；球壳、轮廓和固定高光冻结。
+- **Allowed:** 首段独立滑杆，以及第二段同一固定 body domain 内的连续播放、进度拖拽和沿既有 refraction field 的有界内部输运。025 起点必须回归 M2；球壳、轮廓和固定高光冻结。
 - **Forbidden:** full-frame state image crossfade、formation product semantics、production asset 替换。
-- **Acceptance:** 首段：真实滑杆输入、独立参数读取、重置回到锁定 025、多背景、壳区保持和连续性证据，之后等待人工视觉判断。完整 M3 仍要求 continuous field 与 K2 endpoint PASS；较厚试验值不得冒充 050/075/K2 authority。
-- **Next:** 首段审查通过后再裁决空间组织与 K2 接近路线；K2 当前 NOT_PROVEN，M4 继续 BLOCKED。
+- **Acceptance:** 首段真实滑杆与第二段播放/暂停/拖拽/重置、连续锚点帧、固定壳区、多背景和内部输运证据通过；视觉材质与运动感仍等待人工判断。完整 M3 仍要求 continuous field 与 K2 endpoint PASS；较厚试验值不得冒充 050/075/K2 authority。
+- **Next:** 先进行连续动态 2.5D 的人工审查，再裁决是否进入 core integration；K2 当前 NOT_PROVEN，M4 继续 BLOCKED。
 
 ## M4 — Core Integration
 

@@ -1,0 +1,149 @@
+{
+  "schema": "mindisle.m3-continuity-evidence.v1",
+  "status": "READY_FOR_HUMAN_REVIEW",
+  "milestone": "M3_CONTINUOUS_FIELD_SLICE_2",
+  "scope": "验证用动态 2.5D 内部字段连续预览；不实现 production 状态或 moving。",
+  "lock_source": "m2-static-gpu-lock.json",
+  "page": "m3-continuity-preview.html",
+  "renderer": {
+    "api": "WebGL2",
+    "locked_png_fields_sampled": 8,
+    "preserve_drawing_buffer": true,
+    "body_domain": "fixed single-view sphere"
+  },
+  "anchors": {
+    "025_locked": {
+      "progress": 0.0,
+      "authority": "locked"
+    },
+    "mid_depth_study": {
+      "progress": 0.5,
+      "authority": "study_only"
+    },
+    "deep_depth_study": {
+      "progress": 1.0,
+      "authority": "study_only"
+    },
+    "050_static_reference": "reference_only",
+    "K2_static_reference": "reference_only_not_interpolated"
+  },
+  "continuous_parameters": [
+    "optical depth",
+    "cloudy density",
+    "local refraction",
+    "sparse detail"
+  ],
+  "transport": {
+    "basis": "existing refraction field",
+    "max_uv_displacement": "bounded small advection",
+    "silhouette": "frozen",
+    "shell": "frozen",
+    "full_frame_crossfade": false
+  },
+  "controls": {
+    "play": "real requestAnimationFrame loop",
+    "pause": "stops loop and freezes frame",
+    "scrub": "progress input",
+    "reset": "returns neutral background and progress 0",
+    "inspect": "window.__M3_CONTINUITY_STUDY__.inspect()"
+  },
+  "field_sha256": {
+    "m3-continuity-preview.html": "e7576f997f81d75d778c4abb36f9cf74b6f4a80ad8aeb3ee0aded9f501f3103e",
+    "m3-continuous-field-evidence.json": "97138ad129ed3fafeb24cababdffc0868bb4f5dbc38f325871d2237ed0648e61",
+    "m2-static-gpu-lock.json": "e88b10ca22df05231069c865e90798e18286cff0d822c4616b36cb59afba13c7",
+    "field-optical-depth-025-reference-left-shadow-clean.png": "3dc08e9d7ad41feee7db6e32fb3f9334ffb221d0fcb10077a0c728fb39969c4f",
+    "field-reflected-light-025-reference-upper-clean.png": "23cc56eaf366013f4e589e852cdf4b4237fdbe80dd1dd9a6fb316cd1649ec7c2",
+    "field-internal-scatter-025-reference-left-shadow-clean.png": "822c770961ac672a0305f163f90ab8a582a8fa34104c980072fe4d6f5b1da09f",
+    "field-formal-film-025-reference-upper-clean.png": "0b03e2ebe390faf0ee615e81c22f22fcf5ebefbf3f6814c808c98f6acc463fc0",
+    "field-thickness.png": "6a37a210118a7b2815f74d017c8ee02e42db26e3012c7beb2beebeb4fcee6720",
+    "field-refraction-025-reference-soft.png": "a7927ae9924dca6121976869a656e33388501973e9cf1721f98cd9363012b43d",
+    "field-silhouette.png": "90e9092858b4e1bce72454081eed7445a84d46ae1766ca169c6947bf5d74609c",
+    "field-m1-detail.png": "42b9db840518f94109b7ccf8afb1bcb257a0c6798a40fbaa0dacb10523f503fe"
+  },
+  "browser_verification": {
+    "method": "ego-browser with local HTTP server",
+    "page_loaded": "WebGL2 loaded · 8 locked PNG fields · continuous parameter path · static verification only",
+    "anchor_states": [
+      {
+        "progress": 0.0,
+        "depth": 1.0,
+        "density": 1.0,
+        "refraction": 1.0,
+        "detail": 1.0
+      },
+      {
+        "progress": 0.25,
+        "depth": 1.085,
+        "density": 1.09,
+        "refraction": 0.915,
+        "detail": 1.04
+      },
+      {
+        "progress": 0.5,
+        "depth": 1.17,
+        "density": 1.18,
+        "refraction": 0.83,
+        "detail": 1.08
+      },
+      {
+        "progress": 0.75,
+        "depth": 1.265,
+        "density": 1.27,
+        "refraction": 0.94,
+        "detail": 1.18
+      },
+      {
+        "progress": 1.0,
+        "depth": 1.36,
+        "density": 1.36,
+        "refraction": 1.05,
+        "detail": 1.28
+      }
+    ],
+    "adjacent_frame_delta_255": [
+      {
+        "from": 0.0,
+        "to": 0.25,
+        "mean_abs": 0.7357227366,
+        "max": 4
+      },
+      {
+        "from": 0.25,
+        "to": 0.5,
+        "mean_abs": 0.7241049383,
+        "max": 4
+      },
+      {
+        "from": 0.5,
+        "to": 0.75,
+        "mean_abs": 0.7960519547,
+        "max": 4
+      },
+      {
+        "from": 0.75,
+        "to": 1.0,
+        "mean_abs": 0.7813863163,
+        "max": 4
+      }
+    ],
+    "play_pause_reset": "PASS",
+    "playback_observed": "progress advanced monotonically from 0.500 to 0.507 during browser run; pause held the sampled state; reset returned progress 0 and 025 parameters."
+  },
+  "acceptance": {
+    "same_body_domain": "PASS_STATIC_SILHOUETTE",
+    "continuous_anchor_path": "PASS",
+    "play_pause_scrub_reset": "PASS",
+    "no_runtime_state": "PASS_STATIC_VERIFICATION",
+    "visual_material_gate": "AWAITING_HUMAN_REVIEW",
+    "m3_full_closed": false,
+    "k2_endpoint": "NOT_PROVEN"
+  },
+  "boundaries": [
+    "no ProductState changes",
+    "no formation/deformation",
+    "no core movement",
+    "no moving",
+    "no production renderer/assets",
+    "no full-frame RGB crossfade"
+  ]
+}

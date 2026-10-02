@@ -83,3 +83,9 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory verification/final-art-
 入口：`m3-continuous-field-study.html`。这是 M2 之后的第一段连续字段实验，同一个固定球体使用同一组锁定 PNG，只开放四个真实 GPU uniform：`optical depth`、`cloudy density`、`local refraction`、`sparse detail`。`025 锁定` 和 `恢复 025` 都回到 M2 的默认值；`中段研究`、`深度研究` 只是 future transition study preset，不能当作 050、075 或 K2 authority。
 
 本页保持 spatial thickness、silhouette、formal film、reflection、center、radius 和 hitRadius 冻结，没有时间循环、状态变化、formation、deformation、core movement 或 production migration。`window.__M3_FIELD_STUDY__.inspect()` 可读取当前参数，`reset()` 可执行真实重置。证据见 `m3-continuous-field-evidence.json`。
+
+## M3 连续动态 2.5D 预览
+
+入口：`m3-continuity-preview.html`。这是在同一固定 body domain 上的下一段实验：025、mid-depth、deep-depth 作为同一条参数路径的锚点，内部字段沿已有 refraction field 做有界的小幅输运。页面提供真实播放、暂停、进度拖拽和回到 025，`window.__M3_CONTINUITY_STUDY__.inspect()` 可读取当前连续位置。
+
+这不是三张静态图的交叉淡化，也不是 production 的 `ProductState`、`transitioning` 或 `moving`。K2 仅作为静态终点参照，当前不向 K2 插值。相邻锚点帧、播放/暂停/重置和边界记录见 `m3-continuity-evidence.json`。
