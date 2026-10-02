@@ -1,0 +1,22 @@
+{
+  "schema": "mindisle.k2-interior-field-study.v1",
+  "status": "PASS_BROWSER_PROTECTION_GATE__READY_FOR_HUMAN_REVIEW",
+  "scope": "A shell/core/silhouette frozen; B interior-only field study",
+  "authority": "k2-authority-study/a-authority.png",
+  "secondary_reference": "k2-authority-study/b-internal-reference.png",
+  "mask": "k2-authority-study/b-internal-mask.png",
+  "page": "k2-interior-field-study.html",
+  "controls": ["fieldStrength", "flow", "background", "reset", "qualityCheck"],
+  "boundaries": ["no ProductState", "no formation/deformation", "no core movement", "no moving", "no production migration", "no runtime interpolation"],
+  "browser_check": {
+    "status": "PASS",
+    "browser": "Codex In-app Browser",
+    "webgl2": true,
+    "samples": [0, 0.25, 0.5, 0.75, 1],
+    "max_outside_rgb": 0,
+    "max_protected_rgb": 0,
+    "min_interior_mean_abs_rgb": 0.8586215824643166,
+    "controls_verified": ["fieldStrength", "flow", "dark_background", "reset", "qualityCheck"]
+  },
+  "human_review": "PENDING"
+}

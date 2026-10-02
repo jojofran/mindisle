@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.k2-endpoint-gate.v1",
-  "status": "K2_STATIC_CANDIDATE_LOCKED__INDEPENDENT_FIELD_PENDING",
+  "status": "K2_INTERIOR_FIELD_BROWSER_PASS__HUMAN_REVIEW_PENDING",
   "milestone": "M3_CONTINUOUS_FIELD",
   "scope": "只验证 K2 endpoint 是否具备可复核的连续材质输入；不修改 production，不实现 runtime interpolation。",
   "current_continuity_slice": {
@@ -42,12 +42,13 @@
     "continuous_path_to_k2": "BLOCKED",
     "production_migration": "NOT_STARTED",
     "source_package_consistency": "FAIL_MANIFEST_VS_STATIC_COMPOSITE",
-    "authority_selection": "PASS_USER_A_B_INTERIOR"
+    "authority_selection": "PASS_USER_A_B_INTERIOR",
+    "interior_field_protection": "PASS_BROWSER"
   },
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "If a dynamic study is authorized, create a controlled B-interior field while keeping the accepted A shell, silhouette and core frozen.",
+    "next_required": "Review k2-interior-field-study.html visually; do not infer runtime or M4 readiness from the browser gate.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -82,5 +83,14 @@
     "candidate_verdict": "A shell/core + B interior 最好",
     "candidate_file": "k2-authority-study/a-authority-b-internal-study.png",
     "candidate_status": "HUMAN_REVIEW_PASS__STATIC_CANDIDATE_LOCKED"
+  },
+  "interior_field_study": {
+    "page": "k2-interior-field-study.html",
+    "evidence": "k2-interior-field-evidence.json",
+    "status": "PASS_BROWSER_PROTECTION_GATE__READY_FOR_HUMAN_REVIEW",
+    "max_outside_rgb": 0,
+    "max_protected_rgb": 0,
+    "min_interior_mean_abs_rgb": 0.8586215824643166,
+    "human_review": "PENDING"
   }
 }
