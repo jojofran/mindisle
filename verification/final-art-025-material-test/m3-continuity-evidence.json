@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.m3-continuity-evidence.v1",
-  "status": "READY_FOR_HUMAN_REVIEW",
+  "status": "HUMAN_REVIEW_PASS__NEXT_GATE_K2_ENDPOINT",
   "milestone": "M3_CONTINUOUS_FIELD_SLICE_3",
   "scope": "验证用动态 2.5D 内部字段连续预览与 silhouette 稳定性闸门；不实现 production 状态或 moving。",
   "lock_source": "m2-static-gpu-lock.json",
@@ -154,7 +154,7 @@
     "continuous_anchor_path": "PASS",
     "play_pause_scrub_reset": "PASS",
     "no_runtime_state": "PASS_STATIC_VERIFICATION",
-    "visual_material_gate": "AWAITING_HUMAN_REVIEW",
+    "visual_material_gate": "PASS_HUMAN_2026-10-02",
     "m3_full_closed": false,
     "k2_endpoint": "NOT_PROVEN",
     "continuity_quality_gate": "PASS_BROWSER_NEUTRAL",
@@ -167,5 +167,19 @@
     "no moving",
     "no production renderer/assets",
     "no full-frame RGB crossfade"
-  ]
+  ],
+  "human_review": {
+    "verdict": "PASS",
+    "scope": "M3 continuous dynamic 2.5D preview and silhouette stability gate",
+    "source": "direct user review",
+    "recorded": "2026-10-02",
+    "note": "User confirmed the current preview can PASS and proceed to the next step."
+  },
+  "next_gate": {
+    "name": "K2_ENDPOINT_GATE",
+    "status": "BLOCKED_PENDING_ENDPOINT_EVIDENCE",
+    "reason": "K2 is currently a static reference only; no K2 field set or continuous endpoint proof is available.",
+    "required_before_m4": true,
+    "production_migration": false
+  }
 }
