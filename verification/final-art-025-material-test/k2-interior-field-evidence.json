@@ -24,5 +24,10 @@
       "sample_paused": {"fieldStrength": 0.991, "flow": 0.456, "playing": false}
     }
   },
-  "human_review": "PENDING"
+  "human_review": {
+    "status": "PASS",
+    "recorded": "2026-10-03",
+    "verdict": "自动播放的内部变化自然",
+    "scope": "autoplay feel only; K2 endpoint and M4 remain open"
+  }
 }

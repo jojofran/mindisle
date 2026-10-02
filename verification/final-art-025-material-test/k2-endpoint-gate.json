@@ -91,6 +91,11 @@
     "max_outside_rgb": 0,
     "max_protected_rgb": 0,
     "min_interior_mean_abs_rgb": 0.8586215824643166,
-    "human_review": "PENDING"
+    "human_review": {
+      "status": "PASS_AUTOPLAY_FEEL",
+      "recorded": "2026-10-03",
+      "verdict": "自动播放的内部变化自然",
+      "scope": "autoplay feel only; independent K2 field proof and M4 remain open"
+    }
   }
 }
