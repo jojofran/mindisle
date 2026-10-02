@@ -68,7 +68,7 @@ metrics={
 }
 report={
  'schema':'mindisle.k2-authority-study.v1',
- 'status':'READY_FOR_HUMAN_REVIEW',
+ 'status':'HUMAN_REVIEW_PASS__K2_STATIC_CANDIDATE_LOCKED',
  'scope':'A fixed K2 static authority with B interior texture study; no runtime interpolation',
  'authority':{'id':'A','file':'test/water-orb-still/2p5d-composite-v1/static_composite.png','role':'FROZEN_STATIC_K2_AUTHORITY'},
  'secondary_reference':{'id':'B','file':'test/water-orb-still/2p5d-composite-v1/reference_foundation.png','role':'INTERIOR_TEXTURE_AND_FLOW_REFERENCE_ONLY','core':'NOT_INHERITED'},
@@ -76,7 +76,8 @@ report={
  'mask':'b-internal-mask.png',
  'delta':'b-internal-delta.png',
  'metrics':metrics,
- 'decision':'Human review whether B interior organization is useful while A shell/core identity remains intact.',
+ 'human_review':{'status':'PASS','recorded':'2026-10-03','verdict':'A shell/core + B interior 最好','locked_candidate':'a-authority-b-internal-study.png'},
+ 'decision':'Lock A shell/core with B interior organization as the best current K2 static candidate; independent movable field proof is still required.',
  'boundaries':['no ProductState','no formation/deformation','no core movement','no moving','no production migration','no runtime interpolation'],
  'files_sha256':{p.name:digest(p) for p in sorted(OUT.glob('*.png'))}
 }

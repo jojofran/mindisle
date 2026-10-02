@@ -64,7 +64,7 @@ Current active milestone: **M3 — Continuous Field / bounded dynamic 2.5D study
 - **Allowed:** 首段独立滑杆，以及同一固定 body domain 内的连续播放、进度拖拽和沿既有 refraction field 的有界内部输运。025 起点必须回归 M2；silhouette 以 base UV 冻结，球壳、轮廓和固定高光冻结。
 - **Forbidden:** full-frame state image crossfade、formation product semantics、production asset 替换。
 - **Acceptance:** 首段真实滑杆与第二段播放/暂停/拖拽/重置、连续锚点帧、固定壳区、多背景和内部输运证据通过；连续性闸门在中性背景采样 0/.25/.5/.75/1，外部背景最大漂移为 0，平滑比 1.099，状态可恢复。视觉材质与运动感已获人工 PASS。完整 M3 仍要求 continuous field 与 K2 endpoint PASS；较厚试验值不得冒充 050/075/K2 authority。
-- **Next:** 用户已裁决 A（`static_composite.png`）为 K2 静态 authority，B（`reference_foundation.png`）只作为内部纹理/流向参考，B 的 core 不继承。下一步审查 `k2-authority-study.html`：A 的 shell、silhouette、core 冻结，只有内部研究允许参考 B。此前 manifest 与 static_composite 的源包不一致仍保留为证据；M4 继续 BLOCKED。
+- **Next:** 用户已确认 `A shell/core + B interior` 最好；候选 `a-authority-b-internal-study.png` 已人工通过并锁定为当前 K2 静态候选。A 的 shell、silhouette、core 继续冻结，B 只提供内部纹理/流向参考。若后续获准推进，再建立受控 B-interior field；此前 manifest 与 static_composite 的源包不一致仍保留为证据，独立 field proof 未完成，M4 继续 BLOCKED。
 
 ## M4 — Core Integration
 

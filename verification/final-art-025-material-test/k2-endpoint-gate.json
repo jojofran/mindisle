@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.k2-endpoint-gate.v1",
-  "status": "AUTHORITY_SELECTED__A_B_INTERNAL_STUDY_NEXT",
+  "status": "K2_STATIC_CANDIDATE_LOCKED__INDEPENDENT_FIELD_PENDING",
   "milestone": "M3_CONTINUOUS_FIELD",
   "scope": "只验证 K2 endpoint 是否具备可复核的连续材质输入；不修改 production，不实现 runtime interpolation。",
   "current_continuity_slice": {
@@ -42,12 +42,12 @@
     "continuous_path_to_k2": "BLOCKED",
     "production_migration": "NOT_STARTED",
     "source_package_consistency": "FAIL_MANIFEST_VS_STATIC_COMPOSITE",
-    "authority_selection": "PASS_USER_A"
+    "authority_selection": "PASS_USER_A_B_INTERIOR"
   },
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "Review k2-authority-study.html; if accepted, create a controlled B-interior field study while keeping A shell, silhouette and core frozen.",
+    "next_required": "If a dynamic study is authorized, create a controlled B-interior field while keeping the accepted A shell, silhouette and core frozen.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -78,6 +78,9 @@
     "recorded": "2026-10-03",
     "B_role": "INTERIOR_TEXTURE_AND_FLOW_REFERENCE_ONLY",
     "B_core": "NOT_INHERITED",
-    "shell_core_rule": "A shell, silhouette and core remain frozen"
+    "shell_core_rule": "A shell, silhouette and core remain frozen",
+    "candidate_verdict": "A shell/core + B interior 最好",
+    "candidate_file": "k2-authority-study/a-authority-b-internal-study.png",
+    "candidate_status": "HUMAN_REVIEW_PASS__STATIC_CANDIDATE_LOCKED"
   }
 }

@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.k2-authority-study.v1",
-  "status": "READY_FOR_HUMAN_REVIEW",
+  "status": "HUMAN_REVIEW_PASS__K2_STATIC_CANDIDATE_LOCKED",
   "scope": "A fixed K2 static authority with B interior texture study; no runtime interpolation",
   "authority": {
     "id": "A",
@@ -27,7 +27,13 @@
     "runtime": false,
     "production": false
   },
-  "decision": "Human review whether B interior organization is useful while A shell/core identity remains intact.",
+  "human_review": {
+    "status": "PASS",
+    "recorded": "2026-10-03",
+    "verdict": "A shell/core + B interior 最好",
+    "locked_candidate": "a-authority-b-internal-study.png"
+  },
+  "decision": "Lock A shell/core with B interior organization as the best current K2 static candidate; independent movable field proof is still required.",
   "boundaries": [
     "no ProductState",
     "no formation/deformation",
