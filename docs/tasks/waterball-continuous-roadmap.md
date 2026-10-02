@@ -64,7 +64,7 @@ Current active milestone: **M3 — Continuous Field / bounded dynamic 2.5D study
 - **Allowed:** 首段独立滑杆，以及同一固定 body domain 内的连续播放、进度拖拽和沿既有 refraction field 的有界内部输运。025 起点必须回归 M2；silhouette 以 base UV 冻结，球壳、轮廓和固定高光冻结。
 - **Forbidden:** full-frame state image crossfade、formation product semantics、production asset 替换。
 - **Acceptance:** 首段真实滑杆与第二段播放/暂停/拖拽/重置、连续锚点帧、固定壳区、多背景和内部输运证据通过；连续性闸门在中性背景采样 0/.25/.5/.75/1，外部背景最大漂移为 0，平滑比 1.099，状态可恢复。视觉材质与运动感已获人工 PASS。完整 M3 仍要求 continuous field 与 K2 endpoint PASS；较厚试验值不得冒充 050/075/K2 authority。
-- **Next:** 进入 K2 endpoint gate：先获得可复核的 K2 连续终点证据，再裁决是否进入 core integration；K2 当前 NOT_PROVEN，M4 继续 BLOCKED。
+- **Next:** K2 endpoint gate 已完成资产审计但被阻塞：当前只有静态 K2 PNG 和 pose-dependent 07–10 layers，没有独立 K2 optical field。先补齐可复核的 endpoint field、provenance 和 GPU 重建证据，再裁决是否进入 core integration；M4 继续 BLOCKED。证据见 `verification/final-art-025-material-test/k2-endpoint-gate.json`。
 
 ## M4 — Core Integration
 

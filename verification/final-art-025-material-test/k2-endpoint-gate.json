@@ -1,0 +1,59 @@
+{
+  "schema": "mindisle.k2-endpoint-gate.v1",
+  "status": "BLOCKED_PENDING_CONTINUOUS_ENDPOINT_SOURCE",
+  "milestone": "M3_CONTINUOUS_FIELD",
+  "scope": "只验证 K2 endpoint 是否具备可复核的连续材质输入；不修改 production，不实现 runtime interpolation。",
+  "current_continuity_slice": {
+    "status": "PASS_HUMAN",
+    "evidence": "m3-continuity-evidence.json",
+    "note": "025 → mid-depth → deep-depth 连续预览已获人工 PASS。"
+  },
+  "endpoint_authority": {
+    "file": "inputs/frozen-k2-final-art.png",
+    "authority": "FROZEN_STATIC_REFERENCE_ONLY",
+    "sha256": "7a5b136727acec919addd6a42855dac6d8dc901da54607dbacfcfb6b5fab7601"
+  },
+  "available_sources": [
+    {
+      "file": "layer-07-cool-point-core.png",
+      "role": "pose-dependent cool core",
+      "suitability": "NOT_INDEPENDENT_K2_FIELD"
+    },
+    {
+      "file": "layer-08-cool-point-glow.png",
+      "role": "pose-dependent cool glow",
+      "suitability": "NOT_INDEPENDENT_K2_FIELD"
+    },
+    {
+      "file": "layer-09-warm-point-core.png",
+      "role": "pose-dependent warm core",
+      "suitability": "NOT_INDEPENDENT_K2_FIELD"
+    },
+    {
+      "file": "layer-10-warm-point-glow.png",
+      "role": "pose-dependent warm glow",
+      "suitability": "NOT_INDEPENDENT_K2_FIELD"
+    }
+  ],
+  "checks": {
+    "static_k2_reference_present": "PASS",
+    "independent_k2_optical_field_set": "FAIL_NOT_AVAILABLE",
+    "reproducible_k2_gpu_endpoint": "BLOCKED",
+    "continuous_path_to_k2": "BLOCKED",
+    "production_migration": "NOT_STARTED"
+  },
+  "decision": {
+    "m3": "NOT_CLOSED",
+    "m4": "BLOCKED",
+    "next_required": "Provide or derive an approved K2 endpoint field set with provenance, channel contract, and reproducible GPU render evidence.",
+    "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
+  },
+  "boundaries": [
+    "no ProductState changes",
+    "no formation/deformation",
+    "no core movement",
+    "no moving",
+    "no production renderer/assets",
+    "no runtime interpolation"
+  ]
+}

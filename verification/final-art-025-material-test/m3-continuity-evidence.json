@@ -177,9 +177,10 @@
   },
   "next_gate": {
     "name": "K2_ENDPOINT_GATE",
-    "status": "BLOCKED_PENDING_ENDPOINT_EVIDENCE",
+    "status": "BLOCKED_PENDING_CONTINUOUS_ENDPOINT_SOURCE",
     "reason": "K2 is currently a static reference only; no K2 field set or continuous endpoint proof is available.",
     "required_before_m4": true,
-    "production_migration": false
+    "production_migration": false,
+    "evidence": "k2-endpoint-gate.json"
   }
 }
