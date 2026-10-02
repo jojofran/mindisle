@@ -1,8 +1,8 @@
 {
   "schema": "mindisle.m3-continuity-evidence.v1",
   "status": "READY_FOR_HUMAN_REVIEW",
-  "milestone": "M3_CONTINUOUS_FIELD_SLICE_2",
-  "scope": "验证用动态 2.5D 内部字段连续预览；不实现 production 状态或 moving。",
+  "milestone": "M3_CONTINUOUS_FIELD_SLICE_3",
+  "scope": "验证用动态 2.5D 内部字段连续预览与 silhouette 稳定性闸门；不实现 production 状态或 moving。",
   "lock_source": "m2-static-gpu-lock.json",
   "page": "m3-continuity-preview.html",
   "renderer": {
@@ -36,7 +36,7 @@
   "transport": {
     "basis": "existing refraction field",
     "max_uv_displacement": "bounded small advection",
-    "silhouette": "frozen",
+    "silhouette": "frozen at baseUv; internal field advection cannot move the outer shell",
     "shell": "frozen",
     "full_frame_crossfade": false
   },
@@ -48,7 +48,7 @@
     "inspect": "window.__M3_CONTINUITY_STUDY__.inspect()"
   },
   "field_sha256": {
-    "m3-continuity-preview.html": "e7576f997f81d75d778c4abb36f9cf74b6f4a80ad8aeb3ee0aded9f501f3103e",
+    "m3-continuity-preview.html": "ff3abecc436865d803e86b9004e47ea9b63f25a36a0ab098bb74e09b19d9f29a",
     "m3-continuous-field-evidence.json": "97138ad129ed3fafeb24cababdffc0868bb4f5dbc38f325871d2237ed0648e61",
     "m2-static-gpu-lock.json": "e88b10ca22df05231069c865e90798e18286cff0d822c4616b36cb59afba13c7",
     "field-optical-depth-025-reference-left-shadow-clean.png": "3dc08e9d7ad41feee7db6e32fb3f9334ffb221d0fcb10077a0c728fb39969c4f",
@@ -104,30 +104,50 @@
       {
         "from": 0.0,
         "to": 0.25,
-        "mean_abs": 0.7357227366,
-        "max": 4
+        "mean_abs": 1.4123986983,
+        "max": 10
       },
       {
         "from": 0.25,
         "to": 0.5,
-        "mean_abs": 0.7241049383,
-        "max": 4
+        "mean_abs": 1.3903452919,
+        "max": 10
       },
       {
         "from": 0.5,
         "to": 0.75,
-        "mean_abs": 0.7960519547,
-        "max": 4
+        "mean_abs": 1.5277594813,
+        "max": 10
       },
       {
         "from": 0.75,
         "to": 1.0,
-        "mean_abs": 0.7813863163,
-        "max": 4
+        "mean_abs": 1.4996462673,
+        "max": 10
       }
     ],
     "play_pause_reset": "PASS",
-    "playback_observed": "progress advanced monotonically from 0.500 to 0.507 during browser run; pause held the sampled state; reset returned progress 0 and 025 parameters."
+    "playback_observed": "progress advanced monotonically from 0.000 to 0.015 during a 2.4 second browser run; pause held progress 0.015; reset returned progress 0 and 025 parameters.",
+    "continuity_quality_gate": {
+      "background": "neutral",
+      "samples": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
+      "outside_mask": "baseline silhouette mask expanded by two pixels to exclude anti-aliased edge from external-background check",
+      "outside_max_rgb_sum": 0,
+      "inside_mean_range_rgb": [
+        1.3903452919,
+        1.5277594813
+      ],
+      "smooth_ratio": 1.0988345774,
+      "criterion": "outside_max_rgb_sum <= 1; 0 < inside mean < 6; smooth_ratio < 2",
+      "pass": true,
+      "state_restored": "PASS: neutral background, progress 0, paused, 025 parameters"
+    }
   },
   "acceptance": {
     "same_body_domain": "PASS_STATIC_SILHOUETTE",
@@ -136,7 +156,9 @@
     "no_runtime_state": "PASS_STATIC_VERIFICATION",
     "visual_material_gate": "AWAITING_HUMAN_REVIEW",
     "m3_full_closed": false,
-    "k2_endpoint": "NOT_PROVEN"
+    "k2_endpoint": "NOT_PROVEN",
+    "continuity_quality_gate": "PASS_BROWSER_NEUTRAL",
+    "silhouette_stability": "PASS_FIXED_BASE_UV"
   },
   "boundaries": [
     "no ProductState changes",

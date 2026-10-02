@@ -88,4 +88,4 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory verification/final-art-
 
 入口：`m3-continuity-preview.html`。这是在同一固定 body domain 上的下一段实验：025、mid-depth、deep-depth 作为同一条参数路径的锚点，内部字段沿已有 refraction field 做有界的小幅输运。页面提供真实播放、暂停、进度拖拽和回到 025，`window.__M3_CONTINUITY_STUDY__.inspect()` 可读取当前连续位置。
 
-这不是三张静态图的交叉淡化，也不是 production 的 `ProductState`、`transitioning` 或 `moving`。K2 仅作为静态终点参照，当前不向 K2 插值。相邻锚点帧、播放/暂停/重置和边界记录见 `m3-continuity-evidence.json`。
+这不是三张静态图的交叉淡化，也不是 production 的 `ProductState`、`transitioning` 或 `moving`。内部字段可以沿 refraction 方向做小幅输运，但 silhouette 固定使用 base UV，外轮廓不随内部变化漂移。页面的“运行连续性闸门”会在中性背景采样 0/.25/.5/.75/1，检查外部背景稳定、内部变化非零和平滑比，并在结束后恢复原状态。K2 仅作为静态终点参照，当前不向 K2 插值。相邻锚点帧、播放/暂停/重置、连续性闸门和边界记录见 `m3-continuity-evidence.json`。
