@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MindIsle WaterBall · K2 Source Decision</title>
+<style>
+:root{color-scheme:light;--ink:#183b45;--muted:#5f7b82;--line:#d7e7e9;--panel:#f2f8f8;--warn:#87512f}*{box-sizing:border-box}body{margin:0;background:#eef6f7;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif}main{max-width:1180px;margin:0 auto;padding:32px 24px 56px}h1{margin:0 0 8px;font-size:28px}h2{font-size:18px;margin:28px 0 12px}.lead{max-width:950px;line-height:1.65;color:var(--muted)}.gate{border-left:3px solid var(--warn);padding:12px 16px;background:#fff3ed;color:#6f4b39;line-height:1.65}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:rgba(255,255,255,.84);border:1px solid var(--line);border-radius:14px;padding:12px}.card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#9aa6aa}.card h3{font-size:15px;margin:10px 0 4px}.caption{font-size:12px;color:var(--muted);line-height:1.5}.decision{background:var(--panel);border-radius:12px;padding:14px;line-height:1.7}.decision code{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;background:#fff;padding:2px 5px;border-radius:4px}@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){main{padding:24px 16px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><main>
+<h1>K2 Source Decision</h1>
+<p class="lead">这里不审 shader，也不审参数。只裁决：哪一张图才是 K2 静态 authority。四张图已经统一裁成同一个球体范围和尺寸。</p>
+<div class="gate"><strong>当前问题：</strong>冻结静态复合图与 manifest 图层重合成不一致。若没有一张被你确认的 authority，不能继续推导 K2 动态字段。</div>
+<h2>四个候选</h2>
+<section class="grid">
+  <div class="card"><img src="k2-source-study/k2-reference-static-composite.png" alt="static composite"><h3>A · static_composite</h3><div class="caption">当前冻结静态复合图。完整、柔和、内部有连续 cyan 体积。当前默认参考。</div></div>
+  <div class="card"><img src="k2-source-study/k2-reference-foundation.png" alt="reference foundation"><h3>B · reference_foundation</h3><div class="caption">参考 foundation。外观接近 A，用于确认是否应以 reference foundation 为源。</div></div>
+  <div class="card"><img src="k2-source-study/k2-layer-native-reconstruction.png" alt="layer native reconstruction"><h3>C · manifest layer-native</h3><div class="caption">按正式 00–11 图层和 manifest 顺序重合成。可见噪声、线条和硬结构，与 A/B 不一致。</div></div>
+  <div class="card"><img src="k2-source-study/k2-candidate-reconstruction-neutral.png" alt="candidate optical reconstruction"><h3>D · candidate optical field</h3><div class="caption">从图层派生 optical/scatter/reflection 后重建。当前内部偏平，不能冒充 K2 authority。</div></div>
+</section>
+<h2>你只需要给一个裁决</h2>
+<div class="decision">
+<p><code>A</code> = K2 authority 是 static_composite；允许后续围绕 A 修复/重建字段。</p>
+<p><code>B</code> = K2 authority 是 reference_foundation；允许后续围绕 B 修复/重建字段。</p>
+<p><code>C</code> = manifest 图层重合成才是 authority；接受它与 A/B 的视觉差异。</p>
+<p><code>D</code> = candidate optical field 可以作为 authority。</p>
+<p><code>NONE</code> = 四者都不是，需要新的 authored K2 source。</p>
+</div>
+<p class="caption">当前建议：A 或 B。C/D 会把当前已确认的源冲突继续带入下一步。</p>
+<p><a href="k2-source-study.html">查看完整 feasibility study</a> · <a href="k2-endpoint-gate.json">查看 gate 证据</a></p>
+</main></body></html>
