@@ -6,7 +6,7 @@
   "secondary_reference": "k2-authority-study/b-internal-reference.png",
   "mask": "k2-authority-study/b-internal-mask.png",
   "page": "k2-interior-field-study.html",
-  "controls": ["fieldStrength", "flow", "background", "reset", "qualityCheck"],
+  "controls": ["fieldStrength", "flow", "autoplay", "pause", "background", "reset", "qualityCheck"],
   "boundaries": ["no ProductState", "no formation/deformation", "no core movement", "no moving", "no production migration", "no runtime interpolation"],
   "browser_check": {
     "status": "PASS",
@@ -16,7 +16,13 @@
     "max_outside_rgb": 0,
     "max_protected_rgb": 0,
     "min_interior_mean_abs_rgb": 0.8586215824643166,
-    "controls_verified": ["fieldStrength", "flow", "dark_background", "reset", "qualityCheck"]
+    "controls_verified": ["fieldStrength", "flow", "dark_background", "autoplay", "pause", "reset", "qualityCheck"],
+    "autoplay_state": {
+      "play_verified": true,
+      "sample_playing": {"fieldStrength": 0.545, "flow": 0.991, "playing": true},
+      "pause_verified": true,
+      "sample_paused": {"fieldStrength": 0.991, "flow": 0.456, "playing": false}
+    }
   },
   "human_review": "PENDING"
 }

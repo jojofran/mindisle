@@ -98,6 +98,6 @@ K2 source decision 入口：`k2-source-decision.html`。先只裁决 K2 authorit
 
 A/B authority study 入口：`k2-authority-study.html`。人工已裁决 **A shell/core + B interior 最好**，候选已锁定为当前 K2 静态候选；A 的 shell/core 冻结，B 只作为内部纹理和流向研究。
 
-K2 interior field study 入口：`k2-interior-field-study.html`。只在 A 的固定 shell、silhouette、core 内部验证 B 的 field strength 和有限 flow 偏移；证据见 `k2-interior-field-evidence.json`。本页不接入 production，也不解除 K2 endpoint / M4 阻塞。
+K2 interior field study 入口：`k2-interior-field-study.html`。只在 A 的固定 shell、silhouette、core 内部验证 B 的 field strength 和有限 flow 偏移；页面提供仅供审查的自动播放/暂停；证据见 `k2-interior-field-evidence.json`。本页不接入 production，也不解除 K2 endpoint / M4 阻塞。
 
 K2 source feasibility study 入口：`k2-source-study.html`。它展示从正式静止图层派生的诊断候选字段和一次固定视角重建。第 5 轮还发现 manifest 图层重合成与 `static_composite.png` 不一致：全画布平均误差为 3.2984/255，球体区域为 15.836/255。因此不能继续靠参数调节伪造 K2 endpoint，必须先修正源包 provenance 或提供新的 authored K2 field source。
