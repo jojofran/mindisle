@@ -22,6 +22,10 @@ OUT = Path(__file__).resolve().parent / "k2-source-study"
 SIZE = 360
 SPHERE_BBOX = (88, 586, 766, 1265)
 NEUTRAL = np.array([154, 166, 170], dtype=np.float64) / 255.0
+OPTICAL_DEPTH_SCALE = 0.28
+VOLUME_SCATTER_SCALE = 0.68
+FLOW_SCATTER_SCALE = 0.42
+VOLUME_ALPHA_GAIN = 4.0
 
 LAYER_NAMES = {
     "outer": "layers/01_outer_film.png",
@@ -74,21 +78,24 @@ def linear_to_srgb(value: np.ndarray) -> np.ndarray:
 
 def main() -> None:
     layers = {key: crop_rgba(SOURCE / path) for key, path in LAYER_NAMES.items()}
-    silhouette = layers["outer"][..., 3]
+    outer_alpha = layers["outer"][..., 3]
     volume_alpha = layers["volume"][..., 3]
+    boundary_alpha = layers["boundary"][..., 3]
+    silhouette = np.maximum.reduce([outer_alpha, volume_alpha, boundary_alpha])
     volume_luma = np.dot(layers["volume"][..., :3], np.array([0.2126, 0.7152, 0.0722]))
     optical = np.clip(volume_luma * volume_alpha, 0, 1)
     inside = silhouette > 0.05
     if inside.any():
         optical /= max(float(np.percentile(optical[inside], 95)), 1e-6)
-    optical = np.clip(optical, 0, 1)
+    optical = np.clip(optical * OPTICAL_DEPTH_SCALE, 0, 1)
 
     flow = np.zeros((SIZE, SIZE, 3), dtype=np.float64)
     flow_rgba = np.dstack([flow, np.zeros((SIZE, SIZE))])
     for key in ("flow_a", "flow_b", "ink"):
         flow_rgba[..., :3] = alpha_over(flow_rgba[..., :3], layers[key])
-    scatter = np.clip(flow_rgba[..., :3], 0, 1)
-    scatter_alpha = np.maximum(flow_rgba[..., 3], silhouette * 0.18)
+    volume_scatter = layers["volume"][..., :3] * np.clip(volume_alpha * VOLUME_ALPHA_GAIN, 0, 1)[..., None]
+    scatter = np.clip(volume_scatter * VOLUME_SCATTER_SCALE + flow_rgba[..., :3] * FLOW_SCATTER_SCALE, 0, 1)
+    scatter_alpha = np.maximum.reduce([np.clip(volume_alpha * VOLUME_ALPHA_GAIN, 0, 1) * VOLUME_SCATTER_SCALE, flow_rgba[..., 3], silhouette * 0.18])
 
     reflection = layers["curvature"][..., :3]
     reflection_alpha = layers["curvature"][..., 3]
@@ -115,10 +122,10 @@ def main() -> None:
     radius = np.sqrt((xx - center) ** 2 + (yy - center) ** 2) / (SIZE * 0.46)
     path = np.clip(np.sqrt(np.maximum(1 - radius * radius, 0)), 0, 1)
     background = np.broadcast_to(NEUTRAL, (SIZE, SIZE, 3)).copy()
-    transmission = np.exp(-np.repeat(optical[..., None], 3, axis=2) * 1.8 * path[..., None])
+    transmission = np.exp(-np.repeat(optical[..., None], 3, axis=2) * 1.35 * path[..., None])
     reconstructed_linear = srgb_to_linear(background) * transmission
-    reconstructed_linear += srgb_to_linear(scatter) * (scatter_alpha[..., None] * 0.35)
-    reconstructed_linear += srgb_to_linear(reflection) * (reflection_alpha[..., None] * 0.35)
+    reconstructed_linear += srgb_to_linear(scatter) * 0.82
+    reconstructed_linear += srgb_to_linear(reflection) * 0.58
     reconstructed = linear_to_srgb(reconstructed_linear)
     reconstructed = background * (1 - silhouette[..., None]) + np.clip(reconstructed, 0, 1) * silhouette[..., None]
     save_rgb("k2-candidate-reconstruction-neutral.png", reconstructed)
@@ -129,18 +136,51 @@ def main() -> None:
     reference = np.asarray(Image.open(SOURCE / "static_composite.png").convert("RGB").crop(SPHERE_BBOX).resize((SIZE, SIZE), Image.Resampling.LANCZOS), dtype=np.float64) / 255.0
     error = np.abs(reconstructed - reference) * 255
     error_inside = error[inside]
+
+    # The formal layer-native endpoint is a separate, stronger source check.
+    # It must reproduce the frozen composite exactly before any optical-field
+    # interpretation is attempted.
+    layer_native = Image.open(SOURCE / "layers/00_background_plate.png").convert("RGBA")
+    for key in ("outer", "volume", "boundary", "flow_a", "flow_b", "ink", "cool_core", "cool_glow", "warm_core", "warm_glow", "curvature"):
+        layer_native = Image.alpha_composite(layer_native, Image.open(SOURCE / LAYER_NAMES[key]).convert("RGBA"))
+    layer_native_full = np.asarray(layer_native.convert("RGB"), dtype=np.float64) / 255.0
+    static_full = np.asarray(Image.open(SOURCE / "static_composite.png").convert("RGB"), dtype=np.float64) / 255.0
+    full_source_error = np.abs(layer_native_full - static_full) * 255
+    layer_native_crop = layer_native.convert("RGB").crop(SPHERE_BBOX).resize((SIZE, SIZE), Image.Resampling.LANCZOS)
+    layer_native_rgb = np.asarray(layer_native_crop, dtype=np.float64) / 255.0
+    layer_native_error = np.abs(layer_native_rgb - reference) * 255
+    layer_native_inside = layer_native_error[inside]
+    layer_native_path = OUT / "k2-layer-native-reconstruction.png"
+    layer_native_crop.save(layer_native_path)
     metrics = {
         "reconstruction_mean_abs_rgb_255": round(float(error_inside.mean()), 4),
         "reconstruction_p95_abs_rgb_255": round(float(np.percentile(error_inside, 95)), 4),
+        "layer_native_mean_abs_rgb_255": round(float(layer_native_inside.mean()), 4),
+        "source_package_full_mean_abs_rgb_255": round(float(full_source_error.mean()), 4),
+        "source_package_full_p95_abs_rgb_255": round(float(np.percentile(full_source_error, 95)), 4),
+        "layer_native_p95_abs_rgb_255": round(float(np.percentile(layer_native_inside, 95)), 4),
+        "layer_native_recomposition": "PASS" if float(layer_native_inside.mean()) < 0.1 else "FAIL",
+        "source_package_consistency": "PASS" if float(full_source_error.mean()) < 0.1 else "FAIL",
         "silhouette_coverage": round(float(inside.mean()), 6),
+        "silhouette_sources": ["outer_film_alpha", "internal_cyan_volume_alpha", "boundary_mask_alpha"],
         "core_coverage": round(float((core_alpha > 0.05).mean()), 6),
         "source_layer_model": "alpha_over_static_layers",
+        "silhouette_authority": "outer_film_union_volume_union_boundary",
         "independent_field_recovery": False,
+        "source_package_consistency": "PASS" if float(full_source_error.mean()) < 0.1 else "FAIL",
+        "layer_native_recomposition": "PASS" if float(layer_native_inside.mean()) < 0.1 else "FAIL",
+        "source_package_consistency": "PASS" if float(full_source_error.mean()) < 0.1 else "FAIL",
+        "cycle": 5,
+        "optical_depth_scale": OPTICAL_DEPTH_SCALE,
+        "volume_scatter_scale": VOLUME_SCATTER_SCALE,
+        "flow_scatter_scale": FLOW_SCATTER_SCALE,
+        "volume_alpha_gain": VOLUME_ALPHA_GAIN,
     }
     files = {name: digest(OUT / name) for name in sorted(p.name for p in OUT.glob("*.png"))}
     report = {
         "schema": "mindisle.k2-source-feasibility.v1",
-        "status": "READY_FOR_HUMAN_REVIEW__M4_BLOCKED",
+        "status": "BLOCKED_SOURCE_PACKAGE_INCONSISTENT",
+        "cycle": 1,
         "scope": "verification-only candidate field derivation from frozen K2 still layers; no production or runtime interpolation",
         "source_manifest": "test/water-orb-still/2p5d-composite-v1/composite_manifest.json",
         "source_static_composite": "test/water-orb-still/2p5d-composite-v1/static_composite.png",
@@ -156,11 +196,13 @@ def main() -> None:
         "metrics": metrics,
         "decision": {
             "static_layer_separation": "PASS_DIAGNOSTIC",
+            "layer_native_recomposition": "FAIL_SOURCE_MISMATCH",
+            "source_package_consistency": "FAIL_SOURCE_MISMATCH",
             "candidate_reconstruction": "REVIEW_REQUIRED",
             "independent_k2_field": "NOT_PROVEN",
             "m3": "REMAINS_HUMAN_PASS",
             "m4": "BLOCKED",
-            "next_required": "Human review of the candidate reconstruction; if accepted, define a provenance and channel contract before any runtime study.",
+            "next_required": "Resolve the mismatch between composite_manifest layer output and static_composite/reference_foundation before any field derivation or runtime study.",
         },
         "limitations": [
             "K2 source remains a reference-driven alpha-over layer stack, not a measured physical volume.",

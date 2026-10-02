@@ -12,7 +12,7 @@
 <main>
 <h1>MindIsle WaterBall · K2 Source Feasibility Study</h1>
 <p class="lead">这是 M3 之后的 K2 endpoint 源层审计。它从冻结 K2 静止图层派生候选字段，只验证“现有图层能否独立重建 K2”；不接入 runtime、不修改 production，也不把候选字段当作 K2 authority。</p>
-<div class="status">BLOCKED · independent K2 field not proven</div>
+<div class="status">BLOCKED · K2 source package is inconsistent</div>
 <h2>候选字段</h2>
 <section class="grid">
   <div class="card"><img src="k2-source-study/field-silhouette.png" alt="silhouette"><div class="caption">silhouette：来自 outer film alpha。</div></div>
@@ -27,13 +27,17 @@
   <div class="card"><img src="k2-source-study/k2-candidate-reconstruction-neutral.png" alt="candidate reconstruction"><div class="caption">候选字段重建；当前读感明显扁平，不能作为 K2 endpoint。</div></div>
 </section>
 <h2>证据</h2>
-<div class="metrics">reconstruction_mean_abs_rgb_255 = 59.377
-reconstruction_p95_abs_rgb_255 = 91.6479
+<div class="metrics">cycle = 5
+reconstruction_mean_abs_rgb_255 = 39.8968
+reconstruction_p95_abs_rgb_255 = 72.7552
+layer_native_mean_abs_rgb_255 = 15.836
+source_package_full_mean_abs_rgb_255 = 3.2984
+source_package_consistency = FAIL
 source_layer_model = alpha_over_static_layers
 independent_field_recovery = false
 M3 continuous slice = human PASS
 M4 core integration = BLOCKED</div>
-<p class="decision">结论：现有图层可以拆出诊断候选，但不能证明已经恢复了独立 K2 optical field。下一步需要人工批准的 authored K2 field source，或明确的 field channel contract；不能继续靠参数调节伪造 endpoint。</p>
+<p class="decision">结论：现有图层可以拆出诊断候选，但 manifest 重合成与 static_composite 本身不一致，不能把它们当成同一个 K2 source。下一步需要先修正源包 provenance，或提供人工批准的 authored K2 field source；不能继续靠参数调节伪造 endpoint。</p>
 <p><a href="k2-source-study/k2-source-feasibility.json">查看完整 JSON 证据</a> · <a href="k2-endpoint-gate.json">查看 K2 gate</a></p>
 </main>
 </body>

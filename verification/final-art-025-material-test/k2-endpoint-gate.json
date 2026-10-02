@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.k2-endpoint-gate.v1",
-  "status": "BLOCKED_PENDING_CONTINUOUS_ENDPOINT_SOURCE",
+  "status": "BLOCKED_SOURCE_PACKAGE_INCONSISTENT",
   "milestone": "M3_CONTINUOUS_FIELD",
   "scope": "只验证 K2 endpoint 是否具备可复核的连续材质输入；不修改 production，不实现 runtime interpolation。",
   "current_continuity_slice": {
@@ -40,12 +40,13 @@
     "independent_k2_optical_field_set": "FAIL_NOT_AVAILABLE",
     "reproducible_k2_gpu_endpoint": "BLOCKED",
     "continuous_path_to_k2": "BLOCKED",
-    "production_migration": "NOT_STARTED"
+    "production_migration": "NOT_STARTED",
+    "source_package_consistency": "FAIL_MANIFEST_VS_STATIC_COMPOSITE"
   },
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "Provide or derive an approved K2 endpoint field set with provenance, channel contract, and reproducible GPU render evidence.",
+    "next_required": "Resolve source provenance mismatch between composite_manifest layer recomposition and static_composite/reference_foundation, then rerun endpoint field study.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -59,10 +60,14 @@
   "feasibility_study": {
     "page": "k2-source-study.html",
     "report": "k2-source-study/k2-source-feasibility.json",
-    "status": "BLOCKED_RECONSTRUCTION_ERROR",
-    "reconstruction_mean_abs_rgb_255": 59.377,
+    "status": "BLOCKED_SOURCE_PACKAGE_INCONSISTENT",
+    "reconstruction_mean_abs_rgb_255": 39.8968,
     "reconstruction_p95_abs_rgb_255": 91.6479,
     "independent_field_recovery": false,
-    "note": "Candidate fields can be derived diagnostically, but the neutral reconstruction is visibly flat and does not prove K2 endpoint recovery."
+    "note": "Manifest layer recomposition and static_composite disagree; stop parameter tuning until source provenance is corrected.",
+    "cycle_count": 5,
+    "layer_native_mean_abs_rgb_255": 15.836,
+    "source_package_full_mean_abs_rgb_255": 3.2984,
+    "source_package_consistency": "FAIL"
   }
 }
