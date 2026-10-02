@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.k2-endpoint-gate.v1",
-  "status": "K2_INTERIOR_FIELD_BROWSER_PASS__HUMAN_REVIEW_PENDING",
+  "status": "K2_INTERIOR_DELTA_FIELD_AUTOMATED_PASS__HUMAN_VISUAL_PENDING",
   "milestone": "M3_CONTINUOUS_FIELD",
   "scope": "只验证 K2 endpoint 是否具备可复核的连续材质输入；不修改 production，不实现 runtime interpolation。",
   "current_continuity_slice": {
@@ -37,8 +37,9 @@
   ],
   "checks": {
     "static_k2_reference_present": "PASS",
-    "independent_k2_optical_field_set": "FAIL_NOT_AVAILABLE",
-    "reproducible_k2_gpu_endpoint": "BLOCKED",
+    "independent_k2_optical_field_set": "PARTIAL_INTERIOR_DELTA_ONLY",
+    "authored_interior_delta_package": "PASS_DETERMINISTIC_READBACK",
+    "reproducible_k2_gpu_endpoint": "PASS_INTERIOR_DELTA_ONLY__FULL_ENDPOINT_BLOCKED",
     "continuous_path_to_k2": "BLOCKED",
     "production_migration": "NOT_STARTED",
     "source_package_consistency": "FAIL_MANIFEST_VS_STATIC_COMPOSITE",
@@ -48,7 +49,7 @@
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "Review k2-interior-field-study.html visually; do not infer runtime or M4 readiness from the browser gate.",
+    "next_required": "Review the delta-field version of k2-interior-field-study.html visually; full K2 optical endpoint proof remains blocked until a complete field set or source decision exists.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -88,12 +89,12 @@
     "page": "k2-interior-field-study.html",
     "evidence": "k2-interior-field-evidence.json",
     "field_package": "k2-interior-field/k2-interior-field-package.json",
-    "status": "PASS_BROWSER_PROTECTION_GATE__READY_FOR_HUMAN_REVIEW",
+    "status": "PASS_AUTOMATED_DELTA_READBACK__HUMAN_VISUAL_PENDING",
     "max_outside_rgb": 0,
     "max_protected_rgb": 0,
     "min_interior_mean_abs_rgb": 0.7914855641309557,
     "human_review": {
-      "status": "PASS_AUTOPLAY_FEEL",
+      "status": "PASS_AUTOPLAY_FEEL__DELTA_VISUAL_PENDING",
       "recorded": "2026-10-03",
       "verdict": "自动播放的内部变化自然",
       "scope": "autoplay feel only; independent K2 field proof and M4 remain open"

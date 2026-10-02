@@ -12,7 +12,7 @@
 - M2 输出以透射、吸收、反射、scatter、film 重合成。字段来自单视角外观分解，不是唯一物理恢复；固定烘焙高光的形变适用性仍未证明。
 - K2 endpoint 尚未通过当前路线验证；已完成 K2 endpoint gate 审计，证据见 `verification/final-art-025-material-test/k2-endpoint-gate.json`：当前只有静态 K2 PNG 和 pose-dependent 07–10 layers，没有独立 K2 optical field，因此连续终点仍 BLOCKED。M4 及后续运行时、production migration、moving 不得提前开始。
 - 用户已裁决 A（`static_composite.png`）为 K2 静态 authority，并确认 **A shell/core + B interior 最好**；B（`reference_foundation.png`）只作为内部纹理/流向参考，B 的 core 不继承。当前候选 `a-authority-b-internal-study.png` 已人工通过并锁定为 K2 静态候选，自动检查确认 shell 和 core 保持 A。此前 manifest 与 static_composite 的源包不一致仍保留为证据，独立 K2 field recovery 尚未证明。
-- K2 B-interior field study 已改为从 `k2-interior-field/k2-interior-field-package.json` 的 base/delta/mask/silhouette 回读，并在真实 Codex In-app Browser WebGL2 中通过保护区闸门：5 个 fieldStrength 采样点的外部背景最大漂移为 0，高置信度 shell/core 保护区最大漂移为 0，内部最小相邻变化为 0.7915/255。证据见 `verification/final-art-025-material-test/k2-interior-field-evidence.json`；当前仍不代表 runtime、M4 或 production readiness。
+- K2 B-interior field study 已改为从 `k2-interior-field/k2-interior-field-package.json` 的 base/delta/mask/silhouette 回读，并在真实 Codex In-app Browser WebGL2 中通过保护区闸门：5 个 fieldStrength 采样点的外部背景最大漂移为 0，高置信度 shell/core 保护区最大漂移为 0，内部最小相邻变化为 0.7915/255；离线 delta 回读均值误差为 0.118862/255、P95 为 0.443137/255。证据见 `verification/final-art-025-material-test/k2-interior-field-evidence.json`；当前仍不代表完整 K2 optical endpoint、runtime、M4 或 production readiness。
 - 用户已确认该页的自动播放内部变化自然；这只通过 autoplay feel 子项，独立 K2 field proof、M4 和 production readiness 仍未通过。
 - 主仓库此前保留的 `leader preserve pre-promotion main work` stash 与独立 feature worktree 保持原样。
 

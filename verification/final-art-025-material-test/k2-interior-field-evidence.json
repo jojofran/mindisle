@@ -7,6 +7,13 @@
   "mask": "k2-authority-study/b-internal-mask.png",
   "field_package": "k2-interior-field/k2-interior-field-package.json",
   "field_inputs": ["field-base-authority.png", "field-delta-interior-encoded.png", "field-interior-mask.png", "field-silhouette.png"],
+  "delta_field_readback": {
+    "status": "PASS_DETERMINISTIC_READBACK",
+    "mean_abs_rgb_255": 0.118862,
+    "p95_abs_rgb_255": 0.443137,
+    "protected_max_abs_rgb_255": 0.384314,
+    "outside_max_abs_rgb_255": 0.0
+  },
   "page": "k2-interior-field-study.html",
   "controls": ["fieldStrength", "flow", "autoplay", "pause", "background", "reset", "qualityCheck"],
   "boundaries": ["no ProductState", "no formation/deformation", "no core movement", "no moving", "no production migration", "no runtime interpolation"],
