@@ -11,7 +11,7 @@
 - 历史 `verification/continuous-water-prototype/m1-current-evidence.json` 的 `AWAITING_HUMAN_REVIEW` 属于旧 neutral-source。它与本次已接受的单视角 025 路线不是同一证据；以当前锁定记录与 roadmap 执行，不补认历史 pose-neutral 验收。
 - M2 输出以透射、吸收、反射、scatter、film 重合成。字段来自单视角外观分解，不是唯一物理恢复；固定烘焙高光的形变适用性仍未证明。
 - K2 endpoint 尚未通过当前路线验证；已完成 K2 endpoint gate 审计，证据见 `verification/final-art-025-material-test/k2-endpoint-gate.json`：当前只有静态 K2 PNG 和 pose-dependent 07–10 layers，没有独立 K2 optical field，因此连续终点仍 BLOCKED。M4 及后续运行时、production migration、moving 不得提前开始。
-- K2 source feasibility study 已完成 5 轮：诊断候选字段可以生成，但 manifest 图层重合成与 `static_composite.png` 全画布平均误差为 3.2984/255、球体区域为 15.836/255，源包自身不一致。独立 K2 field recovery 仍未证明；该 study 只属于 verification，不改变 K2 authority。证据见 `verification/final-art-025-material-test/k2-source-study.html`。
+- 用户已裁决 A（`static_composite.png`）为 K2 静态 authority；B（`reference_foundation.png`）只作为内部纹理/流向参考，B 的 core 不继承。A/B authority study 见 `verification/final-art-025-material-test/k2-authority-study.html`，自动检查确认 shell 和 core 保持 A。此前 manifest 与 static_composite 的源包不一致仍保留为证据，独立 K2 field recovery 尚未证明。
 - 主仓库此前保留的 `leader preserve pre-promotion main work` stash 与独立 feature worktree 保持原样。
 
 执行边界与验收见 [roadmap](../tasks/waterball-continuous-roadmap.md)。实验成功不改变产品状态契约或 v1 asset authority。

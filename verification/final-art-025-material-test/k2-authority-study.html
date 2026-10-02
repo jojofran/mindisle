@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MindIsle WaterBall · K2 A/B Authority Study</title><style>
+:root{color-scheme:light;--ink:#183b45;--muted:#5f7b82;--line:#d7e7e9;--panel:#f2f8f8}*{box-sizing:border-box}body{margin:0;background:#eef6f7;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif}main{max-width:1100px;margin:0 auto;padding:32px 24px 56px}h1{margin:0 0 8px;font-size:28px}h2{font-size:18px;margin:28px 0 12px}.lead{max-width:920px;line-height:1.65;color:var(--muted)}.status{display:inline-block;padding:7px 12px;border:1px solid #bdd9dc;background:#e8f7f8;color:#155c65;border-radius:999px;font-size:13px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{background:rgba(255,255,255,.84);border:1px solid var(--line);border-radius:14px;padding:12px}.card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#9aa6aa}.card h3{font-size:15px;margin:10px 0 4px}.caption{font-size:12px;color:var(--muted);line-height:1.5}.metrics{background:var(--panel);border-radius:12px;padding:14px;white-space:pre-wrap;font:12px ui-monospace,SFMono-Regular,Menlo,monospace;color:#42646b}.decision{border-left:3px solid #277b88;padding-left:12px;line-height:1.65;color:var(--muted)}@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){main{padding:24px 16px}.grid{grid-template-columns:1fr}}
+</style></head><body><main>
+<h1>K2 A-authority / B-internal study</h1>
+<p class="lead">A 已由你选为 K2 静态 authority。B 只作为内部纹理和流向参考，B 的 core/glow 不继承；外壳、轮廓、core 和最终球体身份始终来自 A。</p>
+<div class="status">READY FOR HUMAN REVIEW · A frozen · B internal study only</div>
+<h2>候选对比</h2>
+<section class="grid">
+<div class="card"><img src="k2-authority-study/a-authority.png" alt="A authority"><h3>A · frozen authority</h3><div class="caption">静态终点，完整球体、shell 和 core authority。</div></div>
+<div class="card"><img src="k2-authority-study/b-internal-reference.png" alt="B internal reference"><h3>B · internal reference</h3><div class="caption">只观察内部纹理组织和流向感；不继承 B 的 core。</div></div>
+<div class="card"><img src="k2-authority-study/a-authority-b-internal-study.png" alt="A authority B internal study"><h3>A shell/core + B interior</h3><div class="caption">候选 study：A 的外壳和 core 保持不动，B 只进入内部 mask。</div></div>
+</section>
+<h2>内部变化与保护区</h2>
+<section class="grid">
+<div class="card"><img src="k2-authority-study/b-internal-delta.png" alt="B delta"><h3>B − A delta</h3><div class="caption">仅用于看 B 相对 A 的内部差异。</div></div>
+<div class="card"><img src="k2-authority-study/b-internal-mask.png" alt="internal mask"><h3>internal mask</h3><div class="caption">灰度越亮越允许 B 影响；外壳与 core 保护为黑。</div></div>
+</section>
+<h2>自动检查</h2><div class="metrics">cycle = 2
+authority = A_static_composite
+shell_preservation_mean_abs_rgb_255 = 0.0
+core_preservation_mean_abs_rgb_255 = 0.0
+interior_texture_delta_mean_abs_rgb_255 = 5.4239
+runtime = false
+production = false</div>
+<p class="decision">这不是动态实现，只是下一步字段研究的静态候选。若你认可这张候选的内部组织，下一轮才会把 B 的内部差异转成受控 field study；A 的 shell、silhouette 和 core 继续冻结。</p>
+<p><a href="k2-source-decision.html">返回 K2 authority 裁决</a> · <a href="k2-authority-study/k2-authority-study.json">查看 JSON 证据</a></p>
+</main></body></html>

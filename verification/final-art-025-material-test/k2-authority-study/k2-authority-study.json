@@ -1,0 +1,46 @@
+{
+  "schema": "mindisle.k2-authority-study.v1",
+  "status": "READY_FOR_HUMAN_REVIEW",
+  "scope": "A fixed K2 static authority with B interior texture study; no runtime interpolation",
+  "authority": {
+    "id": "A",
+    "file": "test/water-orb-still/2p5d-composite-v1/static_composite.png",
+    "role": "FROZEN_STATIC_K2_AUTHORITY"
+  },
+  "secondary_reference": {
+    "id": "B",
+    "file": "test/water-orb-still/2p5d-composite-v1/reference_foundation.png",
+    "role": "INTERIOR_TEXTURE_AND_FLOW_REFERENCE_ONLY",
+    "core": "NOT_INHERITED"
+  },
+  "candidate": "a-authority-b-internal-study.png",
+  "mask": "b-internal-mask.png",
+  "delta": "b-internal-delta.png",
+  "metrics": {
+    "cycle": 2,
+    "authority": "A_static_composite",
+    "secondary_reference": "B_reference_foundation_internal_texture_only",
+    "shell_preservation_mean_abs_rgb_255": 0.0,
+    "core_preservation_mean_abs_rgb_255": 0.0,
+    "interior_texture_delta_mean_abs_rgb_255": 5.4239,
+    "study_mask_coverage": 0.468765,
+    "runtime": false,
+    "production": false
+  },
+  "decision": "Human review whether B interior organization is useful while A shell/core identity remains intact.",
+  "boundaries": [
+    "no ProductState",
+    "no formation/deformation",
+    "no core movement",
+    "no moving",
+    "no production migration",
+    "no runtime interpolation"
+  ],
+  "files_sha256": {
+    "a-authority-b-internal-study.png": "226e19b2b817b583d1845572461996b7589ac13d267a49c3387967c92425c898",
+    "a-authority.png": "77ae24497e6dd2ff0313eb3a83c0bff3f03a6368fe8415cf83b58f697a96643c",
+    "b-internal-delta.png": "00233c0afbe9a2e79a4a01f5e01b38249211a012bccb9b5618210e04dc90148e",
+    "b-internal-mask.png": "337b0505119b22787c65e906cd89eeda89979172e4782f2b242bb295fe004812",
+    "b-internal-reference.png": "8dcaaa0f942f687568a5f6fb74f0cad91485f1a2ebfb8450fe20b0f57f2d25d5"
+  }
+}

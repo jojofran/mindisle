@@ -96,4 +96,6 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory verification/final-art-
 
 K2 source decision 入口：`k2-source-decision.html`。先只裁决 K2 authority；再进入 `k2-source-study.html` 的字段可行性审计。
 
+A/B authority study 入口：`k2-authority-study.html`。A 的 shell/core 冻结，B 只作为内部纹理和流向研究。
+
 K2 source feasibility study 入口：`k2-source-study.html`。它展示从正式静止图层派生的诊断候选字段和一次固定视角重建。第 5 轮还发现 manifest 图层重合成与 `static_composite.png` 不一致：全画布平均误差为 3.2984/255，球体区域为 15.836/255。因此不能继续靠参数调节伪造 K2 endpoint，必须先修正源包 provenance 或提供新的 authored K2 field source。
