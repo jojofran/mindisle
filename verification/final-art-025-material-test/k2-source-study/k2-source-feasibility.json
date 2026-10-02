@@ -1,0 +1,58 @@
+{
+  "schema": "mindisle.k2-source-feasibility.v1",
+  "status": "READY_FOR_HUMAN_REVIEW__M4_BLOCKED",
+  "scope": "verification-only candidate field derivation from frozen K2 still layers; no production or runtime interpolation",
+  "source_manifest": "test/water-orb-still/2p5d-composite-v1/composite_manifest.json",
+  "source_static_composite": "test/water-orb-still/2p5d-composite-v1/static_composite.png",
+  "sphere_crop": {
+    "bbox": [
+      88,
+      586,
+      766,
+      1265
+    ],
+    "size": [
+      360,
+      360
+    ]
+  },
+  "derived_fields": {
+    "silhouette": "field-silhouette.png",
+    "optical_depth_candidate": "field-optical-depth-candidate.png",
+    "scatter_candidate": "field-scatter-candidate.png",
+    "reflection_candidate": "field-reflection-candidate.png",
+    "refraction_derived": "field-refraction-derived.png",
+    "core_mask_candidate": "field-core-mask-candidate.png"
+  },
+  "metrics": {
+    "reconstruction_mean_abs_rgb_255": 59.377,
+    "reconstruction_p95_abs_rgb_255": 91.6479,
+    "silhouette_coverage": 0.316728,
+    "core_coverage": 0.005594,
+    "source_layer_model": "alpha_over_static_layers",
+    "independent_field_recovery": false
+  },
+  "decision": {
+    "static_layer_separation": "PASS_DIAGNOSTIC",
+    "candidate_reconstruction": "REVIEW_REQUIRED",
+    "independent_k2_field": "NOT_PROVEN",
+    "m3": "REMAINS_HUMAN_PASS",
+    "m4": "BLOCKED",
+    "next_required": "Human review of the candidate reconstruction; if accepted, define a provenance and channel contract before any runtime study."
+  },
+  "limitations": [
+    "K2 source remains a reference-driven alpha-over layer stack, not a measured physical volume.",
+    "Optical depth and refraction are derived candidates, not original K2 fields.",
+    "The static composite includes a background/UI plate outside the cropped sphere; it is excluded from field extraction.",
+    "No production asset, ProductState, formation, deformation, moving, or runtime interpolation was changed."
+  ],
+  "files_sha256": {
+    "field-core-mask-candidate.png": "ff6d551da8eb30b59640bda31204229bd66019a9d9cc95d0e5749e76f2fa04ea",
+    "field-optical-depth-candidate.png": "3f8ed22966414463b4a864880d0db7b90921952e32b7d9670e9e3a2acfe2bfd7",
+    "field-reflection-candidate.png": "e8c83899f4a63f8b937abb9a05b154ccb5399533c5c73904d3d90d74b546f531",
+    "field-refraction-derived.png": "fd40f2db39163afecf3a70b684e962aef41e63a68dc20e20a0b66d55231ede8c",
+    "field-scatter-candidate.png": "e5dca433530f42fd2076451215404a232b83c73c82f089922b43e3b5cd1c13dd",
+    "field-silhouette.png": "905864bc80241020e20c62b7747ca28bd650fa40e8e4e4db1a4e334c43d96c80",
+    "k2-candidate-reconstruction-neutral.png": "cc33801b1aa7b5bee2215453fb4db2bcb6dc3f7dc5f82a727904b4b86d1e55c5"
+  }
+}

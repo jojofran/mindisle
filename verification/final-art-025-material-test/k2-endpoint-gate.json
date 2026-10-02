@@ -55,5 +55,14 @@
     "no moving",
     "no production renderer/assets",
     "no runtime interpolation"
-  ]
+  ],
+  "feasibility_study": {
+    "page": "k2-source-study.html",
+    "report": "k2-source-study/k2-source-feasibility.json",
+    "status": "BLOCKED_RECONSTRUCTION_ERROR",
+    "reconstruction_mean_abs_rgb_255": 59.377,
+    "reconstruction_p95_abs_rgb_255": 91.6479,
+    "independent_field_recovery": false,
+    "note": "Candidate fields can be derived diagnostically, but the neutral reconstruction is visibly flat and does not prove K2 endpoint recovery."
+  }
 }

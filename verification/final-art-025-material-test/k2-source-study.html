@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MindIsle WaterBall · K2 Source Feasibility Study</title>
+<style>
+:root{color-scheme:light;--ink:#183b45;--muted:#5f7b82;--line:#d7e7e9;--accent:#277b88;--panel:#f2f8f8}*{box-sizing:border-box}body{margin:0;background:#eef6f7;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Microsoft YaHei",sans-serif}main{max-width:1120px;margin:0 auto;padding:32px 24px 56px}h1{margin:0 0 8px;font-size:28px}h2{font-size:18px;margin:28px 0 12px}.lead{max-width:900px;line-height:1.65;color:var(--muted)}.status{display:inline-block;padding:7px 12px;border:1px solid #e1b9a9;background:#fff3ed;color:#87512f;border-radius:999px;font-size:13px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:14px;padding:12px}.card img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#9aa6aa}.caption{font-size:12px;color:var(--muted);line-height:1.5;margin-top:8px}.metrics{background:var(--panel);border-radius:12px;padding:14px;white-space:pre-wrap;font:12px ui-monospace,SFMono-Regular,Menlo,monospace;color:#42646b}.decision{border-left:3px solid #b86545;padding-left:12px;line-height:1.65;color:var(--muted)}@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:520px){main{padding:24px 16px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+<h1>MindIsle WaterBall · K2 Source Feasibility Study</h1>
+<p class="lead">这是 M3 之后的 K2 endpoint 源层审计。它从冻结 K2 静止图层派生候选字段，只验证“现有图层能否独立重建 K2”；不接入 runtime、不修改 production，也不把候选字段当作 K2 authority。</p>
+<div class="status">BLOCKED · independent K2 field not proven</div>
+<h2>候选字段</h2>
+<section class="grid">
+  <div class="card"><img src="k2-source-study/field-silhouette.png" alt="silhouette"><div class="caption">silhouette：来自 outer film alpha。</div></div>
+  <div class="card"><img src="k2-source-study/field-optical-depth-candidate.png" alt="optical depth candidate"><div class="caption">optical depth candidate：由 cyan volume 颜色与 alpha 派生。</div></div>
+  <div class="card"><img src="k2-source-study/field-scatter-candidate.png" alt="scatter candidate"><div class="caption">scatter candidate：由 flow 与 ink 层合成。</div></div>
+  <div class="card"><img src="k2-source-study/field-reflection-candidate.png" alt="reflection candidate"><div class="caption">reflection candidate：由 curvature highlight 派生。</div></div>
+  <div class="card"><img src="k2-source-study/field-refraction-derived.png" alt="refraction derived"><div class="caption">refraction：由 optical depth 梯度派生，不是原始 K2 field。</div></div>
+  <div class="card"><img src="k2-source-study/field-core-mask-candidate.png" alt="core mask candidate"><div class="caption">core mask：保留 07–10 point/core/glow 的位置证据。</div></div>
+</section>
+<h2>固定视角重建</h2>
+<section class="grid">
+  <div class="card"><img src="k2-source-study/k2-candidate-reconstruction-neutral.png" alt="candidate reconstruction"><div class="caption">候选字段重建；当前读感明显扁平，不能作为 K2 endpoint。</div></div>
+</section>
+<h2>证据</h2>
+<div class="metrics">reconstruction_mean_abs_rgb_255 = 59.377
+reconstruction_p95_abs_rgb_255 = 91.6479
+source_layer_model = alpha_over_static_layers
+independent_field_recovery = false
+M3 continuous slice = human PASS
+M4 core integration = BLOCKED</div>
+<p class="decision">结论：现有图层可以拆出诊断候选，但不能证明已经恢复了独立 K2 optical field。下一步需要人工批准的 authored K2 field source，或明确的 field channel contract；不能继续靠参数调节伪造 endpoint。</p>
+<p><a href="k2-source-study/k2-source-feasibility.json">查看完整 JSON 证据</a> · <a href="k2-endpoint-gate.json">查看 K2 gate</a></p>
+</main>
+</body>
+</html>

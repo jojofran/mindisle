@@ -93,3 +93,5 @@ python3 -m http.server 8765 --bind 127.0.0.1 --directory verification/final-art-
 ## K2 endpoint gate
 
 当前连续路径已获人工 PASS，下一步审计发现 K2 只有静态 `inputs/frozen-k2-final-art.png`，以及 pose-dependent 的 07–10 core/glow layers，没有独立 K2 optical field。因此不能把静态 PNG 直接当成连续终点，也不能把 07–10 层直接接入可移动内部场。M3 保持未关闭，M4 保持 BLOCKED；详细证据见 `k2-endpoint-gate.json`。
+
+K2 source feasibility study 入口：`k2-source-study.html`。它展示从正式静止图层派生的诊断候选字段和一次固定视角重建。当前重建平均 RGB 误差为 59.377/255，视觉上偏扁平，不能证明 K2 endpoint 已恢复。
