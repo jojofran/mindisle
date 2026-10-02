@@ -1,0 +1,41 @@
+{
+  "schema": "mindisle.k2-interior-field-package.v1",
+  "status": "PASS_DETERMINISTIC_READBACK",
+  "authority": "field-base-authority.png",
+  "delta_field": "field-delta-interior-encoded.png",
+  "mask": "field-interior-mask.png",
+  "silhouette": "field-silhouette.png",
+  "encoding": {
+    "source_space": "8-bit display RGB normalized to 0..1",
+    "encoded": "clamp(0.5 + 0.5 * (B - A), 0, 1)",
+    "decoded": "(encoded - 0.5) * 2",
+    "application": "A + decoded_delta * interior_mask * field_strength"
+  },
+  "metrics": {
+    "readback_mean_abs_rgb_255": 0.118862,
+    "readback_p95_abs_rgb_255": 0.443137,
+    "protected_max_abs_rgb_255": 0.384314,
+    "outside_max_abs_rgb_255": 0.0,
+    "mask_coverage": 0.472901
+  },
+  "boundaries": [
+    "shell/silhouette/core authority remains A",
+    "B delta is gated by the exported interior mask",
+    "no full-frame image crossfade",
+    "no ProductState",
+    "no formation/deformation",
+    "no moving",
+    "no production migration"
+  ],
+  "source_provenance": {
+    "A": "k2-authority-study/a-authority.png",
+    "B": "k2-authority-study/b-internal-reference.png",
+    "mask": "k2-authority-study/b-internal-mask.png"
+  },
+  "files_sha256": {
+    "field-base-authority.png": "77ae24497e6dd2ff0313eb3a83c0bff3f03a6368fe8415cf83b58f697a96643c",
+    "field-delta-interior-encoded.png": "2274a971bd9e6370187e28be85c13a45ebe28b28571f376b39859e1ca5d38422",
+    "field-interior-mask.png": "337b0505119b22787c65e906cd89eeda89979172e4782f2b242bb295fe004812",
+    "field-silhouette.png": "76abefd487de4509b6977a4d5127e0b9c2c048567c4a9e5321a5015a1e524a51"
+  }
+}
