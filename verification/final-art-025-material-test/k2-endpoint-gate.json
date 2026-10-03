@@ -37,9 +37,9 @@
   ],
   "checks": {
     "static_k2_reference_present": "PASS",
-    "independent_k2_optical_field_set": "FIXED_VIEW_COMPLETE_AUTHORED_PACKAGE__FREE_VIEW_BLOCKED",
+    "independent_k2_optical_field_set": "FIXED_VIEW_COMPLETE_AUTHORED_PACKAGE__HUMAN_REVIEW_PASS__FREE_VIEW_BLOCKED",
     "authored_interior_delta_package": "PASS_DETERMINISTIC_READBACK",
-    "reproducible_k2_gpu_endpoint": "PASS_FIXED_VIEW_COMPLETE_AUTHORED_PACKAGE__FULL_ENDPOINT_BLOCKED",
+    "reproducible_k2_gpu_endpoint": "PASS_FIXED_VIEW_COMPLETE_AUTHORED_PACKAGE__HUMAN_REVIEW_PASS__FULL_ENDPOINT_BLOCKED",
     "continuous_path_to_k2": "BLOCKED",
     "production_migration": "NOT_STARTED",
     "source_package_consistency": "FAIL_MANIFEST_VS_STATIC_COMPOSITE",
@@ -49,7 +49,7 @@
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "Human-review the revised complete-field comparison page; if it passes the same three-question visual gate, then continue toward a free-view K2 source study.",
+    "next_required": "Proceed only with a bounded free-view K2 source study; keep M4 and production blocked until a free-view endpoint is independently authored and reviewed.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -151,7 +151,7 @@
   "complete_authored_field_candidate": {
     "package": "k2-complete-authored-field/k2-complete-authored-field.json",
     "builder": "build_k2_complete_authored_field.py",
-    "status": "REVISED_CANDIDATE_AWAITING_HUMAN_REVIEW",
+    "status": "PASS_FIXED_VIEW_COMPLETE_AUTHORED_FIELD__HUMAN_REVIEW_PASS__FREE_VIEW_BLOCKED",
     "scope": "A shell/core/silhouette frozen; B interior authored field separated into depth, density, thickness, transmission, refraction and unresolved residual",
     "metrics": {
       "reconstructed_mean_abs_rgb_255_vs_target": 1.795089,
@@ -165,15 +165,19 @@
       "core_coverage": 0.024375
     },
     "limitation": "fixed front view only; no unique physical recovery or free-view validation; signed residual still mixes reflection/scatter/film",
-    "human_review_required": true,
+    "human_review_required": false,
     "review_page": "k2-complete-field-study.html",
     "comparison_page": "k2-complete-field-study.html",
-    "visual_review_status": "REVISE_VISUAL_FIXED_DIRECTION_AND_CORE_EDGE__AWAITING_HUMAN_REVIEW",
-    "revision_page": "k2-complete-field-study.html",
-    "revision_fixes": [
-      "restored previous accepted internal flow direction and WebGL texture orientation",
-      "replaced square core alpha cutouts with soft circular core protection fields",
-      "refit signed residual against the softened core exclusion"
-    ]
+    "visual_review_status": "PASS_REVIEW_FIXED_VIEW_COMPLETE_FIELD",
+    "human_review": {
+      "status": "PASS_REVIEW",
+      "recorded": "2026-10-03",
+      "verdict": "PASS_REVIEW",
+      "comparison": "新字段与已通过版本：是",
+      "note": "（未补充备注）",
+      "scope": "K2 完整字段对照固定视角；方向、球体完整性、核边缘与水感通过",
+      "limitation": "仅关闭本固定视角人工 gate，不证明自由视角 K2 endpoint"
+    },
+    "next_required": "Bounded free-view K2 source study; do not enter M4 or production migration."
   }
 }

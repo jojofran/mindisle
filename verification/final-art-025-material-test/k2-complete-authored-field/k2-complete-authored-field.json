@@ -32,8 +32,8 @@
     "signed residual still mixes reflection/scatter/film",
     "no ProductState, formation/deformation, moving, runtime interpolation, or production migration"
   ],
-  "human_gate": "previous fixed-view visual review PASS_REVIEW; this revised package awaits a new human comparison review",
-  "visual_review_status": "REVISED_AFTER_DIRECTION_AND_CORE_EDGE_REVIEW__AWAITING_HUMAN_REVIEW",
+  "human_gate": "fixed-view complete field comparison PASS_REVIEW; free-view K2 endpoint remains blocked",
+  "visual_review_status": "PASS_REVIEW_FIXED_VIEW_COMPLETE_FIELD",
   "revision_notes": [
     "restored the previous accepted internal flow direction and texture orientation",
     "re-authored square core alpha cutouts as soft circular protection fields",
@@ -56,5 +56,13 @@
     "field-target-a-plus-b-rgb.png": "226e19b2b817b583d1845572461996b7589ac13d267a49c3387967c92425c898",
     "field-thickness.png": "96403601901a5a69ffcfe064e973ff42cbe1c2e5aff74b9648bf3c692c89460a",
     "field-transmission.png": "a9ef6f8755b06511c19382287e4e2c93e8beeb144ee7f484e29aebecdf72714a"
+  },
+  "human_review": {
+    "status": "PASS_REVIEW",
+    "recorded": "2026-10-03",
+    "verdict": "PASS_REVIEW",
+    "comparison": "新字段与已通过版本：是",
+    "note": "（未补充备注）",
+    "scope": "K2 完整字段对照固定视角"
   }
 }
