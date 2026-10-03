@@ -256,5 +256,28 @@
       "max_smooth_ratio": 1.124322,
       "center_reset_max_rgb": 0
     }
+  },
+  "m3_k2_continuous_2p5d": {
+    "page": "m3-k2-continuous-2p5d-study.html",
+    "evidence": "m3-k2-continuous-2p5d-evidence.json",
+    "status": "PASS_TECHNICAL__FIXED_CAMERA_CONTINUOUS_2P5D__VISUAL_GATE_OPEN",
+    "scope": "progress 0 preserves the accepted static output; progress 0..1 changes the internal field only; shell/core/silhouette/points remain frozen",
+    "samples": 9,
+    "backgrounds": [
+      "light",
+      "dark",
+      "split",
+      "checker"
+    ],
+    "max_outside_rgb": 0,
+    "max_protected_rgb": 0,
+    "min_adjacent_interior_mean_abs_rgb": 0.19546,
+    "max_smooth_ratio": 1.63771,
+    "center_reset_max_rgb": 0,
+    "authored_vs_uniform_mean_abs_rgb": 1.246393,
+    "visual_gate": "OPEN_M3_CONTINUOUS_2P5D",
+    "runtime": false,
+    "production": false,
+    "next_required": "Continue bounded M3 review or stop at this technical slice; arbitrary free-view K2 and M4 remain blocked."
   }
 }

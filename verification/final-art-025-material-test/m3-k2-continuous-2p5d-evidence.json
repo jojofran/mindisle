@@ -1,0 +1,89 @@
+{
+  "schema": "mindisle.m3-k2-continuous-2p5d.v1",
+  "status": "PASS_TECHNICAL__FIXED_CAMERA_CONTINUOUS_2P5D__VISUAL_GATE_OPEN",
+  "recorded": "2026-10-03",
+  "page": "m3-k2-continuous-2p5d-study.html",
+  "scope": "verification-only fixed-camera continuous internal field; progress 0 preserves the accepted static output and progress 0..1 adds internal transport/parallax only",
+  "frozen": [
+    "formal shell",
+    "silhouette",
+    "core/point positions",
+    "background boundary",
+    "production and ProductState"
+  ],
+  "samples": [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1],
+  "backgrounds": [
+    {
+      "background": "light",
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 0,
+      "minAdjacentInteriorMeanRgb": 0.386327,
+      "smoothRatio": 1.637710,
+      "resetMaxRgb": 0,
+      "authoredVsUniformMeanRgb": 2.770795
+    },
+    {
+      "background": "dark",
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 0,
+      "minAdjacentInteriorMeanRgb": 0.195460,
+      "smoothRatio": 1.574495,
+      "resetMaxRgb": 0,
+      "authoredVsUniformMeanRgb": 1.246393
+    },
+    {
+      "background": "split",
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 0,
+      "minAdjacentInteriorMeanRgb": 0.296740,
+      "smoothRatio": 1.540923,
+      "resetMaxRgb": 0,
+      "authoredVsUniformMeanRgb": 1.848211
+    },
+    {
+      "background": "checker",
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 0,
+      "minAdjacentInteriorMeanRgb": 0.385909,
+      "smoothRatio": 1.636488,
+      "resetMaxRgb": 0,
+      "authoredVsUniformMeanRgb": 2.774277
+    }
+  ],
+  "criteria": "outside=0; protected<=1; adjacent interior mean>0; reset exact; authored basis differs from uniform shift; smoothRatio=max step / average step <3",
+  "browserChecks": {
+    "webgl2": true,
+    "initial": {
+      "progress": 0,
+      "playing": false,
+      "ready": true,
+      "camera": "fixed"
+    },
+    "playAfterMs": 900,
+    "playObserved": {
+      "progress": 0.122628,
+      "phase": 0.715532,
+      "playing": true
+    },
+    "pauseObserved": {
+      "progress": 0.122628,
+      "playing": false
+    },
+    "resetObserved": {
+      "progress": 0,
+      "phase": 0,
+      "playing": false,
+      "elapsed": 0
+    },
+    "visualSample": "progress 0 and 1 screenshots show a complete sphere with the shell and point highlights retained; no square overlay or outside drift was observed"
+  },
+  "technicalPass": true,
+  "visualGate": "OPEN_M3_CONTINUOUS_2P5D",
+  "humanReview": "not requested for this technical continuation",
+  "limitations": [
+    "fixed camera only",
+    "does not prove arbitrary free-view K2",
+    "does not implement runtime, ProductState, moving, M4, or production migration"
+  ],
+  "nextRequired": "Continue bounded M3 review or stop at this technical slice; arbitrary free-view K2 and M4 remain blocked."
+}
