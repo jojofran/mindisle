@@ -35,6 +35,7 @@
   "human_gate": "current fixed-view visual review PASS_REVIEW; complete package still requires a later human endpoint review",
   "files_sha256": {
     "field-authority-a-rgb.png": "77ae24497e6dd2ff0313eb3a83c0bff3f03a6368fe8415cf83b58f697a96643c",
+    "field-complete-reconstruction.png": "45447945b9c55d5770384927ee82bb693e205eb61563191fee93ae428405140c",
     "field-core-authority.png": "c8e8e09968eedf6cfa65123f75ceba0086ac9fc0858cf4f58eaae099aa1bd5fd",
     "field-core-mask.png": "76858004bf80bb7266500083701089526700223d377731851c51e9a3d02615e0",
     "field-density.png": "82b872bc4913b69d0ef0d5e2a47b9d3a01e0da30006b8c58aec86f6c1efccb52",

@@ -67,6 +67,7 @@ save(OUT / "field-residual-signed-encoded.png", residual)
 BG = np.array([224.0, 235.0, 239.0]) / 255.0
 fit = np.clip(BG * transmission + residual_signed, 0.0, 1.0)
 reconstructed = authority * (1.0 - interior[..., None]) + fit * interior[..., None]
+save(OUT / "field-complete-reconstruction.png", reconstructed)
 error = np.abs(reconstructed - target) * 255.0
 shell_region = (silhouette > 0.90) & (interior < 0.03) & (core < 0.03)
 core_region = (silhouette > 0.90) & (core > 0.03)

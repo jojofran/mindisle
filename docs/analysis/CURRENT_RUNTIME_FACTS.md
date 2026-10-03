@@ -18,6 +18,7 @@
 - authored optical field 页已补四背景 GPU 闸门：light、dark、split、checker 五个进度采样均保持 outside/protected 最大漂移 0，interior 有非零变化；证据见 `verification/final-art-025-material-test/k2-authored-optical-field-gpu-evidence.json`。该结果仍是 fixed-view verification，不能替代自由视角 K2 endpoint 或人工材质判断。
 - 用户已对当前 fixed-view K2 authored field 做出人工 `PASS_REVIEW`：球体完整、播放时只动内部、四背景下仍像水；裁决和后续统一规则记录在 `verification/final-art-025-material-test/k2-endpoint-gate.json` 与 `verification/final-art-025-material-test/k2-visual-review-protocol.md`。这允许继续补完整 K2 field，但不关闭完整 endpoint gate。
 - 已生成 `k2-complete-authored-field/`：A shell、A core、silhouette、B interior mask、optical depth、density、thickness、transmission、refraction 和 unresolved signed residual 均有独立字段；固定视角回读的 shell 最大相对 A 误差 2.031373/255、core 0、outside 0，完整 package 仍标记为 free-view BLOCKED，需人工审查后才能决定下一步。
+- `k2-complete-field-study.html` 已把上一轮通过版本与完整字段包放在同一页左右对照；右侧新字段可播放、暂停、切背景并生成单项裁决文本，真实浏览器检查确认字段加载和交互可用。
 - 用户曾确认旧 0.012 输运幅度下的自动播放内部变化自然；为解决“点击播放没拖动滑杆明显”，验证页将输运幅度调到 0.026，并把自动播放节奏调整为约 3.3 秒一轮的平滑 sweep（phase 速率 0.0026，strength 频率 0.72，flow 频率 0.9）。这是仅限研究页的可见性调参，静态 field package、shell、core 不变；当前 0.026 / 0.0026 调整已获用户人工确认；独立 K2 field proof、M4 和 production readiness 仍未通过，source audit 已确认 A 与冻结 static composite 逐像素一致；旧 manifest mismatch 被保留为诊断问题，下一步是对 fixed-view authored field 做人工视觉审查，再决定是否继续补完整 K2 endpoint 证据。
 - 主仓库此前保留的 `leader preserve pre-promotion main work` stash 与独立 feature worktree 保持原样。
 

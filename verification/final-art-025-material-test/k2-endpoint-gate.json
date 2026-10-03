@@ -165,6 +165,8 @@
       "core_coverage": 0.00838
     },
     "limitation": "fixed front view only; no unique physical recovery or free-view validation; signed residual still mixes reflection/scatter/film",
-    "human_review_required": true
+    "human_review_required": true,
+    "review_page": "k2-complete-field-study.html",
+    "comparison_page": "k2-complete-field-study.html"
   }
 }
