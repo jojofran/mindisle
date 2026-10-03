@@ -37,9 +37,9 @@
   ],
   "checks": {
     "static_k2_reference_present": "PASS",
-    "independent_k2_optical_field_set": "PARTIAL_INTERIOR_DELTA_ONLY",
+    "independent_k2_optical_field_set": "FIXED_VIEW_COMPLETE_AUTHORED_PACKAGE__FREE_VIEW_BLOCKED",
     "authored_interior_delta_package": "PASS_DETERMINISTIC_READBACK",
-    "reproducible_k2_gpu_endpoint": "PASS_INTERIOR_DELTA_ONLY__FULL_ENDPOINT_BLOCKED",
+    "reproducible_k2_gpu_endpoint": "PASS_FIXED_VIEW_COMPLETE_AUTHORED_PACKAGE__FULL_ENDPOINT_BLOCKED",
     "continuous_path_to_k2": "BLOCKED",
     "production_migration": "NOT_STARTED",
     "source_package_consistency": "FAIL_MANIFEST_VS_STATIC_COMPOSITE",
@@ -49,7 +49,7 @@
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "A is now the frozen static authority; build an authored K2 field handoff with protected shell/core before stitching the verified M3 path to K2.",
+    "next_required": "Review the complete fixed-view authored field package, then determine whether a free-view K2 field source can be authored; do not enter M4 or production.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -147,5 +147,24 @@
       "最终裁决必须带三题答案和备注，粘贴回对话后才作为人工 gate 输入。",
       "自动指标只能证明保护区和字段变化，不能替代人工材质判断。"
     ]
+  },
+  "complete_authored_field_candidate": {
+    "package": "k2-complete-authored-field/k2-complete-authored-field.json",
+    "builder": "build_k2_complete_authored_field.py",
+    "status": "PASS_FIXED_VIEW_COMPLETE_AUTHORED_FIELD_PACKAGE__FREE_VIEW_BLOCKED",
+    "scope": "A shell/core/silhouette frozen; B interior authored field separated into depth, density, thickness, transmission, refraction and unresolved residual",
+    "metrics": {
+      "reconstructed_mean_abs_rgb_255_vs_target": 6.268302,
+      "reconstructed_p95_abs_rgb_255_vs_target": 29.09833,
+      "shell_max_abs_rgb_255_vs_a": 2.031373,
+      "core_max_abs_rgb_255_vs_a": 0.0,
+      "outside_max_abs_rgb_255_vs_a": 0.0,
+      "interior_mean_abs_rgb_255_vs_target": 13.251111,
+      "shell_coverage": 0.170316,
+      "interior_coverage": 0.472901,
+      "core_coverage": 0.00838
+    },
+    "limitation": "fixed front view only; no unique physical recovery or free-view validation; signed residual still mixes reflection/scatter/film",
+    "human_review_required": true
   }
 }
