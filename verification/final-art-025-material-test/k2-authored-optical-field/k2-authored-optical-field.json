@@ -1,0 +1,56 @@
+{
+  "schema": "mindisle.k2-authored-optical-field.v1",
+  "status": "PASS_FIXED_VIEW_AUTHORED_FIELD_READBACK",
+  "scope": "selected A+B interior candidate; fixed front view; verification only",
+  "authority": "k2-authority-study/a-authority.png",
+  "target": "k2-authority-study/a-authority-b-internal-study.png",
+  "field_inputs": [
+    "field-authority-rgb.png",
+    "field-base-a-authority.png",
+    "field-core-mask.png",
+    "field-interior-mask.png",
+    "field-optical-depth-authored.png",
+    "field-refraction-authored.png",
+    "field-residual-signed-encoded.png",
+    "field-silhouette.png",
+    "field-thickness-authored.png"
+  ],
+  "encoding": {
+    "depth": "normalized positive optical-depth estimate",
+    "residual": "encoded = clamp(0.5 + 0.5 * residual, 0, 1); decoded = encoded * 2 - 1",
+    "reconstruction": "background * exp(-depth * thickness * 1.65) + signed_residual"
+  },
+  "metrics": {
+    "readback_mean_abs_rgb_255": 0.517228,
+    "readback_p95_abs_rgb_255": 1.03979,
+    "readback_max_abs_rgb_255": 1.680228,
+    "protected_max_abs_rgb_255_vs_a": 1.536859,
+    "outside_max_abs_rgb_255_vs_a": 1.0,
+    "protected_max_abs_rgb_255_vs_target": 1.536859,
+    "outside_max_abs_rgb_255_vs_target": 1.0,
+    "interior_mask_coverage": 0.472901
+  },
+  "limitations": [
+    "single-view authored factorization; not unique physical recovery",
+    "signed residual contains unresolved reflection/scatter/film contribution",
+    "K2 core identity remains frozen authority A",
+    "no ProductState, formation/deformation, moving, runtime interpolation, or production migration"
+  ],
+  "source_provenance": {
+    "A": "k2-authority-study/a-authority.png",
+    "target": "k2-authority-study/a-authority-b-internal-study.png",
+    "B": "k2-authority-study/b-internal-reference.png",
+    "interior_mask": "k2-authority-study/b-internal-mask.png"
+  },
+  "files_sha256": {
+    "field-authority-rgb.png": "226e19b2b817b583d1845572461996b7589ac13d267a49c3387967c92425c898",
+    "field-base-a-authority.png": "77ae24497e6dd2ff0313eb3a83c0bff3f03a6368fe8415cf83b58f697a96643c",
+    "field-core-mask.png": "76858004bf80bb7266500083701089526700223d377731851c51e9a3d02615e0",
+    "field-interior-mask.png": "337b0505119b22787c65e906cd89eeda89979172e4782f2b242bb295fe004812",
+    "field-optical-depth-authored.png": "cfdc6522e1254923fe3057ae110603e9ab959d3906e6bee1145d743aedf8ba25",
+    "field-refraction-authored.png": "9e03f1517d890c8a15b21d3db893530d1271f1766d5b39f0998223f140a3a409",
+    "field-residual-signed-encoded.png": "2c52d2772fdbc57fa3cdec4c4760223fb4d2959390ff0bb7ff5a8bfe232cdd60",
+    "field-silhouette.png": "76abefd487de4509b6977a4d5127e0b9c2c048567c4a9e5321a5015a1e524a51",
+    "field-thickness-authored.png": "8136d6d4697e92ef782a53dce8b38613a192e47940337088d6d05f58c45dc837"
+  }
+}

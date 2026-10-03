@@ -103,5 +103,18 @@
       "scope": "current 0.026 drift / 0.0026 phase-rate tuning",
       "limitation": "only the A shell/core plus B interior delta study is passed; full K2 optical endpoint remains blocked"
     }
+  },
+  "authored_optical_field_fit": {
+    "page": "k2-authored-optical-field-study.html",
+    "evidence": "k2-authored-optical-field/k2-authored-optical-field.json",
+    "status": "PASS_FIXED_VIEW_AUTHORED_FIELD_READBACK__FULL_ENDPOINT_BLOCKED",
+    "scope": "A shell/core frozen; A+B interior target; independent disk-field readback at fixed front view",
+    "metrics": {
+      "readback_mean_abs_rgb_255": 0.517228,
+      "readback_p95_abs_rgb_255": 1.03979,
+      "readback_max_abs_rgb_255": 1.680228
+    },
+    "limitation": "single-view authored factorization; signed residual still contains unresolved reflection/scatter/film; this does not close M3 or prove a free-view K2 optical endpoint",
+    "next_required": "human review of the authored field page before any endpoint or runtime decision"
   }
 }
