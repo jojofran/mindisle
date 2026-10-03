@@ -6,7 +6,12 @@
   "secondary_reference": "k2-authority-study/b-internal-reference.png",
   "mask": "k2-authority-study/b-internal-mask.png",
   "field_package": "k2-interior-field/k2-interior-field-package.json",
-  "field_inputs": ["field-base-authority.png", "field-delta-interior-encoded.png", "field-interior-mask.png", "field-silhouette.png"],
+  "field_inputs": [
+    "field-base-authority.png",
+    "field-delta-interior-encoded.png",
+    "field-interior-mask.png",
+    "field-silhouette.png"
+  ],
   "delta_field_readback": {
     "status": "PASS_DETERMINISTIC_READBACK",
     "mean_abs_rgb_255": 0.118862,
@@ -15,29 +20,81 @@
     "outside_max_abs_rgb_255": 0.0
   },
   "page": "k2-interior-field-study.html",
-  "controls": ["fieldStrength", "flow", "autoplay", "pause", "background", "reset", "qualityCheck"],
-  "boundaries": ["no ProductState", "no formation/deformation", "no core movement", "no moving", "no production migration", "no runtime interpolation"],
+  "controls": [
+    "fieldStrength",
+    "flow",
+    "autoplay",
+    "pause",
+    "background",
+    "reset",
+    "qualityCheck"
+  ],
+  "boundaries": [
+    "no ProductState",
+    "no formation/deformation",
+    "no core movement",
+    "no moving",
+    "no production migration",
+    "no runtime interpolation"
+  ],
   "browser_check": {
     "status": "PASS_FIELD_PROTECTION__AUTOPLAY_TUNING_PENDING",
     "browser": "Codex In-app Browser",
     "webgl2": true,
-    "samples": [0, 0.25, 0.5, 0.75, 1],
+    "samples": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
     "max_outside_rgb": 0,
     "max_protected_rgb": 0,
     "min_interior_mean_abs_rgb": 0.7914855641309557,
-    "controls_verified": ["fieldStrength", "flow", "dark_background", "autoplay", "pause", "reset", "qualityCheck"],
+    "controls_verified": [
+      "fieldStrength",
+      "flow",
+      "dark_background",
+      "autoplay",
+      "pause",
+      "reset",
+      "qualityCheck"
+    ],
     "autoplay_state": {
       "play_verified": true,
-      "sample_playing": {"fieldStrength": 0.545, "flow": 0.991, "playing": true},
+      "sample_playing": {
+        "fieldStrength": 0.545,
+        "flow": 0.991,
+        "playing": true
+      },
       "pause_verified": true,
-      "sample_paused": {"fieldStrength": 0.991, "flow": 0.456, "playing": false}
+      "sample_paused": {
+        "fieldStrength": 0.991,
+        "flow": 0.456,
+        "playing": false
+      }
     },
     "autoplay_tuning": {
       "previous_drift_amplitude": 0.012,
-      "current_drift_amplitude": 0.022,
+      "current_drift_amplitude": 0.026,
       "offline_mean_adjacent_rgb255_previous": 0.7128,
       "offline_mean_adjacent_rgb255_current": 1.0228,
-      "browser_refresh_required": true
+      "browser_refresh_required": true,
+      "current_phase_rate_per_ms": 0.0026,
+      "current_strength_frequency": 0.72,
+      "current_flow_frequency": 0.9,
+      "current_strength_range": [
+        0.1,
+        1.0
+      ],
+      "current_flow_range": [
+        0.2,
+        1.0
+      ],
+      "approximate_sweep_cycle_ms": 3350,
+      "offline_temporal_mean_adjacent_rgb255_60fps": 0.1138,
+      "prior_tuning_drift_amplitude": 0.022,
+      "prior_tuning_phase_rate_per_ms": 0.0022
     }
   },
   "human_review": {
