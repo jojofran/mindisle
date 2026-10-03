@@ -1,0 +1,354 @@
+{
+  "schema": "mindisle.k2-authored-gpu-gate.v1",
+  "scope": "fixed-view experimental field; not ProductState",
+  "samples": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "backgrounds": [
+    {
+      "background": "light",
+      "adjacent": [
+        {
+          "progress": 0.25,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 1.4648643577688012,
+            "max": 7
+          }
+        },
+        {
+          "progress": 0.5,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 1.495143809460742,
+            "max": 7
+          }
+        },
+        {
+          "progress": 0.75,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 1.4877105268966735,
+            "max": 7
+          }
+        },
+        {
+          "progress": 1,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 1.4819438006313048,
+            "max": 8
+          }
+        }
+      ],
+      "endpoint_vs_light_target": {
+        "channels": 181212,
+        "mean": 3.2219334260424253,
+        "max": 8
+      }
+    },
+    {
+      "background": "dark",
+      "adjacent": [
+        {
+          "progress": 0.25,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 24.81298148025517,
+            "max": 37
+          }
+        },
+        {
+          "progress": 0.5,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 24.810575458578903,
+            "max": 37
+          }
+        },
+        {
+          "progress": 0.75,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 24.814465929408648,
+            "max": 38
+          }
+        },
+        {
+          "progress": 1,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 24.811701211840276,
+            "max": 37
+          }
+        }
+      ],
+      "endpoint_vs_light_target": {
+        "channels": 181212,
+        "mean": 101.82428316005563,
+        "max": 157
+      }
+    },
+    {
+      "background": "split",
+      "adjacent": [
+        {
+          "progress": 0.25,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 13.44979361190208,
+            "max": 37
+          }
+        },
+        {
+          "progress": 0.5,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 13.461614021146502,
+            "max": 37
+          }
+        },
+        {
+          "progress": 0.75,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 13.46134361962784,
+            "max": 37
+          }
+        },
+        {
+          "progress": 1,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 13.456509502681941,
+            "max": 37
+          }
+        }
+      ],
+      "endpoint_vs_light_target": {
+        "channels": 181212,
+        "mean": 54.403290069090346,
+        "max": 157
+      }
+    },
+    {
+      "background": "checker",
+      "adjacent": [
+        {
+          "progress": 0.25,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 1.3881641392402269,
+            "max": 9
+          }
+        },
+        {
+          "progress": 0.5,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 1.423503962210008,
+            "max": 9
+          }
+        },
+        {
+          "progress": 0.75,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 1.4115235194137254,
+            "max": 9
+          }
+        },
+        {
+          "progress": 1,
+          "outside": {
+            "channels": 128982,
+            "mean": 0,
+            "max": 0
+          },
+          "protected": {
+            "channels": 67473,
+            "mean": 0,
+            "max": 0
+          },
+          "interior": {
+            "channels": 181212,
+            "mean": 1.4078537845175816,
+            "max": 9
+          }
+        }
+      ],
+      "endpoint_vs_light_target": {
+        "channels": 181212,
+        "mean": 5.770710548970267,
+        "max": 18
+      }
+    }
+  ],
+  "protection_pass": true,
+  "interior_change_pass": true,
+  "disk_readback": {
+    "readback_mean_abs_rgb_255": 0.517228,
+    "readback_p95_abs_rgb_255": 1.03979,
+    "readback_max_abs_rgb_255": 1.680228,
+    "protected_max_abs_rgb_255_vs_a": 1.536859,
+    "outside_max_abs_rgb_255_vs_a": 1,
+    "protected_max_abs_rgb_255_vs_target": 1.536859,
+    "outside_max_abs_rgb_255_vs_target": 1,
+    "interior_mask_coverage": 0.472901
+  },
+  "limitation": "Background changes are an extrapolation of a fit to one background; visual/material judgment remains human."
+}

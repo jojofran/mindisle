@@ -116,6 +116,15 @@
       "readback_max_abs_rgb_255": 1.680228
     },
     "limitation": "single-view authored factorization; signed residual still contains unresolved reflection/scatter/film; this does not close M3 or prove a free-view K2 optical endpoint",
-    "next_required": "human review of the authored field page before any endpoint or runtime decision"
+    "next_required": "human review of the authored field page before any endpoint or runtime decision",
+    "gpu_field_gate": {
+      "evidence": "k2-authored-optical-field-gpu-evidence.json",
+      "status": "PASS_GPU_FIXED_VIEW_PROTECTION_AND_FIELD_CHANGE__HUMAN_REVIEW_REMAINING",
+      "scope": "five progress samples on light/dark/split/checker; outside and protected regions remain stable while interior changes",
+      "max_outside_rgb": 0,
+      "max_protected_rgb": 0,
+      "interior_change_pass": true,
+      "limitation": "dark/split/checker are background extrapolations from a fixed-view fit; this is not a free-view physical endpoint proof"
+    }
   }
 }
