@@ -105,6 +105,7 @@
     }
   },
   "authored_optical_field_fit": {
+    "review_page": "k2-endpoint-review.html",
     "page": "k2-authored-optical-field-study.html",
     "evidence": "k2-authored-optical-field/k2-authored-optical-field.json",
     "status": "PASS_FIXED_VIEW_AUTHORED_FIELD_READBACK__FULL_ENDPOINT_BLOCKED",
