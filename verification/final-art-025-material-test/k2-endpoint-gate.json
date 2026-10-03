@@ -322,6 +322,7 @@
     "visual_gate": "OPEN_M3_COMBINED_2P5D",
     "runtime": false,
     "production": false,
-    "next_required": "Human visual confirmation of the combined motion, then continue bounded M3 or stop; arbitrary free-view K2 and M4 remain blocked."
+    "human_review": "required for this newly combined page",
+    "next_required": "Prepare M3 closeout packet; wait for direct human review of the combined page; arbitrary free-view K2 and M4 remain blocked."
   }
 }
