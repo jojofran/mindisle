@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 
 ROOT = Path(__file__).resolve().parent
 SOURCE = ROOT / "k2-authored-optical-field"
@@ -35,15 +35,29 @@ def digest(path: Path) -> str:
 authority = read(SOURCE / "field-base-a-authority.png")
 target = read(SOURCE / "field-authority-rgb.png")
 silhouette = read(SOURCE / "field-silhouette.png")[..., 0]
-interior = read(SOURCE / "field-interior-mask.png")[..., 0] * silhouette
-core = read(SOURCE / "field-core-mask.png")[..., 0] * silhouette
+# The upstream mask carried square alpha cutouts around the two point cores.
+# Re-author those boundaries as soft circular fields so they cannot render as
+# rectangular overlays in the complete package.
+raw_interior = read(SOURCE / "field-interior-mask.png")[..., 0]
+soft_interior = np.asarray(Image.fromarray(np.uint8(raw_interior * 255.0)).filter(ImageFilter.GaussianBlur(5)), dtype=np.float64) / 255.0
+yy, xx = np.mgrid[:SIZE, :SIZE]
+def soft_disc(cx: float, cy: float, inner: float = 8.0, outer: float = 30.0) -> np.ndarray:
+    dist = np.sqrt((xx - cx) ** 2 + (yy - cy) ** 2)
+    t = np.clip((outer - dist) / max(outer - inner, 1.0), 0.0, 1.0)
+    return t * t * (3.0 - 2.0 * t)
+core = np.maximum(soft_disc(SIZE * 0.317, SIZE * 0.297, 10.0, 48.0), soft_disc(SIZE * 0.731, SIZE * 0.719, 10.0, 48.0)) * silhouette
+core_exclusion = np.maximum(soft_disc(SIZE * 0.317, SIZE * 0.297, 40.0, 90.0), soft_disc(SIZE * 0.731, SIZE * 0.719, 40.0, 90.0)) * silhouette
+interior = np.clip(soft_interior * (1.0 - core_exclusion), 0.0, 1.0) * silhouette
 shell = np.clip(silhouette - interior - core, 0.0, 1.0)
 depth = read(SOURCE / "field-optical-depth-authored.png")[..., 0] * interior
 thickness = read(SOURCE / "field-thickness-authored.png")[..., 0] * interior
 refraction = read(SOURCE / "field-refraction-authored.png")
-residual = read(SOURCE / "field-residual-signed-encoded.png")
-residual_signed = residual * 2.0 - 1.0
 transmission = np.exp(-depth[..., None] * thickness[..., None] * 1.65)
+# Refit the signed residual against the softened core exclusion so the old
+# square-cutout residual cannot leak back as a halo around either point.
+BG = np.array([224.0, 235.0, 239.0]) / 255.0
+residual_signed = (target - BG * transmission) * interior[..., None]
+residual = np.clip(0.5 + residual_signed * 0.5, 0.0, 1.0)
 density = np.clip(depth * (0.35 + 0.65 * thickness), 0.0, 1.0) * interior
 
 save(OUT / "field-authority-a-rgb.png", authority)
@@ -64,13 +78,12 @@ save(OUT / "field-residual-signed-encoded.png", residual)
 
 # The authored fit is allowed to affect only the interior mask. Frozen A is
 # copied back for shell/core/outside so the package has an explicit authority boundary.
-BG = np.array([224.0, 235.0, 239.0]) / 255.0
 fit = np.clip(BG * transmission + residual_signed, 0.0, 1.0)
 reconstructed = authority * (1.0 - interior[..., None]) + fit * interior[..., None]
 save(OUT / "field-complete-reconstruction.png", reconstructed)
 error = np.abs(reconstructed - target) * 255.0
 shell_region = (silhouette > 0.90) & (interior < 0.03) & (core < 0.03)
-core_region = (silhouette > 0.90) & (core > 0.03)
+core_region = (silhouette > 0.90) & (core > 0.75)
 outside_region = silhouette < 0.06
 interior_region = interior > 0.03
 metrics = {
@@ -108,7 +121,13 @@ report = {
         "signed residual still mixes reflection/scatter/film",
         "no ProductState, formation/deformation, moving, runtime interpolation, or production migration",
     ],
-    "human_gate": "current fixed-view visual review PASS_REVIEW; complete package still requires a later human endpoint review",
+    "human_gate": "previous fixed-view visual review PASS_REVIEW; this revised package awaits a new human comparison review",
+    "visual_review_status": "REVISED_AFTER_DIRECTION_AND_CORE_EDGE_REVIEW__AWAITING_HUMAN_REVIEW",
+    "revision_notes": [
+        "restored the previous accepted internal flow direction and texture orientation",
+        "re-authored square core alpha cutouts as soft circular protection fields",
+        "refit signed residual against the softened core exclusion to remove square or halo leakage",
+    ],
     "files_sha256": {p.name: digest(p) for p in sorted(OUT.glob("*.png"))},
 }
 (OUT / "k2-complete-authored-field.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")

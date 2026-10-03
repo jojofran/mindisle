@@ -49,7 +49,7 @@
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "Review the complete fixed-view authored field package, then determine whether a free-view K2 field source can be authored; do not enter M4 or production.",
+    "next_required": "Human-review the revised complete-field comparison page; if it passes the same three-question visual gate, then continue toward a free-view K2 source study.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -151,22 +151,29 @@
   "complete_authored_field_candidate": {
     "package": "k2-complete-authored-field/k2-complete-authored-field.json",
     "builder": "build_k2_complete_authored_field.py",
-    "status": "PASS_FIXED_VIEW_COMPLETE_AUTHORED_FIELD_PACKAGE__FREE_VIEW_BLOCKED",
+    "status": "REVISED_CANDIDATE_AWAITING_HUMAN_REVIEW",
     "scope": "A shell/core/silhouette frozen; B interior authored field separated into depth, density, thickness, transmission, refraction and unresolved residual",
     "metrics": {
-      "reconstructed_mean_abs_rgb_255_vs_target": 6.268302,
-      "reconstructed_p95_abs_rgb_255_vs_target": 29.09833,
-      "shell_max_abs_rgb_255_vs_a": 2.031373,
+      "reconstructed_mean_abs_rgb_255_vs_target": 1.795089,
+      "reconstructed_p95_abs_rgb_255_vs_target": 8.513021,
+      "shell_max_abs_rgb_255_vs_a": 3.493636,
       "core_max_abs_rgb_255_vs_a": 0.0,
       "outside_max_abs_rgb_255_vs_a": 0.0,
-      "interior_mean_abs_rgb_255_vs_target": 13.251111,
-      "shell_coverage": 0.170316,
-      "interior_coverage": 0.472901,
-      "core_coverage": 0.00838
+      "interior_mean_abs_rgb_255_vs_target": 3.916993,
+      "shell_coverage": 0.149792,
+      "interior_coverage": 0.407716,
+      "core_coverage": 0.024375
     },
     "limitation": "fixed front view only; no unique physical recovery or free-view validation; signed residual still mixes reflection/scatter/film",
     "human_review_required": true,
     "review_page": "k2-complete-field-study.html",
-    "comparison_page": "k2-complete-field-study.html"
+    "comparison_page": "k2-complete-field-study.html",
+    "visual_review_status": "REVISE_VISUAL_FIXED_DIRECTION_AND_CORE_EDGE__AWAITING_HUMAN_REVIEW",
+    "revision_page": "k2-complete-field-study.html",
+    "revision_fixes": [
+      "restored previous accepted internal flow direction and WebGL texture orientation",
+      "replaced square core alpha cutouts with soft circular core protection fields",
+      "refit signed residual against the softened core exclusion"
+    ]
   }
 }

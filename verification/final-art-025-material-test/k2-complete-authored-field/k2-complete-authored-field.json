@@ -16,15 +16,15 @@
     "residual": "signed unresolved reflection/scatter/film contribution; not separated physical reflection"
   },
   "metrics": {
-    "reconstructed_mean_abs_rgb_255_vs_target": 6.268302,
-    "reconstructed_p95_abs_rgb_255_vs_target": 29.09833,
-    "shell_max_abs_rgb_255_vs_a": 2.031373,
+    "reconstructed_mean_abs_rgb_255_vs_target": 1.795089,
+    "reconstructed_p95_abs_rgb_255_vs_target": 8.513021,
+    "shell_max_abs_rgb_255_vs_a": 3.493636,
     "core_max_abs_rgb_255_vs_a": 0.0,
     "outside_max_abs_rgb_255_vs_a": 0.0,
-    "interior_mean_abs_rgb_255_vs_target": 13.251111,
-    "shell_coverage": 0.170316,
-    "interior_coverage": 0.472901,
-    "core_coverage": 0.00838
+    "interior_mean_abs_rgb_255_vs_target": 3.916993,
+    "shell_coverage": 0.149792,
+    "interior_coverage": 0.407716,
+    "core_coverage": 0.024375
   },
   "limitations": [
     "single-view authored factorization; not unique physical recovery",
@@ -32,23 +32,29 @@
     "signed residual still mixes reflection/scatter/film",
     "no ProductState, formation/deformation, moving, runtime interpolation, or production migration"
   ],
-  "human_gate": "current fixed-view visual review PASS_REVIEW; complete package still requires a later human endpoint review",
+  "human_gate": "previous fixed-view visual review PASS_REVIEW; this revised package awaits a new human comparison review",
+  "visual_review_status": "REVISED_AFTER_DIRECTION_AND_CORE_EDGE_REVIEW__AWAITING_HUMAN_REVIEW",
+  "revision_notes": [
+    "restored the previous accepted internal flow direction and texture orientation",
+    "re-authored square core alpha cutouts as soft circular protection fields",
+    "refit signed residual against the softened core exclusion to remove square or halo leakage"
+  ],
   "files_sha256": {
     "field-authority-a-rgb.png": "77ae24497e6dd2ff0313eb3a83c0bff3f03a6368fe8415cf83b58f697a96643c",
-    "field-complete-reconstruction.png": "45447945b9c55d5770384927ee82bb693e205eb61563191fee93ae428405140c",
-    "field-core-authority.png": "c8e8e09968eedf6cfa65123f75ceba0086ac9fc0858cf4f58eaae099aa1bd5fd",
-    "field-core-mask.png": "76858004bf80bb7266500083701089526700223d377731851c51e9a3d02615e0",
-    "field-density.png": "82b872bc4913b69d0ef0d5e2a47b9d3a01e0da30006b8c58aec86f6c1efccb52",
-    "field-interior-mask.png": "337b0505119b22787c65e906cd89eeda89979172e4782f2b242bb295fe004812",
-    "field-interior-target.png": "38dd19fe04fa51739fc6fd0e36b6c096c700447444ec4d5e237677252b64d83a",
-    "field-optical-depth.png": "04dc744d4aa08523298095702da778a40b7663a3527d28c8cead8dbc96b9a09c",
+    "field-complete-reconstruction.png": "9b8fc2b83505132e93597b16ab696d04797fedc4ae13639953fb6ccb68fca706",
+    "field-core-authority.png": "c083880c43bb7e2147030d3931f085925b8718c92e13e937d90bcc65e5ea1901",
+    "field-core-mask.png": "2c3384f4186a7a5d1f2a5ad8d2eb15d3db735c5c084d2d4d7156097d9d6226aa",
+    "field-density.png": "6a29fcd58c8f72afc5b3500926040762f29c059ec8ca6baf8c9d5103e17c6221",
+    "field-interior-mask.png": "dea589f88d17e7d91c1ee8e91a02ee6af8d2a997f4ae8becad9d083bb4e8869c",
+    "field-interior-target.png": "8f0acc711622c035eff7312cac4adfc2d10f623665f7cadfa259977d3ce0a9e4",
+    "field-optical-depth.png": "4e6806b3bf0575fd92d96f44cf684a010432f6b10c052198c241e78a1008d280",
     "field-refraction.png": "9e03f1517d890c8a15b21d3db893530d1271f1766d5b39f0998223f140a3a409",
-    "field-residual-signed-encoded.png": "2c52d2772fdbc57fa3cdec4c4760223fb4d2959390ff0bb7ff5a8bfe232cdd60",
-    "field-shell-authority.png": "821db8ca88c3397271a981d0944f937664476cd336023f57d5fe7deb007111b6",
-    "field-shell-mask.png": "e04f057f75efe9bc8831c148caffdb56db4346075a183e30de67f83741de6947",
+    "field-residual-signed-encoded.png": "2b5d66f72cd2d6fec58b21b1234980b67a15b6a5b5b667dd79686d2e55fc8e57",
+    "field-shell-authority.png": "85d0b44ca0d09392ea838a11cb76dbddf75e7b1687d102ff658f43298571880c",
+    "field-shell-mask.png": "c2067050968cfd90d1c2b36636f605e7bba72434e9e21a61967481b33cef54e4",
     "field-silhouette.png": "76abefd487de4509b6977a4d5127e0b9c2c048567c4a9e5321a5015a1e524a51",
     "field-target-a-plus-b-rgb.png": "226e19b2b817b583d1845572461996b7589ac13d267a49c3387967c92425c898",
-    "field-thickness.png": "e9ae5429ebb5987729ea99ce5cdc001f33d71062bc6e16cf2ca4fb62d8baeeae",
-    "field-transmission.png": "563cf06877869cf612a19c0d6e2aa5ab81156751ebea433ead68911822a182d2"
+    "field-thickness.png": "96403601901a5a69ffcfe064e973ff42cbe1c2e5aff74b9648bf3c692c89460a",
+    "field-transmission.png": "a9ef6f8755b06511c19382287e4e2c93e8beeb144ee7f484e29aebecdf72714a"
   }
 }
