@@ -23,10 +23,10 @@
   },
   "metrics": {
     "protected_max_uv_displacement": 0.0,
-    "max_view_conditioned_uv_displacement": 0.0019295023521408439,
-    "min_bounded_warp_jacobian_determinant": 0.3179295063018799,
-    "active_yaw_std": 0.0009107239893637598,
-    "active_pitch_std": 0.0009854553500190377
+    "max_view_conditioned_uv_displacement": 0.0025789362844079733,
+    "min_bounded_warp_jacobian_determinant": 0.08854584395885468,
+    "active_yaw_std": 0.0013341495068743825,
+    "active_pitch_std": 0.0013901263009756804
   },
   "source_sha256": {
     "field-interior-mask.png": "dea589f88d17e7d91c1ee8e91a02ee6af8d2a997f4ae8becad9d083bb4e8869c",
@@ -36,10 +36,9 @@
     "field-optical-depth.png": "4e6806b3bf0575fd92d96f44cf684a010432f6b10c052198c241e78a1008d280"
   },
   "files_sha256": {
-    "field-view-pitch.png": "8f14a67c33994df8d445a3e6e615fe0e4f8e6bad3aa23d5ab7a3db0d9b90c388",
-    "field-view-yaw.png": "87dbaa1b1f81be22ed2962915c5d4ee03883e0e00fec7ae13a43a027278f5ebb"
+    "field-view-pitch.png": "defef4358c238b278cd01c273d022c82235f4d74461798f9b206fd9df5b81cbf",
+    "field-view-yaw.png": "b970634ac7a7c5e260f06bbd553c4448cff2d66b7887861cb29817bab9890a95"
   },
-  "browser_evidence": "../k2-view-conditioned-source-evidence.json",
   "limitations": [
     "bounded source study only; not arbitrary free-view recovery",
     "single-view signed residual still mixes reflection/scatter/film",

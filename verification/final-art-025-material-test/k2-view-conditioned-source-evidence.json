@@ -15,41 +15,41 @@
       "background": "light",
       "maxOutsideRgb": 0,
       "maxProtectedRgb": 0,
-      "minAdjacentInteriorMeanRgb": 0.140298,
-      "smoothRatio": 1.124406,
+      "minAdjacentInteriorMeanRgb": 0.206783,
+      "smoothRatio": 1.101929,
       "centerResetMaxRgb": 0
     },
     {
       "background": "dark",
       "maxOutsideRgb": 0,
       "maxProtectedRgb": 0,
-      "minAdjacentInteriorMeanRgb": 0.069341,
-      "smoothRatio": 1.119530,
+      "minAdjacentInteriorMeanRgb": 0.104452,
+      "smoothRatio": 1.082505,
       "centerResetMaxRgb": 0
     },
     {
       "background": "split",
       "maxOutsideRgb": 0,
       "maxProtectedRgb": 0,
-      "minAdjacentInteriorMeanRgb": 0.114252,
-      "smoothRatio": 1.107165,
+      "minAdjacentInteriorMeanRgb": 0.164794,
+      "smoothRatio": 1.099476,
       "centerResetMaxRgb": 0
     },
     {
       "background": "checker",
       "maxOutsideRgb": 0,
       "maxProtectedRgb": 0,
-      "minAdjacentInteriorMeanRgb": 0.141315,
-      "smoothRatio": 1.128460,
+      "minAdjacentInteriorMeanRgb": 0.207490,
+      "smoothRatio": 1.102021,
       "centerResetMaxRgb": 0
     }
   ],
   "field_metrics": {
     "protectedMaxUvDisplacement": 0,
-    "maxViewConditionedUvDisplacement": 0.001929502,
-    "minBoundedWarpJacobianDeterminant": 0.317930,
-    "activeYawStd": 0.000911,
-    "activePitchStd": 0.000985
+    "maxViewConditionedUvDisplacement": 0.002578936,
+    "minBoundedWarpJacobianDeterminant": 0.088546,
+    "activeYawStd": 0.001334,
+    "activePitchStd": 0.001390
   },
   "criteria": "outside=0; protected<=1; every bounded view has interior change; adjacent interior mean>0; smoothRatio<3; center reset exact",
   "browserChecks": {
@@ -58,13 +58,13 @@
     "cornerScreenshot": "complete sphere; shell/core/points retained; no square overlay observed",
     "playAfterMs": 900,
     "playObserved": {
-      "yaw": 0.089086,
-      "pitch": 0.037022,
+      "yaw": 0.089285,
+      "pitch": 0.037112,
       "playing": true
     },
     "pauseObserved": {
-      "yaw": 0.089086,
-      "pitch": 0.037022,
+      "yaw": 0.089285,
+      "pitch": 0.037112,
       "playing": false
     },
     "resetObserved": {

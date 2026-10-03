@@ -22,7 +22,7 @@ def smooth(a, b, x):
     t = np.clip((x - a) / (b - a), 0, 1)
     return t * t * (3 - 2 * t)
 
-def blurred(value, radius=8):
+def blurred(value, radius=30):
     image = Image.fromarray(np.rint(np.clip(value, 0, 1) * 255).astype(np.uint8))
     return np.asarray(image.filter(ImageFilter.GaussianBlur(radius)), dtype=np.float32) / 255.0
 
@@ -54,8 +54,8 @@ direction_y = gy / np.maximum(gradient_norm, 0.002)
 material_weight = interior * shell_safe * (0.30 + 0.70 * np.sqrt(np.clip(low_frequency, 0, 1)))
 material_weight *= 0.90 + 0.10 * np.clip(density / 0.196, 0, 1)
 
-yaw = np.clip(direction_x * material_weight * 0.002, -SCALE, SCALE)
-pitch = np.clip(direction_y * material_weight * 0.002, -SCALE, SCALE)
+yaw = np.clip(direction_x * material_weight * 0.003, -SCALE, SCALE)
+pitch = np.clip(direction_y * material_weight * 0.003, -SCALE, SCALE)
 paths = {}
 paths['field-view-yaw.png'], yaw_disk = save_signed('field-view-yaw.png', yaw)
 paths['field-view-pitch.png'], pitch_disk = save_signed('field-view-pitch.png', pitch)
@@ -95,7 +95,7 @@ sources = [
 ]
 report = {
     'schema': 'mindisle.k2-view-conditioned-source.v1',
-    'status': 'PASS_DISK_READBACK_AND_NONFOLDING__BROWSER_TECHNICAL_PENDING',
+    'status': 'PASS_DISK_READBACK_AND_NONFOLDING__BROWSER_TECHNICAL_PASS__VISUAL_REVIEW_PENDING',
     'scope': 'M3 verification; bounded view-conditioned interior source; shell/core/silhouette frozen',
     'view_domain': {'yaw': [-0.15, 0.15], 'pitch': [-0.15, 0.15], 'units': 'normalized bounded study offsets'},
     'derivation': 'low-frequency optical-depth/thickness gradient, interior mask, shell exclusion and density modulation',
