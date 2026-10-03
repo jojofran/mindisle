@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.k2-endpoint-gate.v1",
-  "status": "K2_INTERIOR_DELTA_FIELD_AUTOMATED_PASS__AUTOPLAY_TUNING_PENDING",
+  "status": "K2_INTERIOR_DELTA_FIELD_PASS__FULL_ENDPOINT_BLOCKED",
   "milestone": "M3_CONTINUOUS_FIELD",
   "scope": "只验证 K2 endpoint 是否具备可复核的连续材质输入；不修改 production，不实现 runtime interpolation。",
   "current_continuity_slice": {
@@ -49,7 +49,7 @@
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "Review the delta-field version of k2-interior-field-study.html visually; full K2 optical endpoint proof remains blocked until a complete field set or source decision exists.",
+    "next_required": "Resolve the K2 source-package mismatch and recover a complete independent field set before stitching the verified M3 path to K2.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -89,15 +89,16 @@
     "page": "k2-interior-field-study.html",
     "evidence": "k2-interior-field-evidence.json",
     "field_package": "k2-interior-field/k2-interior-field-package.json",
-    "status": "PASS_AUTOMATED_DELTA_READBACK__AUTOPLAY_TUNING_PENDING",
+    "status": "PASS_AUTOMATED_DELTA_READBACK__AUTOPLAY_VISUAL_REVIEW_PASS",
     "max_outside_rgb": 0,
     "max_protected_rgb": 0,
     "min_interior_mean_abs_rgb": 0.7914855641309557,
     "human_review": {
-      "status": "SUPERSEDED_BY_AUTOPLAY_TUNING",
+      "status": "PASS",
       "recorded": "2026-10-03",
-      "verdict": "自动播放的内部变化自然（旧 0.012 参数）",
-      "scope": "旧参数结论已被 0.022 调整取代；独立 K2 field proof 和 M4 仍未关闭"
+      "verdict": "自动播放内部变化现在可见且自然，可以进入下一步",
+      "scope": "current 0.026 drift / 0.0026 phase-rate tuning",
+      "limitation": "only the A shell/core plus B interior delta study is passed; full K2 optical endpoint remains blocked"
     }
   }
 }

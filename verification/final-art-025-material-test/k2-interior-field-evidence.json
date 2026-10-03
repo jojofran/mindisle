@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.k2-interior-field-study.v1",
-  "status": "PASS_FIELD_GATE__AUTOPLAY_TUNING_BROWSER_REFRESH_PENDING",
+  "status": "PASS_FIELD_GATE__AUTOPLAY_VISUAL_REVIEW_PASS",
   "scope": "A shell/core/silhouette frozen; B interior-only field study",
   "authority": "k2-authority-study/a-authority.png",
   "secondary_reference": "k2-authority-study/b-internal-reference.png",
@@ -38,7 +38,7 @@
     "no runtime interpolation"
   ],
   "browser_check": {
-    "status": "PASS_FIELD_PROTECTION__AUTOPLAY_TUNING_PENDING",
+    "status": "PASS_FIELD_PROTECTION__AUTOPLAY_VISUAL_REVIEW_PASS",
     "browser": "Codex In-app Browser",
     "webgl2": true,
     "samples": [
@@ -79,7 +79,7 @@
       "current_drift_amplitude": 0.026,
       "offline_mean_adjacent_rgb255_previous": 0.7128,
       "offline_mean_adjacent_rgb255_current": 1.0228,
-      "browser_refresh_required": true,
+      "browser_refresh_required": false,
       "current_phase_rate_per_ms": 0.0026,
       "current_strength_frequency": 0.72,
       "current_flow_frequency": 0.9,
@@ -94,13 +94,15 @@
       "approximate_sweep_cycle_ms": 3350,
       "offline_temporal_mean_adjacent_rgb255_60fps": 0.1138,
       "prior_tuning_drift_amplitude": 0.022,
-      "prior_tuning_phase_rate_per_ms": 0.0022
+      "prior_tuning_phase_rate_per_ms": 0.0022,
+      "review_source": "direct user review after refresh"
     }
   },
   "human_review": {
-    "status": "SUPERSEDED_BY_AUTOPLAY_TUNING",
+    "status": "PASS",
     "recorded": "2026-10-03",
-    "previous_verdict": "自动播放的内部变化自然",
-    "scope": "previous 0.012 tuning only; current 0.022 tuning needs refresh"
+    "verdict": "自动播放内部变化现在可见且自然，可以进入下一步",
+    "scope": "current 0.026 drift / 0.0026 phase-rate tuning",
+    "next_gate": "K2 endpoint field recovery before full path stitching"
   }
 }

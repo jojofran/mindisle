@@ -64,7 +64,7 @@ Current active milestone: **M3 — Continuous Field / bounded dynamic 2.5D study
 - **Allowed:** 首段独立滑杆，以及同一固定 body domain 内的连续播放、进度拖拽和沿既有 refraction field 的有界内部输运。025 起点必须回归 M2；silhouette 以 base UV 冻结，球壳、轮廓和固定高光冻结。
 - **Forbidden:** full-frame state image crossfade、formation product semantics、production asset 替换。
 - **Acceptance:** 首段真实滑杆与第二段播放/暂停/拖拽/重置、连续锚点帧、固定壳区、多背景和内部输运证据通过；连续性闸门在中性背景采样 0/.25/.5/.75/1，外部背景最大漂移为 0，平滑比 1.099，状态可恢复。视觉材质与运动感已获人工 PASS。完整 M3 仍要求 continuous field 与 K2 endpoint PASS；较厚试验值不得冒充 050/075/K2 authority。
-- **Next:** 用户已确认 `A shell/core + B interior` 最好；delta field package 的离线回读和浏览器保护区已自动通过。为解决“点击播放没拖动滑杆明显”，研究页将输运幅度调到 0.026，并将自动播放改为约 3.3 秒一轮的平滑 sweep（phase 速率 0.0026，strength 频率 0.72，flow 频率 0.9）；当前需要刷新页面重新确认观感。完整 K2 optical endpoint source 仍缺失，浏览器闸门与 autoplay feel 不等于 runtime 或 M4 通过，M4 继续 BLOCKED。
+- **Next:** 用户已确认 `A shell/core + B interior` 最好；delta field package 的离线回读和浏览器保护区已自动通过。为解决“点击播放没拖动滑杆明显”，研究页将输运幅度调到 0.026，并将自动播放改为约 3.3 秒一轮的平滑 sweep（phase 速率 0.0026，strength 频率 0.72，flow 频率 0.9）；当前自动播放已获人工确认；下一步不是直接把不同来源的静态图硬串起来，而是先解决 K2 source-package mismatch，恢复完整独立 field set，再做 025→K2 handoff study。完整 K2 optical endpoint source 仍缺失，M4 继续 BLOCKED。
 
 ## M4 — Core Integration
 
