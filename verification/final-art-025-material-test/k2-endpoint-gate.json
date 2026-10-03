@@ -303,5 +303,25 @@
     "runtime": false,
     "production": false,
     "next_required": "Continue bounded M3 review or stop at this source slice; arbitrary free-view K2 and M4 remain blocked."
+  },
+  "m3_k2_combined_2p5d": {
+    "page": "m3-k2-combined-2p5d-study.html",
+    "evidence": "m3-k2-combined-2p5d-evidence.json",
+    "status": "PASS_TECHNICAL__FIXED_CAMERA_COMBINED_2P5D__VISUAL_GATE_OPEN",
+    "scope": "continuous interior transport combined with bounded yaw/pitch view-conditioned source; shell/core/silhouette/points remain frozen",
+    "progress_samples": 5,
+    "view_samples_per_axis": 3,
+    "backgrounds": ["light", "dark", "split", "checker"],
+    "max_outside_rgb": 0,
+    "max_protected_rgb": 1,
+    "min_progress_adjacent_interior_mean_abs_rgb": 0.353007,
+    "min_view_adjacent_interior_mean_abs_rgb": 0.099441,
+    "max_progress_smooth_ratio": 1.505728,
+    "max_view_smooth_ratio": 1.048225,
+    "center_reset_max_rgb": 0,
+    "visual_gate": "OPEN_M3_COMBINED_2P5D",
+    "runtime": false,
+    "production": false,
+    "next_required": "Human visual confirmation of the combined motion, then continue bounded M3 or stop; arbitrary free-view K2 and M4 remain blocked."
   }
 }

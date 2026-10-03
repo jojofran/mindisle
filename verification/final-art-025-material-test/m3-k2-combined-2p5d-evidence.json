@@ -1,0 +1,100 @@
+{
+  "schema": "mindisle.m3.k2-combined-2p5d.v1",
+  "status": "PASS_TECHNICAL__FIXED_CAMERA_COMBINED_2P5D__VISUAL_GATE_OPEN",
+  "recorded": "2026-10-03",
+  "page": "m3-k2-combined-2p5d-study.html",
+  "scope": "verification-only fixed-camera combination of continuous interior transport and bounded view-conditioned source",
+  "frozen": [
+    "shell",
+    "silhouette",
+    "core",
+    "point highlights",
+    "production and ProductState"
+  ],
+  "progress_samples": [0, 0.25, 0.5, 0.75, 1],
+  "view_domain": {
+    "yaw": [-0.15, 0, 0.15],
+    "pitch": [-0.15, 0, 0.15]
+  },
+  "backgrounds": [
+    {
+      "background": "light",
+      "progressMinAdjacentInteriorMeanRgb": 0.681202,
+      "progressSmoothRatio": 1.504076,
+      "viewMinAdjacentInteriorMeanRgb": 0.198485,
+      "viewSmoothRatio": 1.044269,
+      "combinedVsBaselineMeanRgb": 2.005186,
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 1,
+      "resetMaxRgb": 0
+    },
+    {
+      "background": "dark",
+      "progressMinAdjacentInteriorMeanRgb": 0.353007,
+      "progressSmoothRatio": 1.422375,
+      "viewMinAdjacentInteriorMeanRgb": 0.099441,
+      "viewSmoothRatio": 1.029219,
+      "combinedVsBaselineMeanRgb": 0.860436,
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 1,
+      "resetMaxRgb": 0
+    },
+    {
+      "background": "split",
+      "progressMinAdjacentInteriorMeanRgb": 0.514973,
+      "progressSmoothRatio": 1.454698,
+      "viewMinAdjacentInteriorMeanRgb": 0.157022,
+      "viewSmoothRatio": 1.042927,
+      "combinedVsBaselineMeanRgb": 1.534748,
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 1,
+      "resetMaxRgb": 0
+    },
+    {
+      "background": "checker",
+      "progressMinAdjacentInteriorMeanRgb": 0.679457,
+      "progressSmoothRatio": 1.505728,
+      "viewMinAdjacentInteriorMeanRgb": 0.198485,
+      "viewSmoothRatio": 1.048225,
+      "combinedVsBaselineMeanRgb": 2.002431,
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 1,
+      "resetMaxRgb": 0
+    }
+  ],
+  "criteria": "progress/view outside=0; protected<=1; interior changes>0; smoothRatio<3; combined endpoint changes; reset exact",
+  "browserChecks": {
+    "webgl2": true,
+    "fieldLoad": true,
+    "extremeScreenshot": "progress 1, yaw 0.15, pitch 0.09 remains a complete sphere with frozen shell/core/points and no square overlay",
+    "playAfterMs": 900,
+    "playObserved": {
+      "progress": 0.088612,
+      "yaw": 0.080813,
+      "pitch": 0.033572,
+      "playing": true
+    },
+    "pauseObserved": {
+      "progress": 0.088612,
+      "yaw": 0.080813,
+      "pitch": 0.033572,
+      "playing": false
+    },
+    "resetObserved": {
+      "progress": 0,
+      "yaw": 0,
+      "pitch": 0,
+      "playing": false,
+      "elapsed": 0
+    }
+  },
+  "technicalPass": true,
+  "visualGate": "OPEN_M3_COMBINED_2P5D",
+  "humanReview": "current user feedback accepts general material direction; combined visual gate remains open",
+  "limitations": [
+    "fixed camera only",
+    "bounded yaw/pitch only; no arbitrary free-view K2",
+    "no runtime, ProductState, M4, or production migration"
+  ],
+  "nextRequired": "Human visual confirmation of the combined motion, then continue bounded M3 or stop; M4 remains blocked."
+}
