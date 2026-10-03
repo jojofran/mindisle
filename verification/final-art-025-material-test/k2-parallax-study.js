@@ -79,9 +79,9 @@ function play(){
 function loop(now){
   if(!state.playing)return;
   elapsed+=Math.min(.064,Math.max(0,(now-last)/1000));last=now;
-  const ramp=Math.min(1,elapsed/2);const fade=ramp*ramp*(3-2*ramp);
-  state.x=fade*Math.sin(elapsed*.55);state.y=fade*.6*Math.sin(elapsed*.41);
-  state.flow=fade*.35;state.phase=elapsed*.65;draw();raf=requestAnimationFrame(loop);
+  const ramp=Math.min(1,elapsed/1.5);const fade=ramp*ramp*(3-2*ramp);
+  state.x=fade*Math.sin(elapsed*.68);state.y=fade*.6*Math.sin(elapsed*.50);
+  state.flow=fade*.42;state.phase=elapsed*.82;draw();raf=requestAnimationFrame(loop);
 }
 function reset(){pause();elapsed=0;Object.assign(state,{x:0,y:0,flow:0,phase:0,background:'light'});draw();}
 function set(values){

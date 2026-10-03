@@ -49,7 +49,7 @@
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "The depth-aware bounded parallax field passes the technical gate. Continue bounded 2.5D motion authoring while keeping the new visual gate open; do not claim free-view K2 endpoint or enter M4.",
+    "next_required": "The fixed-camera interior motion has human PASS with a small speed correction. Continue bounded 2.5D motion authoring; keep arbitrary free-view K2, M4 and production blocked.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -219,7 +219,7 @@
     "page": "k2-free-view-source-study.html",
     "field_package": "k2-parallax-field/k2-parallax-field.json",
     "browser_evidence": "k2-parallax-browser-evidence.json",
-    "status": "PASS_TECHNICAL__VISUAL_GATE_OPEN",
+    "status": "PASS_REVIEW_FIXED_CAMERA_MOTION_SPEED_TUNED__ARBITRARY_FREE_VIEW_BLOCKED",
     "scope": "fixed camera; thickness/density-aware interior parallax; shell/core/silhouette frozen",
     "backgrounds": [
       "light",
@@ -233,7 +233,28 @@
     "min_adjacent_interior_mean_abs_rgb": 0.070755,
     "max_smooth_ratio": 1.124322,
     "center_reset_max_rgb": 0,
-    "visual_gate": "OPEN_NEW_PARALLAX_MOTION",
-    "next_required": "continue only with bounded motion authoring; no M4 or production migration"
+    "visual_gate": "PASS_REVIEW_FIXED_CAMERA_INTERIOR_MOTION__ARBITRARY_FREE_VIEW_OPEN",
+    "next_required": "Continue bounded 2.5D motion authoring; arbitrary free-view K2 and M4 remain blocked.",
+    "human_review": {
+      "status": "PASS_REVIEW",
+      "recorded": "2026-10-03",
+      "verdict": "PASS_REVIEW",
+      "comparison": "球体、光点与内部水感：是",
+      "note": "但是感觉有点点慢",
+      "scope": "K2 内部层次视差固定镜头动态"
+    },
+    "speed_adjustment": {
+      "status": "APPLIED",
+      "material_fields_changed": false,
+      "playback_profile": "moderately accelerated"
+    },
+    "post_adjustment_check": {
+      "status": "PASS_TECHNICAL",
+      "play_elapsed_seconds": 0.8902,
+      "max_outside_rgb": 0,
+      "max_protected_rgb": 0,
+      "max_smooth_ratio": 1.124322,
+      "center_reset_max_rgb": 0
+    }
   }
 }
