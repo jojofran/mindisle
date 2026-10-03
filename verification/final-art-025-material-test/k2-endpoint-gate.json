@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.k2-endpoint-gate.v1",
-  "status": "K2_INTERIOR_DELTA_FIELD_AUTOMATED_PASS__HUMAN_VISUAL_PENDING",
+  "status": "K2_INTERIOR_DELTA_FIELD_AUTOMATED_PASS__AUTOPLAY_TUNING_PENDING",
   "milestone": "M3_CONTINUOUS_FIELD",
   "scope": "只验证 K2 endpoint 是否具备可复核的连续材质输入；不修改 production，不实现 runtime interpolation。",
   "current_continuity_slice": {
@@ -89,15 +89,15 @@
     "page": "k2-interior-field-study.html",
     "evidence": "k2-interior-field-evidence.json",
     "field_package": "k2-interior-field/k2-interior-field-package.json",
-    "status": "PASS_AUTOMATED_DELTA_READBACK__HUMAN_VISUAL_PENDING",
+    "status": "PASS_AUTOMATED_DELTA_READBACK__AUTOPLAY_TUNING_PENDING",
     "max_outside_rgb": 0,
     "max_protected_rgb": 0,
     "min_interior_mean_abs_rgb": 0.7914855641309557,
     "human_review": {
-      "status": "PASS_AUTOPLAY_FEEL__DELTA_VISUAL_PENDING",
+      "status": "SUPERSEDED_BY_AUTOPLAY_TUNING",
       "recorded": "2026-10-03",
-      "verdict": "自动播放的内部变化自然",
-      "scope": "autoplay feel only; independent K2 field proof and M4 remain open"
+      "verdict": "自动播放的内部变化自然（旧 0.012 参数）",
+      "scope": "旧参数结论已被 0.022 调整取代；独立 K2 field proof 和 M4 仍未关闭"
     }
   }
 }

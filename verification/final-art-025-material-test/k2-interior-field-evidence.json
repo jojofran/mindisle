@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.k2-interior-field-study.v1",
-  "status": "PASS_BROWSER_PROTECTION_GATE__READY_FOR_HUMAN_REVIEW",
+  "status": "PASS_FIELD_GATE__AUTOPLAY_TUNING_BROWSER_REFRESH_PENDING",
   "scope": "A shell/core/silhouette frozen; B interior-only field study",
   "authority": "k2-authority-study/a-authority.png",
   "secondary_reference": "k2-authority-study/b-internal-reference.png",
@@ -18,7 +18,7 @@
   "controls": ["fieldStrength", "flow", "autoplay", "pause", "background", "reset", "qualityCheck"],
   "boundaries": ["no ProductState", "no formation/deformation", "no core movement", "no moving", "no production migration", "no runtime interpolation"],
   "browser_check": {
-    "status": "PASS",
+    "status": "PASS_FIELD_PROTECTION__AUTOPLAY_TUNING_PENDING",
     "browser": "Codex In-app Browser",
     "webgl2": true,
     "samples": [0, 0.25, 0.5, 0.75, 1],
@@ -31,12 +31,19 @@
       "sample_playing": {"fieldStrength": 0.545, "flow": 0.991, "playing": true},
       "pause_verified": true,
       "sample_paused": {"fieldStrength": 0.991, "flow": 0.456, "playing": false}
+    },
+    "autoplay_tuning": {
+      "previous_drift_amplitude": 0.012,
+      "current_drift_amplitude": 0.022,
+      "offline_mean_adjacent_rgb255_previous": 0.7128,
+      "offline_mean_adjacent_rgb255_current": 1.0228,
+      "browser_refresh_required": true
     }
   },
   "human_review": {
-    "status": "PASS",
+    "status": "SUPERSEDED_BY_AUTOPLAY_TUNING",
     "recorded": "2026-10-03",
-    "verdict": "自动播放的内部变化自然",
-    "scope": "autoplay feel only; K2 endpoint and M4 remain open"
+    "previous_verdict": "自动播放的内部变化自然",
+    "scope": "previous 0.012 tuning only; current 0.022 tuning needs refresh"
   }
 }
