@@ -1,6 +1,6 @@
 {
   "schema": "mindisle.k2-view-conditioned-source.v1",
-  "status": "PASS_DISK_READBACK_AND_NONFOLDING__BROWSER_TECHNICAL_PENDING",
+  "status": "PASS_DISK_READBACK_AND_NONFOLDING__BROWSER_TECHNICAL_PASS__VISUAL_REVIEW_PENDING",
   "scope": "M3 verification; bounded view-conditioned interior source; shell/core/silhouette frozen",
   "view_domain": {
     "yaw": [
@@ -39,6 +39,7 @@
     "field-view-pitch.png": "8f14a67c33994df8d445a3e6e615fe0e4f8e6bad3aa23d5ab7a3db0d9b90c388",
     "field-view-yaw.png": "87dbaa1b1f81be22ed2962915c5d4ee03883e0e00fec7ae13a43a027278f5ebb"
   },
+  "browser_evidence": "../k2-view-conditioned-source-evidence.json",
   "limitations": [
     "bounded source study only; not arbitrary free-view recovery",
     "single-view signed residual still mixes reflection/scatter/film",
