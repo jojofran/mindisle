@@ -1,0 +1,26 @@
+{
+  "schema": "mindisle.k2-bounded-free-view-source.v1",
+  "status": "PASS_COMPUTATIONAL_BOUNDED_VIEW__HUMAN_VISUAL_GATE_OPEN",
+  "page": "k2-free-view-source-study.html",
+  "scope": "verification-only; authored complete fixed-view package with bounded view offsets",
+  "view_offsets": [[0, 0], [0.15, 0], [-0.15, 0], [0, 0.15], [0, -0.15]],
+  "checks": [
+    {"yaw": 0.15, "pitch": 0, "outside": {"mean": 0, "max": 0}, "protected": {"mean": 0.0000156664, "max": 1}, "interior": {"mean": 1.033471375, "max": 22}},
+    {"yaw": -0.15, "pitch": 0, "outside": {"mean": 0, "max": 0}, "protected": {"mean": 0.0000313327, "max": 1}, "interior": {"mean": 1.034995275, "max": 21}},
+    {"yaw": 0, "pitch": 0.15, "outside": {"mean": 0, "max": 0}, "protected": {"mean": 0.0000391659, "max": 1}, "interior": {"mean": 1.042753311, "max": 24}},
+    {"yaw": 0, "pitch": -0.15, "outside": {"mean": 0, "max": 0}, "protected": {"mean": 0.0000156664, "max": 1}, "interior": {"mean": 1.046765918, "max": 24}}
+  ],
+  "max_outside_rgb": 0,
+  "max_protected_rgb": 1,
+  "quantization_tolerance_rgb": 1,
+  "min_interior_mean_abs_rgb": 1.033471375,
+  "computational_pass": true,
+  "authority": "A shell/core/silhouette frozen; authored interior fields only",
+  "browser_checks": ["WebGL2 load", "bounded yaw/pitch controls", "view sweep play/pause/reset", "light/dark/checker backgrounds"],
+  "limitations": [
+    "bounded offsets only; no arbitrary free-view proof",
+    "single-view authored residual still mixes reflection/scatter/film",
+    "no ProductState, runtime interpolation, M4 or production migration",
+    "human material identity gate remains open for any free-view endpoint claim"
+  ]
+}

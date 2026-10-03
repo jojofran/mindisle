@@ -49,7 +49,7 @@
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "Proceed only with a bounded free-view K2 source study; keep M4 and production blocked until a free-view endpoint is independently authored and reviewed.",
+    "next_required": "Use the bounded free-view study as a source boundary; before claiming a free-view K2 endpoint, author independent view-conditioned fields and pass the human visual gate. Keep M4 and production blocked.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -179,5 +179,40 @@
       "limitation": "仅关闭本固定视角人工 gate，不证明自由视角 K2 endpoint"
     },
     "next_required": "Bounded free-view K2 source study; do not enter M4 or production migration."
+  },
+  "bounded_free_view_source_study": {
+    "page": "k2-free-view-source-study.html",
+    "evidence": "k2-bounded-free-view-evidence.json",
+    "status": "PASS_COMPUTATIONAL_BOUNDED_VIEW__HUMAN_VISUAL_GATE_OPEN",
+    "scope": "A shell/core/silhouette frozen; bounded ±0.15 view offsets apply interior field only",
+    "view_offsets": [
+      [
+        0,
+        0
+      ],
+      [
+        0.15,
+        0
+      ],
+      [
+        -0.15,
+        0
+      ],
+      [
+        0,
+        0.15
+      ],
+      [
+        0,
+        -0.15
+      ]
+    ],
+    "max_outside_rgb": 0,
+    "max_protected_rgb": 1,
+    "quantization_tolerance_rgb": 1,
+    "min_interior_mean_abs_rgb": 1.033471375,
+    "computational_pass": true,
+    "human_gate": "required before claiming arbitrary free-view K2 endpoint",
+    "next_required": "Author independent view-conditioned source fields or stop at this bounded study; do not enter M4."
   }
 }
