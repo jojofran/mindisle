@@ -279,5 +279,29 @@
     "runtime": false,
     "production": false,
     "next_required": "Continue bounded M3 review or stop at this technical slice; arbitrary free-view K2 and M4 remain blocked."
+  },
+  "m3_k2_view_conditioned_source": {
+    "page": "k2-view-conditioned-source-study.html",
+    "field_package": "k2-view-conditioned-source/k2-view-conditioned-source.json",
+    "evidence": "k2-view-conditioned-source-evidence.json",
+    "status": "PASS_TECHNICAL__BOUNDED_VIEW_SOURCE__VISUAL_GATE_OPEN",
+    "scope": "bounded yaw/pitch ±0.15 source response; shell/core/silhouette/points remain frozen",
+    "samples_per_axis": 3,
+    "backgrounds": [
+      "light",
+      "dark",
+      "split",
+      "checker"
+    ],
+    "max_outside_rgb": 0,
+    "max_protected_rgb": 0,
+    "min_adjacent_interior_mean_abs_rgb": 0.069341,
+    "max_smooth_ratio": 1.12846,
+    "center_reset_max_rgb": 0,
+    "min_bounded_warp_jacobian_determinant": 0.31793,
+    "visual_gate": "OPEN_M3_VIEW_CONDITIONED_SOURCE",
+    "runtime": false,
+    "production": false,
+    "next_required": "Continue bounded M3 review or stop at this source slice; arbitrary free-view K2 and M4 remain blocked."
   }
 }

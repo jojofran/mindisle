@@ -1,0 +1,86 @@
+{
+  "schema": "mindisle.m3.k2-view-conditioned-source.v1",
+  "status": "PASS_TECHNICAL__BOUNDED_VIEW_SOURCE__VISUAL_GATE_OPEN",
+  "recorded": "2026-10-03",
+  "page": "k2-view-conditioned-source-study.html",
+  "field_package": "k2-view-conditioned-source/k2-view-conditioned-source.json",
+  "scope": "verification-only bounded yaw/pitch source; shell/core/silhouette/points remain frozen",
+  "view_domain": {
+    "yaw": [-0.15, 0.15],
+    "pitch": [-0.15, 0.15],
+    "samples_per_axis": 3
+  },
+  "backgrounds": [
+    {
+      "background": "light",
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 0,
+      "minAdjacentInteriorMeanRgb": 0.140298,
+      "smoothRatio": 1.124406,
+      "centerResetMaxRgb": 0
+    },
+    {
+      "background": "dark",
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 0,
+      "minAdjacentInteriorMeanRgb": 0.069341,
+      "smoothRatio": 1.119530,
+      "centerResetMaxRgb": 0
+    },
+    {
+      "background": "split",
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 0,
+      "minAdjacentInteriorMeanRgb": 0.114252,
+      "smoothRatio": 1.107165,
+      "centerResetMaxRgb": 0
+    },
+    {
+      "background": "checker",
+      "maxOutsideRgb": 0,
+      "maxProtectedRgb": 0,
+      "minAdjacentInteriorMeanRgb": 0.141315,
+      "smoothRatio": 1.128460,
+      "centerResetMaxRgb": 0
+    }
+  ],
+  "field_metrics": {
+    "protectedMaxUvDisplacement": 0,
+    "maxViewConditionedUvDisplacement": 0.001929502,
+    "minBoundedWarpJacobianDeterminant": 0.317930,
+    "activeYawStd": 0.000911,
+    "activePitchStd": 0.000985
+  },
+  "criteria": "outside=0; protected<=1; every bounded view has interior change; adjacent interior mean>0; smoothRatio<3; center reset exact",
+  "browserChecks": {
+    "webgl2": true,
+    "fieldLoad": true,
+    "cornerScreenshot": "complete sphere; shell/core/points retained; no square overlay observed",
+    "playAfterMs": 900,
+    "playObserved": {
+      "yaw": 0.089086,
+      "pitch": 0.037022,
+      "playing": true
+    },
+    "pauseObserved": {
+      "yaw": 0.089086,
+      "pitch": 0.037022,
+      "playing": false
+    },
+    "resetObserved": {
+      "yaw": 0,
+      "pitch": 0,
+      "playing": false,
+      "elapsed": 0
+    }
+  },
+  "technicalPass": true,
+  "visualGate": "OPEN_M3_VIEW_CONDITIONED_SOURCE",
+  "humanReview": "not requested for this technical continuation",
+  "limitations": [
+    "bounded source only; does not prove arbitrary free-view K2",
+    "signed residual remains a single-view unresolved reflection/scatter/film term",
+    "no runtime, ProductState, M4, or production migration"
+  ],
+  "nextRequired": "Continue bounded M3 review or stop at this source slice; arbitrary free-view K2 and M4 remain blocked."
+}

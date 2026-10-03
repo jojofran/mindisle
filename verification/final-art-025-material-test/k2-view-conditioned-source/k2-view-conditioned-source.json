@@ -1,0 +1,47 @@
+{
+  "schema": "mindisle.k2-view-conditioned-source.v1",
+  "status": "PASS_DISK_READBACK_AND_NONFOLDING__BROWSER_TECHNICAL_PENDING",
+  "scope": "M3 verification; bounded view-conditioned interior source; shell/core/silhouette frozen",
+  "view_domain": {
+    "yaw": [
+      -0.15,
+      0.15
+    ],
+    "pitch": [
+      -0.15,
+      0.15
+    ],
+    "units": "normalized bounded study offsets"
+  },
+  "derivation": "low-frequency optical-depth/thickness gradient, interior mask, shell exclusion and density modulation",
+  "encoding": {
+    "format": "RGB PNG, RG big-endian scalar uint16, B unused",
+    "decode": "(uint16 - 32768) / 32767 * 0.004",
+    "unit": "UV per normalized bounded view offset",
+    "sampling": "decode neighboring texels before bilinear interpolation",
+    "color_space": "raw numeric data; no sRGB conversion or premultiplication"
+  },
+  "metrics": {
+    "protected_max_uv_displacement": 0.0,
+    "max_view_conditioned_uv_displacement": 0.0019295023521408439,
+    "min_bounded_warp_jacobian_determinant": 0.3179295063018799,
+    "active_yaw_std": 0.0009107239893637598,
+    "active_pitch_std": 0.0009854553500190377
+  },
+  "source_sha256": {
+    "field-interior-mask.png": "dea589f88d17e7d91c1ee8e91a02ee6af8d2a997f4ae8becad9d083bb4e8869c",
+    "field-silhouette.png": "76abefd487de4509b6977a4d5127e0b9c2c048567c4a9e5321a5015a1e524a51",
+    "field-thickness.png": "96403601901a5a69ffcfe064e973ff42cbe1c2e5aff74b9648bf3c692c89460a",
+    "field-density.png": "6a29fcd58c8f72afc5b3500926040762f29c059ec8ca6baf8c9d5103e17c6221",
+    "field-optical-depth.png": "4e6806b3bf0575fd92d96f44cf684a010432f6b10c052198c241e78a1008d280"
+  },
+  "files_sha256": {
+    "field-view-pitch.png": "8f14a67c33994df8d445a3e6e615fe0e4f8e6bad3aa23d5ab7a3db0d9b90c388",
+    "field-view-yaw.png": "87dbaa1b1f81be22ed2962915c5d4ee03883e0e00fec7ae13a43a027278f5ebb"
+  },
+  "limitations": [
+    "bounded source study only; not arbitrary free-view recovery",
+    "single-view signed residual still mixes reflection/scatter/film",
+    "no camera rotation, occlusion reconstruction, ProductState, M4 or production migration"
+  ]
+}
