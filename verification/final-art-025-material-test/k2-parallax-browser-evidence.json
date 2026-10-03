@@ -1,0 +1,19 @@
+{
+  "schema": "mindisle.k2-depth-parallax-gpu.v1",
+  "status": "PASS_TECHNICAL__VISUAL_GATE_OPEN",
+  "page": "k2-free-view-source-study.html",
+  "camera": "fixed",
+  "physical_free_view": false,
+  "scope": "M3 verification; thickness/density-aware interior parallax only",
+  "criteria": "outside=0; protected<=1; exact center reset; adjacent interior mean>0; smoothRatio<3; authored basis differs from uniform shift",
+  "backgrounds": {
+    "light": {"x_min_mean": 0.1447565, "y_min_mean": 0.1443457, "max_outside": 0, "max_protected": 0, "min_corner_interior": 1.2901933, "max_smooth_ratio": 1.1077878, "center_reset_max": 0, "vs_uniform_mean": 0.2716239},
+    "dark": {"x_min_mean": 0.0707550, "y_min_mean": 0.0710918, "max_outside": 0, "max_protected": 0, "min_corner_interior": 0.5962955, "max_smooth_ratio": 1.1243218, "center_reset_max": 0, "vs_uniform_mean": 0.1436856},
+    "split": {"x_min_mean": 0.1118610, "y_min_mean": 0.1142116, "max_outside": 0, "max_protected": 0, "min_corner_interior": 0.9742170, "max_smooth_ratio": 1.1155275, "center_reset_max": 0, "vs_uniform_mean": 0.2126558},
+    "checker": {"x_min_mean": 0.1443255, "y_min_mean": 0.1456860, "max_outside": 0, "max_protected": 0, "min_corner_interior": 1.2918906, "max_smooth_ratio": 1.0973493, "center_reset_max": 0, "vs_uniform_mean": 0.2727622}
+  },
+  "browser_checks": ["WebGL2 load", "21 samples per axis", "play/pause/reset", "four backgrounds", "visibility pause"],
+  "authority": "A shell/core/silhouette frozen; authored interior fields only",
+  "visual_gate": "OPEN_NEW_PARALLAX_MOTION",
+  "limitations": ["inferred single-view 2.5D depth placement, not recovered 3D volume", "no camera rotation or view-dependent lighting", "no ProductState, M4 or production migration"]
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "mindisle.k2-interior-parallax-field.v1",
+  "status": "PASS_DISK_READBACK_AND_NONFOLDING__BROWSER_TECHNICAL_PASS__VISUAL_REVIEW_PENDING",
+  "scope": "M3 verification; inferred depth-aware internal parallax; fixed front camera",
+  "derivation": "thickness-dependent lever, density modulation and smooth core/shell exclusion",
+  "encoding": {
+    "format": "RGB PNG, RG big-endian scalar uint16, B unused; horizontal=X, vertical=Y",
+    "decode": "(uint16 - 32768) / 32767 * 0.08",
+    "unit": "UV per normalized parallax control",
+    "color_space": "raw numeric data; no sRGB conversion or premultiplication",
+    "sampling": "decode neighboring texels before bilinear interpolation"
+  },
+  "metrics": {
+    "protected_max_uv_displacement": 0.0,
+    "max_basis_uv_displacement": 0.005749687185277871,
+    "min_corner_warp_jacobian_determinant": 0.6980864894558549,
+    "active_horizontal_displacement_std": 0.00043969000255737094
+  },
+  "source_sha256": {
+    "field-interior-mask.png": "dea589f88d17e7d91c1ee8e91a02ee6af8d2a997f4ae8becad9d083bb4e8869c",
+    "field-thickness.png": "96403601901a5a69ffcfe064e973ff42cbe1c2e5aff74b9648bf3c692c89460a",
+    "field-density.png": "6a29fcd58c8f72afc5b3500926040762f29c059ec8ca6baf8c9d5103e17c6221",
+    "field-silhouette.png": "76abefd487de4509b6977a4d5127e0b9c2c048567c4a9e5321a5015a1e524a51"
+  },
+  "files_sha256": {
+    "field-parallax-horizontal.png": "7d81bca54fd417503ff80e41af1c6216b3b0c03e38068769f03e986adb19b5a0",
+    "field-parallax-vertical.png": "c3932938fbedd3925fb74762e58c0f4792e445127046cb47dfbadd303cf0c03c"
+  },
+  "limitations": [
+    "inferred single-view 2.5D depth placement, not recovered 3D volume",
+    "no camera rotation, occlusion reconstruction or view-dependent lighting",
+    "signed optical residual remains baked; do not warp it beyond bounded study",
+    "no M4, ProductState, core movement, formation or production changes"
+  ],
+  "browser_evidence": "../k2-parallax-browser-evidence.json"
+}
