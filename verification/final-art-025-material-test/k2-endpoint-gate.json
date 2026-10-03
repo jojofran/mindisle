@@ -126,5 +126,26 @@
       "interior_change_pass": true,
       "limitation": "dark/split/checker are background extrapolations from a fixed-view fit; this is not a free-view physical endpoint proof"
     }
+  },
+  "human_review_protocol": {
+    "schema": "mindisle.visual-review-protocol.v1",
+    "status": "PASS_REVIEW",
+    "recorded": "2026-10-03",
+    "scope": "current fixed-view K2 authored field and interior handoff review",
+    "verdict": "可以继续：继续补完整 K2 field。",
+    "answers": {
+      "sphere_complete": "是",
+      "only_interior_moves": "是",
+      "still_reads_as_water": "是"
+    },
+    "note": "后续按这个模式来，形成规则",
+    "rules": [
+      "按顺序分题审查：球体完整、只动内部、仍像水。",
+      "每道题只对应一个展示框，并在题目中明确“只看这个框”。",
+      "每题只提供“是 / 否 / 看不出来”三种答案。",
+      "三题全是才允许选择“可以继续”；出现否则选择“需要修正”；出现看不出来则选择“看不出来”。",
+      "最终裁决必须带三题答案和备注，粘贴回对话后才作为人工 gate 输入。",
+      "自动指标只能证明保护区和字段变化，不能替代人工材质判断。"
+    ]
   }
 }
