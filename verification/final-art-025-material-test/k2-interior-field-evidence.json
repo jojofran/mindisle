@@ -1,7 +1,7 @@
 {
   "schema": "mindisle.k2-interior-field-study.v1",
-  "status": "PASS_FIELD_GATE__AUTOPLAY_VISUAL_REVIEW_PASS",
-  "scope": "A shell/core/silhouette frozen; B interior-only field study",
+  "status": "PASS_AUTHORED_INTERIOR_HANDOFF_SLICE__FULL_ENDPOINT_BLOCKED",
+  "scope": "A shell/core/silhouette frozen; A → A+B interior authored handoff slice",
   "authority": "k2-authority-study/a-authority.png",
   "secondary_reference": "k2-authority-study/b-internal-reference.png",
   "mask": "k2-authority-study/b-internal-mask.png",
@@ -38,8 +38,8 @@
     "no runtime interpolation"
   ],
   "browser_check": {
-    "status": "PASS_FIELD_PROTECTION__AUTOPLAY_VISUAL_REVIEW_PASS",
-    "browser": "Codex In-app Browser",
+    "status": "PASS_HANDOFF_PROTECTION__AUTOPLAY_VISUAL_REVIEW_PASS",
+    "browser": "Ego Browser",
     "webgl2": true,
     "samples": [
       0,
@@ -96,6 +96,34 @@
       "prior_tuning_drift_amplitude": 0.022,
       "prior_tuning_phase_rate_per_ms": 0.0022,
       "review_source": "direct user review after refresh"
+    },
+    "handoff_recheck": {
+      "recorded": "2026-10-03",
+      "page_title": "MindIsle WaterBall · K2 authored interior handoff",
+      "status_text": "WebGL2 loaded · authored A→A+B interior handoff · shell/core frozen",
+      "play_sample": {"fieldStrength": 1.0, "flow": 0.587, "playing": true},
+      "pause_sample": {"fieldStrength": 1.0, "flow": 0.587, "playing": false},
+      "reset_state": {"fieldStrength": 0.0, "flow": 0.0, "playing": false},
+      "quality_pass": true
+    }
+  },
+  "handoff": {
+    "source_audit": "k2-source-study/k2-endpoint-source-audit.json",
+    "static_authority": "A",
+    "interior_reference": "B",
+    "progress_semantics": "A → A+B interior only",
+    "shell": "A frozen",
+    "core": "A frozen",
+    "full_k2_optical_endpoint": "NOT_PROVEN",
+    "browser_recheck": {
+      "recorded": "2026-10-03",
+      "heading": "K2 · authored interior handoff",
+      "webgl2": true,
+      "play_pause_reset": "PASS",
+      "quality_gate": "PASS",
+      "quality_max_outside_rgb": 0,
+      "quality_max_protected_rgb": 0,
+      "quality_min_interior_mean_abs_rgb": 0.7914855641309557
     }
   },
   "human_review": {
