@@ -1,0 +1,78 @@
+{
+  "schema": "mindisle.k2-endpoint-source-audit.v1",
+  "status": "A_STATIC_AUTHORITY_LOCKED__LEGACY_MANIFEST_DIAGNOSTIC_ONLY",
+  "scope": "verification-only provenance audit; no runtime interpolation or production migration",
+  "crop": {
+    "bbox": [
+      88,
+      586,
+      766,
+      1265
+    ],
+    "size": [
+      360,
+      360
+    ]
+  },
+  "selected_authority": {
+    "id": "A",
+    "file": "k2-authority-study/a-authority.png",
+    "source": "test/water-orb-still/2p5d-composite-v1/static_composite.png",
+    "authority_status": "FROZEN_STATIC_K2_AUTHORITY",
+    "authority_vs_static_crop": {
+      "mean_abs_rgb_255": 0.0,
+      "p95_abs_rgb_255": 0.0,
+      "max_abs_rgb_255": 0.0
+    },
+    "exact_match": true
+  },
+  "secondary_reference": {
+    "id": "B",
+    "file": "test/water-orb-still/2p5d-composite-v1/reference_foundation.png",
+    "role": "INTERIOR_TEXTURE_AND_FLOW_REFERENCE_ONLY",
+    "vs_selected_authority": {
+      "mean_abs_rgb_255": 4.075995,
+      "p95_abs_rgb_255": 13.0,
+      "max_abs_rgb_255": 92.0
+    }
+  },
+  "locked_candidate": {
+    "file": "k2-authority-study/a-authority-b-internal-study.png",
+    "role": "A_SHELL_CORE_PLUS_B_INTERIOR",
+    "interior_delta_vs_authority": {
+      "mean_abs_rgb_255": 1.674403,
+      "p95_abs_rgb_255": 8.0,
+      "max_abs_rgb_255": 29.0
+    },
+    "shell_core_preservation": {
+      "cycle": 2,
+      "authority": "A_static_composite",
+      "secondary_reference": "B_reference_foundation_internal_texture_only",
+      "shell_preservation_mean_abs_rgb_255": 0.0,
+      "core_preservation_mean_abs_rgb_255": 0.0,
+      "interior_texture_delta_mean_abs_rgb_255": 5.4239,
+      "study_mask_coverage": 0.468765,
+      "runtime": false,
+      "production": false
+    }
+  },
+  "legacy_manifest": {
+    "manifest": "test/water-orb-still/2p5d-composite-v1/composite_manifest.json",
+    "layer_native_recomposition": "FAIL",
+    "layer_native_mean_abs_rgb_255": 15.836,
+    "full_source_mean_abs_rgb_255": 3.2984,
+    "role": "DIAGNOSTIC_ONLY_UNTIL_PROVEN_CONSISTENT"
+  },
+  "decision": {
+    "static_authority": "A_LOCKED",
+    "manifest_layer_stack": "NOT_K2_AUTHORITY",
+    "full_independent_k2_field": "NOT_PROVEN",
+    "next": "Build an authored K2 field handoff against A with protected shell/core; do not interpolate legacy layer output."
+  },
+  "files_sha256": {
+    "static_composite.png": "faebfc6bc17999cb165406179434c4095ed366934a25d783ab5be07de5135ff8",
+    "reference_foundation.png": "6acebcf62289f04fcb0bd3811094face513dd60553bbd294a67e499cd1b83c1c",
+    "a-authority.png": "77ae24497e6dd2ff0313eb3a83c0bff3f03a6368fe8415cf83b58f697a96643c",
+    "a-authority-b-internal-study.png": "226e19b2b817b583d1845572461996b7589ac13d267a49c3387967c92425c898"
+  }
+}

@@ -49,7 +49,7 @@
   "decision": {
     "m3": "NOT_CLOSED",
     "m4": "BLOCKED",
-    "next_required": "Resolve the K2 source-package mismatch and recover a complete independent field set before stitching the verified M3 path to K2.",
+    "next_required": "A is now the frozen static authority; build an authored K2 field handoff with protected shell/core before stitching the verified M3 path to K2.",
     "do_not_infer": "Do not treat the static K2 PNG or pose-dependent 07–10 layers as an independently movable K2 field."
   },
   "boundaries": [
@@ -63,7 +63,8 @@
   "feasibility_study": {
     "page": "k2-source-study.html",
     "report": "k2-source-study/k2-source-feasibility.json",
-    "status": "BLOCKED_SOURCE_PACKAGE_INCONSISTENT__SECONDARY_TO_USER_AUTHORITY_A",
+    "status": "A_AUTHORITY_LOCKED__LEGACY_SOURCE_PACKAGE_INCONSISTENT",
+    "source_audit": "k2-source-study/k2-endpoint-source-audit.json",
     "reconstruction_mean_abs_rgb_255": 39.8968,
     "reconstruction_p95_abs_rgb_255": 91.6479,
     "independent_field_recovery": false,
